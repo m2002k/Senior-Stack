@@ -1,2 +1,2 @@
 # Senior Stack
- It's a Webite  to help Universities to better mange Seniors Projects
+ It's a Website to help Universities to better mange Seniors Projects
