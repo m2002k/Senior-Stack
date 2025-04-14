@@ -1,10 +1,8 @@
 import './App.css'
 
 function App() {
-  return (
-    <>
-
-    </>
+  return(
+    <h1>Hello To Senior-Stack</h1>
   )
 }
 
