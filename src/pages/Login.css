@@ -1,0 +1,30 @@
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+label {
+    font-size: 1rem;
+    text-align: left;
+}
+  
+input[type="email"],
+input[type="password"] {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #1e1e1e;
+    color: #fff;
+}
+  
+button {
+    padding: 0.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}

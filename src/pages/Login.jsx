@@ -1,7 +1,9 @@
+import "./Login.css";
 import { useState } from "react";
 import {useNavigate} from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../services/firebase-config";
+import seniorStackLogo from '../Assets/Senior-Stack_Logo.png';
 
 
 function Login(){
@@ -30,12 +32,18 @@ function Login(){
 
     return(
         <div>
-            <h2>Login to SeniorStack</h2>
+            <img src={seniorStackLogo} alt="SeniorStack Logo" width="200" height="200" />
+            <h1>Welcome to SeniorStack</h1>
+            <h2>Login Please</h2>
+
+            <form>
             <label htmlFor="email">Email:</label>
             <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
             <label htmlFor="password">Password</label>
             <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+            <br></br>
             <button id="submit" onClick={handleLogin}>Login</button>
+            </form>
         </div>
     )
 }
