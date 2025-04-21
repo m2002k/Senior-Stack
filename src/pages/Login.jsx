@@ -4,6 +4,8 @@ import {useNavigate} from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../services/firebase-config";
 import seniorStackLogo from '../Assets/Senior-Stack_Logo.png';
+import { Link } from "react-router-dom";
+
 
 function Login(){
 
@@ -18,6 +20,10 @@ function Login(){
         signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
          const user = userCredential.user;
+         if (!user.emailVerified) {
+            alert("Please verify your email before logging in.");
+            return;
+          }
         console.log("Logged in as:", user.email);
         navigate("/dashboard");
         })
@@ -37,7 +43,7 @@ function Login(){
             <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
             <label htmlFor="password">Password</label>
             <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-            <br></br>
+            <p>Don't have an account? <Link to="/register">Register here</Link></p>
             <button id="submit" onClick={handleLogin}>Login</button>
             </form>
         </div>
