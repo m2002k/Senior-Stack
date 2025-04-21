@@ -5,13 +5,11 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../services/firebase-config";
 import seniorStackLogo from '../Assets/Senior-Stack_Logo.png';
 
-
 function Login(){
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
-
 
     const navigate = useNavigate();
 
@@ -29,13 +27,11 @@ function Login(){
         });
     }
 
-
     return(
         <div>
             <img src={seniorStackLogo} alt="SeniorStack Logo" width="200" height="200" />
             <h1>Welcome to SeniorStack</h1>
-            <h2>Login Please</h2>
-
+            <h2>Please Log-in</h2>
             <form>
             <label htmlFor="email">Email:</label>
             <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
@@ -46,6 +42,6 @@ function Login(){
             </form>
         </div>
     )
-}
+ }
 
 export default Login
