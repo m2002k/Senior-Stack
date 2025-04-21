@@ -1,3 +1,4 @@
+import "./Login.css";
 import { useEffect, useState } from "react";
 import { auth } from "../services/firebase-config";
 import { sendEmailVerification, reload } from "firebase/auth";

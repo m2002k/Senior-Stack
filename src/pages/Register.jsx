@@ -1,3 +1,4 @@
+import "./Register.css";
 import { useState } from "react";
 import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 import { auth, db } from "../services/firebase-config";
@@ -66,8 +67,9 @@ function Register() {
 
   return (
     <div>
-      <h2>Register</h2>
-
+      <h1>Register</h1>
+      
+      <form>
       <label>Email:</label>
       <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
 
@@ -112,9 +114,10 @@ function Register() {
         </>
       )}
 
-      <br />
       <button onClick={handleRegister}>Register</button>
+    </form>
     </div>
+
   );
 }
 

@@ -23,6 +23,15 @@ button:hover {
   color: #000;
 }
 
+a {
+  font-weight: 500;
+  color: #e99425;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #db4855;
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;
