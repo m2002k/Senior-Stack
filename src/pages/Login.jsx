@@ -2,6 +2,7 @@ import { useState } from "react";
 import {useNavigate} from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../services/firebase-config";
+import { Link } from "react-router-dom";
 
 
 function Login(){
@@ -18,6 +19,10 @@ function Login(){
         signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
          const user = userCredential.user;
+         if (!user.emailVerified) {
+            alert("Please verify your email before logging in.");
+            return;
+          }
         console.log("Logged in as:", user.email);
         navigate("/dashboard");
         })
@@ -36,6 +41,7 @@ function Login(){
             <label htmlFor="password">Password</label>
             <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
             <button id="submit" onClick={handleLogin}>Login</button>
+            <p>Don't have an account? <Link to="/register">Register here</Link></p>
         </div>
     )
 }
