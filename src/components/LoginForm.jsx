@@ -1,0 +1,73 @@
+import { Box, Button, TextField, Typography, Link as MuiLink } from "@mui/material";
+import { Link } from "react-router-dom";
+import seniorStackLogo from "../Assets/Senior-Stack_Logo.png";
+
+function LoginForm({ email, password, setEmail, setPassword, onSubmit }) {
+  return (
+    <Box
+      sx={{
+        height: "100vh",              
+        display: "flex",
+        alignItems: "center",          
+        justifyContent: "center",      
+        backgroundColor: "#f5f5f5",   
+      }}
+    >
+      <Box
+        sx={{
+          maxWidth: 400,
+          width: "90%",
+          p: 3,
+          boxShadow: 3,
+          borderRadius: 2,
+          bgcolor: "#fff",
+          textAlign: "center",
+        }}
+      >
+        <img src={seniorStackLogo} alt="SeniorStack Logo" width="150" />
+        <Typography variant="h5" sx={{ mt: 2, mb: 1 }}>
+          Welcome to SeniorStack
+        </Typography>
+        <Typography variant="subtitle1" gutterBottom>
+          Please log in
+        </Typography>
+
+        <TextField
+          label="Email"
+          type="email"
+          fullWidth
+          margin="normal"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <TextField
+          label="Password"
+          type="password"
+          fullWidth
+          margin="normal"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+
+        <Typography variant="body2" sx={{ mt: 2 }}>
+          Don’t have an account?{" "}
+          <MuiLink component={Link} to="/register">
+            Register here
+          </MuiLink>
+        </Typography>
+
+        <Button
+          variant="contained"
+          color="primary"
+          fullWidth
+          sx={{ mt: 3 }}
+          onClick={onSubmit}
+        >
+          Login
+        </Button>
+      </Box>
+    </Box>
+  );
+}
+
+export default LoginForm;
