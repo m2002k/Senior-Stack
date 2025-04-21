@@ -20,11 +20,20 @@ input {
     background-color: #1e1e1e;
     color: #fff;
 }
-  
-button {
+
+select{
     padding: 0.5rem;
     font-size: 1rem;
     border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #1e1e1e;
+    color: #fff;
+}
+  
+button {
+    padding: 0.5rem;
+    border-radius: 5px;
+    font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.3s ease-in-out;
 }
