@@ -46,7 +46,7 @@ function Register() {
 
         await sendEmailVerification(user);
         toast.success("Verification email sent! Please check your inbox.");
-        navigate("/login");
+        navigate("/verify");
       })
       .catch((error) => {
         console.error("Registration error:", error.message);

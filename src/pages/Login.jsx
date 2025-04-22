@@ -17,9 +17,10 @@ function Login() {
       .then((userCredential) => {
         const user = userCredential.user;
         if (!user.emailVerified) {
-          alert("Please verify your email before logging in.");
+          navigate("/verify");
           return;
         }
+        
         console.log("Logged in as:", user.email);
         navigate("/dashboard");
       })
