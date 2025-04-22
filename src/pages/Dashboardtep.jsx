@@ -1,11 +1,10 @@
 import TopBar from "../components/TopBar";
-import DashMenu from "../components/DashMenu";
-
+import SideBar from "../components/SideBar";
 
 function DashboardTep() {
     return (
         <div>
-        <DashMenu />
+        <SideBar/>
         <TopBar /> 
         <br></br>
         <h1>Welcome to your Dashboard</h1>
