@@ -3,7 +3,29 @@
     left: 0;
     width: 15%;
     height: calc(100vh - 60px);
-    background-color: #121212;
+    background-color: #000000;
     padding-top: 20px;
-    border-right: 1px solid #2c2c2c;
+  }
+  
+  .sidebar-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .sidebar-options {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+  }
+  
+  .sidebar-options li {
+    padding: 15px 10px;
+    cursor: pointer;
+    width: 100%;
+  }
+  
+  .sidebar-options li:hover {
+    background-color: #1a1a1a;
+    border-left: solid #fff;
   }
