@@ -1,0 +1,9 @@
+.side-bar {
+    position: fixed;
+    left: 0;
+    width: 15%;
+    height: calc(100vh - 60px);
+    background-color: #121212;
+    padding-top: 20px;
+    border-right: 1px solid #2c2c2c;
+  }
