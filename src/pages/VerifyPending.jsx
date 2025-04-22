@@ -57,7 +57,7 @@ function VerifyPending() {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#f0f0f0",
+        backgroundColor: "#121212",
         padding: 3,
       }}
     >

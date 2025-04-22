@@ -20,7 +20,7 @@ function LoginForm({ email, password, setEmail, setPassword, onSubmit }) {
           p: 3,
           boxShadow: 3,
           borderRadius: 2,
-          bgcolor: "#fff",
+          bgcolor: "#1e1e1e",
           textAlign: "center",
         }}
       >

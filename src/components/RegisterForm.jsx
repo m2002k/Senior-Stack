@@ -35,7 +35,7 @@ function RegisterForm({
           p: 4,
           boxShadow: 3,
           borderRadius: 2,
-          bgcolor: "#fff",
+          bgcolor: "#1e1e1e",
         }}
       >
         <Typography variant="h4" align="center" gutterBottom>
