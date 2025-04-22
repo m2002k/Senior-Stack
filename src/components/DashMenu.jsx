@@ -1,9 +1,10 @@
+import "./DashMenu.css";
 
-function DashMenu() {
+const DashMenu = ({}) =>{
     return (
-    <div className="DashMenu">
-    </div>
+    <box className="DashMenu">
+    </box>
     );
   }
-  
+
   export default DashMenu;

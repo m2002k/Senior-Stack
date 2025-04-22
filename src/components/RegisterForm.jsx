@@ -18,6 +18,27 @@ function RegisterForm({
   onSubmit,
   loading,
 }) {
+  const textFieldStyle = {
+    mt: 2,
+    "& .MuiInputBase-input": {
+      color: "white", // input text
+    },
+    "& .MuiInputLabel-root": {
+      color: "gray", // label
+    },
+    "& .MuiOutlinedInput-root": {
+      "& fieldset": {
+        borderColor: "gray", // border
+      },
+      "&:hover fieldset": {
+        borderColor: "white", // border on hover
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: "#ffffff", // border on focus
+      },
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -42,7 +63,7 @@ function RegisterForm({
           Register
         </Typography>
 
-        <TextField
+        <TextField sx={textFieldStyle}
           label="Full Name"
           fullWidth
           margin="normal"
@@ -50,7 +71,7 @@ function RegisterForm({
           onChange={(e) => setFullName(e.target.value)}
         />
 
-        <TextField
+        <TextField sx={textFieldStyle}
           label="Student ID"
           fullWidth
           margin="normal"
@@ -58,7 +79,7 @@ function RegisterForm({
           onChange={(e) => setStudentId(e.target.value)}
         />
 
-        <TextField
+        <TextField sx={textFieldStyle}
           label="Phone Number"
           fullWidth
           margin="normal"
@@ -66,7 +87,7 @@ function RegisterForm({
           onChange={(e) => setPhone(e.target.value)}
         />
 
-        <TextField
+        <TextField sx={textFieldStyle}
           label="Email"
           fullWidth
           margin="normal"
@@ -74,7 +95,7 @@ function RegisterForm({
           onChange={(e) => setEmail(e.target.value)}
         />
 
-        <TextField
+        <TextField sx={textFieldStyle}
           label="Password"
           type="password"
           fullWidth
@@ -83,7 +104,7 @@ function RegisterForm({
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <TextField
+        <TextField sx={textFieldStyle}
           label="Confirm Password"
           type="password"
           fullWidth
@@ -92,7 +113,7 @@ function RegisterForm({
           onChange={(e) => setConfPassword(e.target.value)}
         />
 
-        <TextField
+        <TextField sx={textFieldStyle}
           select
           fullWidth
           label="Role"

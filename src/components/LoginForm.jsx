@@ -3,6 +3,27 @@ import { Link } from "react-router-dom";
 import seniorStackLogo from "../Assets/Senior-Stack_Logo.png";
 
 function LoginForm({ email, password, setEmail, setPassword, onSubmit }) {
+  const textFieldStyle = {
+    mt: 2,
+    "& .MuiInputBase-input": {
+      color: "white", // input text
+    },
+    "& .MuiInputLabel-root": {
+      color: "gray", // label
+    },
+    "& .MuiOutlinedInput-root": {
+      "& fieldset": {
+        borderColor: "gray", // border
+      },
+      "&:hover fieldset": {
+        borderColor: "white", // border on hover
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: "#ffffff", // border on focus
+      },
+    }
+  };
+  
   return (
     <Box
       sx={{
@@ -32,7 +53,7 @@ function LoginForm({ email, password, setEmail, setPassword, onSubmit }) {
           Please log in
         </Typography>
 
-        <TextField
+        <TextField   sx={textFieldStyle}
           label="Email"
           type="email"
           fullWidth
@@ -40,7 +61,7 @@ function LoginForm({ email, password, setEmail, setPassword, onSubmit }) {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <TextField
+        <TextField sx={textFieldStyle}
           label="Password"
           type="password"
           fullWidth
@@ -49,7 +70,7 @@ function LoginForm({ email, password, setEmail, setPassword, onSubmit }) {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <Typography variant="body2" sx={{ mt: 2 }}>
+        <Typography variant="body2" sx={{ mt: 2, }}>
           Don’t have an account?{" "}
           <MuiLink component={Link} to="/register">
             Register here
