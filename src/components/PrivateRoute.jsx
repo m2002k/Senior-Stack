@@ -24,6 +24,10 @@ function PrivateRoute({ children }) {
   if (!user) {
     return <Navigate to="/login" />;
   }
+  
+  if (!user.emailVerified) {
+    return <Navigate to="/verify" />;
+  }
 
   return children;
 }
