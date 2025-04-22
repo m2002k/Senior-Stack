@@ -1,8 +1,9 @@
 .side-bar {
     position: fixed;
     left: 0;
+    bottom: 0;
     width: 15%;
-    height: calc(100vh - 60px);
+    height: calc(100vh - 70px);
     background-color: #000000;
     padding-top: 20px;
   }
