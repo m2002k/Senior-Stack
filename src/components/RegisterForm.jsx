@@ -25,7 +25,7 @@ function RegisterForm({
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "#f5f5f5",
+        backgroundColor: "#121212",
       }}
     >
       <Box
