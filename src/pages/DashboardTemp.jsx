@@ -1,7 +1,7 @@
 import SideBar from "../components/SideBar";
 import TopBar from "../components/TopBar";
 
-function DashboardTep() {
+function DashboardTemp() {
     return (
         <>
         <SideBar/>
@@ -11,4 +11,4 @@ function DashboardTep() {
     );
 }
 
-export default DashboardTep;
+export default DashboardTemp;
