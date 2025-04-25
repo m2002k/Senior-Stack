@@ -3,15 +3,9 @@
     left: 0;
     bottom: 0;
     width: 15%;
-    height: calc(100vh - 70px);
+    height: calc(100vh - 80px);
     background-color: #000000;
     padding-top: 20px;
-  }
-  
-  .sidebar-title {
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 20px;
   }
   
   .sidebar-options {
@@ -21,8 +15,8 @@
   }
   
   .sidebar-options li {
-    padding: 15px 10px;
-    cursor: pointer;
+    position: center;
+    text-align: center;
     width: 100%;
   }
   
