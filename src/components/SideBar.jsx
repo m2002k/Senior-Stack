@@ -1,16 +1,30 @@
 import "./SideBar.css";
 
-const SideBar = () => {
+const SideBar = ({ activeTab, setActiveTab }) => {
+  const menuItems = [
+    { key: "progress", label: "Progress" },
+    { key: "myTeam", label: "My Team" },
+    { key: "calendar", label: "Calendar" }
+  ];
+
   return (
-    <box className="side-bar">
-      <h2 className="sidebar-title">Options Menu</h2>
-      <ul className="sidebar-options">
-        <li>Progress</li>
-        <li>Profile</li>
-        <li>Team</li>
-        <li>Calendar</li>
+    <div className="side-bar">
+      <ul style={{ listStyle: "none", padding: 0 }}>
+        {menuItems.map((item) => (
+          <li
+            key={item.key}
+            onClick={() => setActiveTab(item.key)}
+            style={{
+              padding: "20px",
+              cursor: "pointer",
+              backgroundColor: activeTab === item.key ? "#222" : "transparent",
+            }}
+          >
+            {item.label}
+          </li>
+        ))}
       </ul>
-    </box>
+    </div>
   );
 };
 

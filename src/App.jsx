@@ -7,19 +7,19 @@ import Register from './pages/Register';
 import VerifyPending from "./pages/VerifyPending";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import DashboardTep from "./pages/Dashboardtep";
+import DashboardTemp from "./pages/Dashboardtemp";
 
 
 function App() {
   return (
     <>
     <Routes>
-      <Route path="/" element={<Navigate to="/login"  />} />
+      <Route path="/" element={<Navigate to="/login" />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/verify" element={<VerifyPending />} />
       <Route path="/dashboard" element={ <PrivateRoute> <Dashboard /> </PrivateRoute>} />
-      <Route path="/dashboardtep" element={<DashboardTep />} />
+      <Route path="/dashboardtemp" element={<DashboardTemp />} />
     </Routes>
     <ToastContainer position="top-center" />
     </>
