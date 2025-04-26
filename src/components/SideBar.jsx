@@ -1,16 +1,16 @@
-import "./SideBar.css";
+import "../style/Dashboard.css";
 
 const SideBar = () => {
   return (
-    <box className="side-bar">
-      <h2 className="sidebar-title">Options Menu</h2>
+    <div className="sidebar">
+      <h2 className="sidebar-title">Menu</h2>
       <ul className="sidebar-options">
-        <li>Progress</li>
-        <li>Profile</li>
-        <li>Team</li>
-        <li>Calendar</li>
+        <li className="sidebar-item">Progress</li>
+        <li className="sidebar-item">Profile</li>
+        <li className="sidebar-item">Team</li>
+        <li className="sidebar-item">Calendar</li>
       </ul>
-    </box>
+    </div>
   );
 };
 
