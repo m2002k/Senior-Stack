@@ -8,10 +8,12 @@ import { doc, getDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import StudentTools from "../components/StudentTools";
 import SupervisorTools from "../components/SupervisorTools";
+import StudentProfile from "../components/StudentProfile";
 
 function Dashboard() {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState('progress');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -48,6 +50,28 @@ function Dashboard() {
       });
   }
 
+  const renderContent = () => {
+    switch (activeTab) {
+      case 'profile':
+        return <StudentProfile />;
+      case 'progress':
+        return (
+          <>
+            <h1>Welcome, {userData.fullName} 🎓</h1>
+            <p>Role: {userData.role}</p>
+            {userData.role === "student" && <StudentTools />}
+            {userData.role === "supervisor" && <SupervisorTools />}
+          </>
+        );
+      case 'team':
+        return <h2>Team Content Coming Soon</h2>;
+      case 'calendar':
+        return <h2>Calendar Content Coming Soon</h2>;
+      default:
+        return <h2>Select a tab</h2>;
+    }
+  };
+
   if (loading || !userData) {
     return <p>Loading dashboard...</p>;
   }
@@ -56,16 +80,10 @@ function Dashboard() {
     <div className="dashboard-layout">
       <TopBar />
       <div className="dashboard-body">
-        <SideBar />
+        <SideBar activeTab={activeTab} setActiveTab={setActiveTab} />
         <div className="dashboard-content">
-          <h1>Welcome, {userData.fullName} 🎓</h1>
-          <p>Role: {userData.role}</p>
-
-          {/* Show student or supervisor tools */}
-          {userData.role === "student" && <StudentTools />}
-          {userData.role === "supervisor" && <SupervisorTools />}
-
-          <button onClick={handleLogout}>Logout</button>
+          {renderContent()}
+          <button onClick={handleLogout} className="logout-button">Logout</button>
         </div>
       </div>
     </div>
