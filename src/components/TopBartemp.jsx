@@ -1,4 +1,4 @@
-import "./TopBartemp.css";
+import "../styles/TopBartemp.css";
 import seniorStackLogo from "../Assets/Senior-Stack_Logo.png";
 
 const TopBar = () => {
