@@ -2,6 +2,7 @@ import TopBar from "../components/TopBar";
 import SideBar from "../components/SideBar";
 import StudentTools from "../components/StudentTools";
 import SupervisorTools from "../components/SupervisorTools";
+import StudentProfile from "../components/StudentProfile";
 import "../styles/Dashboard.css";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -12,6 +13,7 @@ import { toast } from "react-toastify";
 function Dashboard() {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState('progress');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -37,18 +39,54 @@ function Dashboard() {
     fetchUserData();
   }, []);
 
-  if (loading || !userData) {
+  function handleLogout() {
+    auth.signOut()
+      .then(() => {
+        navigate("/login");
+      })
+      .catch((error) => {
+        console.error("Logout error:", error);
+        toast.error("Failed to logout. Please try again.");
+      });
+  }
+
+  const renderContent = () => {
+    if (!userData) return <p>Loading...</p>;
+
+    switch (activeTab) {
+      case 'profile':
+        return <StudentProfile userData={userData} />;
+      case 'progress':
+        return (
+          <>
+            {userData.role === "student" && <StudentTools userData={userData} />}
+            {userData.role === "supervisor" && <SupervisorTools userData={userData} />}
+          </>
+        );
+      case 'team':
+        return <h2>Team Content Coming Soon</h2>;
+      case 'calendar':
+        return <h2>Calendar Content Coming Soon</h2>;
+      default:
+        return <h2>Select a tab</h2>;
+    }
+  };
+
+  if (loading) {
     return <p>Loading dashboard...</p>;
   }
 
   return (
     <div className="dashboard-layout">
-      <TopBar />
+      <TopBar handleLogout={handleLogout} />
       <div className="dashboard-body">
-        <SideBar type={userData.role} />
+        <SideBar 
+          type={userData.role} 
+          activeTab={activeTab} 
+          setActiveTab={setActiveTab} 
+        />
         <div className="dashboard-content">
-          {userData.role === "student" && <StudentTools userData={userData} />}
-          {userData.role === "supervisor" && <SupervisorTools userData={userData} />}
+          {renderContent()}
         </div>
       </div>
     </div>
