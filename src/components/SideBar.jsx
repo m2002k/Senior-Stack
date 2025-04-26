@@ -1,4 +1,6 @@
-const SideBar = ({ activeTab, setActiveTab }) => {
+import "../styles/SideBar.css";
+
+const SideBar = () => {
   return (
     <div className="sidebar">
       <h2 className="sidebar-title">Menu</h2>

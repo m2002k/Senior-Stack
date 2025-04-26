@@ -1,6 +1,6 @@
 import TopBar from "../components/TopBar";
 import SideBar from "../components/SideBar";
-import "../style/Dashboard.css"; // Custom CSS
+import "../styles/Dashboard.css";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../services/firebase-config";
@@ -58,14 +58,37 @@ function Dashboard() {
       <div className="dashboard-body">
         <SideBar />
         <div className="dashboard-content">
-          <h1>Welcome, {userData.fullName} 🎓</h1>
-          <p>Role: {userData.role}</p>
 
-          {/* Show student or supervisor tools */}
-          {userData.role === "student" && <StudentTools />}
-          {userData.role === "supervisor" && <SupervisorTools />}
+          <div className="dashboard-welcome">
+            <h1>Welcome, {userData.fullName} 🎓</h1>
+            <p>Role: {userData.role}</p>
+          </div>
+
+          <div className="dashboard-actions">
+            {!userData.teamId && (
+              <>
+                <div className="action-box create-team">
+                  <h2>Create a Team</h2>
+                  <button>Create</button>
+                </div>
+
+                <div className="action-box join-team">
+                  <h2>Join a Team</h2>
+                  <button>Join</button>
+                </div>
+              </>
+            )}
+          </div>
+
+          <div className="dashboard-calendar">
+            <h2>Calendar</h2>
+            <div className="calendar-box">
+              <p>[ Calendar coming soon ]</p>
+            </div>
+          </div>
 
           <button onClick={handleLogout}>Logout</button>
+
         </div>
       </div>
     </div>
