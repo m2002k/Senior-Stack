@@ -1,14 +1,14 @@
 import TopBar from "../components/TopBar";
 import SideBar from "../components/SideBar";
+import StudentTools from "../components/StudentTools";
+import SupervisorTools from "../components/SupervisorTools";
+import StudentProfile from "../components/StudentProfile";
 import "../styles/Dashboard.css";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../services/firebase-config";
 import { doc, getDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
-import StudentTools from "../components/StudentTools";
-import SupervisorTools from "../components/SupervisorTools";
-import StudentProfile from "../components/StudentProfile";
 
 function Dashboard() {
   const [userData, setUserData] = useState(null);
@@ -51,16 +51,16 @@ function Dashboard() {
   }
 
   const renderContent = () => {
+    if (!userData) return <p>Loading...</p>;
+
     switch (activeTab) {
       case 'profile':
-        return <StudentProfile />;
+        return <StudentProfile userData={userData} />;
       case 'progress':
         return (
           <>
-            <h1>Welcome, {userData.fullName} 🎓</h1>
-            <p>Role: {userData.role}</p>
-            {userData.role === "student" && <StudentTools />}
-            {userData.role === "supervisor" && <SupervisorTools />}
+            {userData.role === "student" && <StudentTools userData={userData} />}
+            {userData.role === "supervisor" && <SupervisorTools userData={userData} />}
           </>
         );
       case 'team':
@@ -72,18 +72,21 @@ function Dashboard() {
     }
   };
 
-  if (loading || !userData) {
+  if (loading) {
     return <p>Loading dashboard...</p>;
   }
 
   return (
     <div className="dashboard-layout">
-      <TopBar />
+      <TopBar handleLogout={handleLogout} />
       <div className="dashboard-body">
-        <SideBar activeTab={activeTab} setActiveTab={setActiveTab} />
+        <SideBar 
+          type={userData.role} 
+          activeTab={activeTab} 
+          setActiveTab={setActiveTab} 
+        />
         <div className="dashboard-content">
           {renderContent()}
-          <button onClick={handleLogout} className="logout-button">Logout</button>
         </div>
       </div>
     </div>
