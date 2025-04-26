@@ -1,6 +1,6 @@
 import "../style/Dashboard.css";
 
-const SideBar = () => {
+const SideBar = ({ activeTab, setActiveTab }) => {
   return (
     <div className="sidebar">
       <h2 className="sidebar-title">Menu</h2>
