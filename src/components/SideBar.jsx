@@ -1,4 +1,4 @@
-import "../style/Dashboard.css";
+import "./SideBar.css";
 
 // This component is a sidebar that displays different menu items based on the user's role (student, supervisor, or admin).
 const menuByRole = {

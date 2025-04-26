@@ -3,8 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../services/firebase-config";
 import LoginForm from "../components/LoginForm";
-import { toast } from "react-toastify";
-
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -14,7 +12,7 @@ function Login() {
 
   function handleLogin(e) {
     e.preventDefault();
-  
+
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
@@ -22,15 +20,15 @@ function Login() {
           navigate("/verify");
           return;
         }
-  
+        
         console.log("Logged in as:", user.email);
         navigate("/dashboard");
       })
       .catch((error) => {
-        toast.error(error.message || "Login failed. Check your credentials.");
+        console.error("Login error:", error.message);
+        setError("Login failed. Check your credentials.");
       });
   }
-  
 
   return (
     <LoginForm
