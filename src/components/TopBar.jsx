@@ -1,12 +1,12 @@
-import "./TopBar.css";
+import "../style/Dashboard.css";
 import seniorStackLogo from "../Assets/Senior-Stack_Logo.png";
 
 const TopBar = () => {
   return (
-    <box className="top-bar">
-      <img src={seniorStackLogo} alt="SeniorStack Logo" />
-      <h1>Senior Stack</h1>
-    </box>
+    <div className="top-bar">
+      <img src={seniorStackLogo} alt="SeniorStack Logo" className="logo" />
+      <h1>SeniorStack</h1>
+    </div>
   );
 };
 
