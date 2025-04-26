@@ -1,5 +1,3 @@
-import "../style/Dashboard.css";
-
 const SideBar = ({ activeTab, setActiveTab }) => {
   return (
     <div className="sidebar">
