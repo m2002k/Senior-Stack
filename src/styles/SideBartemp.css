@@ -4,6 +4,7 @@
     bottom: 0;
     width: 15%;
     height: calc(100vh - 80px);
+    color: white;
     background-color: #000000;
     padding-top: 20px;
   }

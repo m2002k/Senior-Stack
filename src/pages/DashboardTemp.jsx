@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import TopBar from "../components/TopBartemp";
 import SideBar from "../components/SideBartemp";
+import { auth, db } from "../services/firebase-config";
+import { doc, getDoc } from "firebase/firestore";
 
 const DashboardTemp = () => {
   const [activeTab, setActiveTab] = useState("progress");
 
-  const userRole = "supervisor"; //the role is hardcoded for now, but it should be fetched from the database or auth context in a real application.
+  const userRole = "student"; //the role is hardcoded for now, but it should be fetched from the database or auth context in a real application.
 
   const renderContent = () => {
     switch (activeTab) {
@@ -13,8 +15,10 @@ const DashboardTemp = () => {
         return <div>📈 Progress Section</div>;
       case "myTeam":
         return <div>👥 My Team Section</div>;
+      case "Profile":
+          return <div>👥 My Team Section</div>;
       case "calendar":
-        return <div>🗓️ Calendar Section</div>;;
+        return <div>Profile</div>;;
       case "teams":
         return <div>Supervisor: View Teams</div>;
       case "evaluation":
@@ -32,7 +36,7 @@ const DashboardTemp = () => {
     <div className="dashboard-container">
       <TopBar />
       <SideBar setActiveTab={setActiveTab} activeTab={activeTab} userRole={userRole}/>
-      <main style={{position: "fixed", padding: "20px", backgroundColor: "gray", height: "calc(100vh - 110px)", right: "0", bottom: "0", width: "83%" }}>
+      <main style={{position: "fixed", padding: "20px", backgroundColor: "gray", height: "calc(100vh - 80px)", right: "0", bottom: "0", width: "85%" }}>
         {renderContent()}
       </main>
     </div>
