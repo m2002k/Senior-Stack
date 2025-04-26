@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import TopBar from "../components/TopBar";
-import SideBar from "../components/SideBar";
+import TopBar from "../components/TopBartemp";
+import SideBar from "../components/SideBartemp";
 
 const DashboardTemp = () => {
   const [activeTab, setActiveTab] = useState("progress");
