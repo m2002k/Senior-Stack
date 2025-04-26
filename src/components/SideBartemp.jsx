@@ -21,7 +21,7 @@ const menuByRole = {
 };
 
 const SideBar = ({ activeTab, setActiveTab, userRole }) => {
-  const menuItems = menuByRole[userRole]; // Get the menu items based on the user's role
+  const menuItems = menuByRole[userRole] || []; // Get the menu items based on the user's role
 
   return (
     <div className="side-bar">
