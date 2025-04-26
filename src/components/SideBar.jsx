@@ -1,24 +1,35 @@
 import "./SideBar.css";
 
-const SideBar = ({ activeTab, setActiveTab }) => {
-  const menuItems = [
+// This component is a sidebar that displays different menu items based on the user's role (student, supervisor, or admin).
+const menuByRole = {
+  student: [
     { key: "progress", label: "Progress" },
     { key: "myTeam", label: "My Team" },
-    { key: "calendar", label: "Calendar" }
-  ];
+    { key: "calendar", label: "Calendar" },
+  ],
+  supervisor: [
+    { key: "teams", label: "View Teams" },
+    { key: "evaluation", label: "Evaluate Projects" },
+    { key: "calendar", label: "Calendar" },
+  ],
+  admin: [
+    { key: "manageUsers", label: "Manage Users" },
+    { key: "siteSettings", label: "Site Settings" },
+    { key: "calendar", label: "Calendar" },
+  ],
+};
+
+const SideBar = ({ activeTab, setActiveTab, userRole }) => {
+  const menuItems = menuByRole[userRole]; // Get the menu items based on the user's role
 
   return (
     <div className="side-bar">
-      <ul style={{ listStyle: "none", padding: 0 }}>
+      <ul className="menu-list">
         {menuItems.map((item) => (
           <li
             key={item.key}
+            className={`menu-item ${activeTab === item.key ? "active" : ""}`}
             onClick={() => setActiveTab(item.key)}
-            style={{
-              padding: "20px",
-              cursor: "pointer",
-              backgroundColor: activeTab === item.key ? "#222" : "transparent",
-            }}
           >
             {item.label}
           </li>

@@ -8,19 +8,21 @@
     padding-top: 20px;
   }
   
-  .sidebar-options {
+  .menu-list {
     list-style: none;
     padding: 0;
     width: 100%;
   }
   
-  .sidebar-options li {
+  .menu-item {
     position: center;
     text-align: center;
+    cursor: pointer;
     width: 100%;
+    padding: 15px;
   }
   
-  .sidebar-options li:hover {
+  .menu-item:hover {
     background-color: #1a1a1a;
     border-left: solid #fff;
   }
