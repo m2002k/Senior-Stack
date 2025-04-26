@@ -1,4 +1,4 @@
-import React, { useState ,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import TopBar from "../components/TopBartemp";
 import SideBar from "../components/SideBartemp";
 import { auth, db } from "../services/firebase-config";
@@ -20,7 +20,7 @@ const DashboardTemp = () => {
           const userDoc = await getDoc(userDocRef);
           if (userDoc.exists()) {
             const data = userDoc.data();
-            setUserRole(data.role); // Assuming your Firestore user document has a field called "role"
+            setUserRole(data.role);
           } else {
             console.error("User document does not exist");
             toast.error("User data not found!");
@@ -44,9 +44,9 @@ const DashboardTemp = () => {
       case "myTeam":
         return <div>👥 My Team Section</div>;
       case "Profile":
-          return <div><StudentProfile/></div>;
+        return <StudentProfile />;
       case "calendar":
-        return <div>coming soon</div>;;
+        return <div>Coming soon</div>;
       case "teams":
         return <div>Supervisor: View Teams</div>;
       case "evaluation":
@@ -60,11 +60,19 @@ const DashboardTemp = () => {
     }
   };
 
+  if (loading) {
+    return (
+      <div style={{ height: "100vh", display: "flex", justifyContent: "center", alignItems: "center", backgroundColor: "#121212", color: "white" }}>
+        <h2>Loading Dashboard...</h2>
+      </div>
+    );
+  }
+
   return (
     <div className="dashboard-container">
       <TopBar />
-      <SideBar setActiveTab={setActiveTab} activeTab={activeTab} userRole={userRole}/>
-      <main style={{position: "fixed", padding: "20px", backgroundColor: "#121212", color: "white", height: "calc(100vh - 80px)", right: "0", bottom: "0", width: "85%" }}>
+      <SideBar setActiveTab={setActiveTab} activeTab={activeTab} userRole={userRole} />
+      <main style={{ position: "fixed", padding: "20px", backgroundColor: "#121212", color: "white", height: "calc(100vh - 80px)", right: "0", bottom: "0", width: "85%" }}>
         {renderContent()}
       </main>
     </div>

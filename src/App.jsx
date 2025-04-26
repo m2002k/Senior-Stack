@@ -18,7 +18,7 @@ function App() {
       <Route path="/register" element={<Register />} />
       <Route path="/verify" element={<VerifyPending />} />
       <Route path="/dashboard" element={ <PrivateRoute> <Dashboard /> </PrivateRoute>} />
-      <Route path="/dashboardtemp" element={<DashboardTemp />} />
+      <Route path="/dashboardtemp" element={<PrivateRoute><DashboardTemp /></PrivateRoute>} />
     </Routes>
     <ToastContainer position="top-center" />
     </>
