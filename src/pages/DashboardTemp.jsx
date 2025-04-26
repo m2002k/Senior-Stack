@@ -1,14 +1,41 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect } from "react";
 import TopBar from "../components/TopBartemp";
 import SideBar from "../components/SideBartemp";
 import { auth, db } from "../services/firebase-config";
 import { doc, getDoc } from "firebase/firestore";
+import { toast } from "react-toastify";
 import StudentProfile from "../components/StudentProfile";
 
 const DashboardTemp = () => {
   const [activeTab, setActiveTab] = useState("progress");
+  const [userRole, setUserRole] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const userRole = "student"; //the role is hardcoded for now, but it should be fetched from the database or auth context in a real application.
+  useEffect(() => {
+    const fetchUserRole = async () => {
+      try {
+        const currentUser = auth.currentUser;
+        if (currentUser) {
+          const userDocRef = doc(db, "users", currentUser.uid);
+          const userDoc = await getDoc(userDocRef);
+          if (userDoc.exists()) {
+            const data = userDoc.data();
+            setUserRole(data.role); // Assuming your Firestore user document has a field called "role"
+          } else {
+            console.error("User document does not exist");
+            toast.error("User data not found!");
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching user role:", error);
+        toast.error("Failed to fetch user role");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserRole();
+  }, []);
 
   const renderContent = () => {
     switch (activeTab) {
