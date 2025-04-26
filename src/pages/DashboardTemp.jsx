@@ -3,6 +3,7 @@ import TopBar from "../components/TopBartemp";
 import SideBar from "../components/SideBartemp";
 import { auth, db } from "../services/firebase-config";
 import { doc, getDoc } from "firebase/firestore";
+import StudentProfile from "../components/StudentProfile";
 
 const DashboardTemp = () => {
   const [activeTab, setActiveTab] = useState("progress");
@@ -16,9 +17,9 @@ const DashboardTemp = () => {
       case "myTeam":
         return <div>👥 My Team Section</div>;
       case "Profile":
-          return <div>👥 My Team Section</div>;
+          return <div><StudentProfile/></div>;
       case "calendar":
-        return <div>Profile</div>;;
+        return <div>coming soon</div>;;
       case "teams":
         return <div>Supervisor: View Teams</div>;
       case "evaluation":
