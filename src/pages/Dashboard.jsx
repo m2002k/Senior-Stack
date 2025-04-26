@@ -5,6 +5,7 @@ import { auth, db } from "../services/firebase-config";
 import { doc, getDoc } from "firebase/firestore";
 import StudentTools from "../components/StudentTools";
 import SupervisorTools from "../components/SupervisorTools";
+import { toast } from "react-toastify";
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ function Dashboard() {
       if (docSnap.exists()) {
         setUserData(docSnap.data());
       } else {
-        console.error("No user data found.");
+        toast.error("No user data found.");
       }
       setLoading(false);
     };
