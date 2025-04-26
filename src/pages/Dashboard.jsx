@@ -1,6 +1,6 @@
 import TopBar from "../components/TopBar";
 import SideBar from "../components/SideBar";
-import "../style/Dashboard.css"; // Custom CSS
+import "../styles/Dashboard.css";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../services/firebase-config";

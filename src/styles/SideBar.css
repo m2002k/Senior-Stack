@@ -1,0 +1,31 @@
+.sidebar {
+    width: 200px;
+    background-color: #111;
+    color: white;
+    padding: 20px;
+    min-height: 100vh;
+  }
+  
+  .sidebar-title {
+    margin-bottom: 20px;
+    font-size: 24px;
+  }
+  
+  .sidebar-options {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .sidebar-item {
+    margin-bottom: 20px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: 0.3s;
+  }
+  
+  .sidebar-item:hover {
+    background-color: #333;
+    padding: 10px;
+    border-radius: 8px;
+  }
+  

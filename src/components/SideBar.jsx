@@ -1,4 +1,4 @@
-import "../style/Dashboard.css";
+import "../styles/SideBar.css";
 
 const SideBar = ({ activeTab, setActiveTab }) => {
   const handleTabClick = (tab) => {
@@ -8,7 +8,6 @@ const SideBar = ({ activeTab, setActiveTab }) => {
   const handleProfileClick = () => {
     setActiveTab('profile');
   };
-
   return (
     <div className="sidebar">
       <h2 className="sidebar-title">Menu</h2>
