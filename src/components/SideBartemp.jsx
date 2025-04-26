@@ -6,6 +6,7 @@ const menuByRole = {
     { key: "progress", label: "Progress" },
     { key: "myTeam", label: "My Team" },
     { key: "calendar", label: "Calendar" },
+    { key: "Profile", label: "Profile" },
   ],
   supervisor: [
     { key: "teams", label: "View Teams" },
