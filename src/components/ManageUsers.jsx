@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { db } from "../services/firebase-config";
-import { collection, getDocs, deleteDoc, setDoc, doc } from "firebase/firestore";
+import { db, auth } from "../services/firebase-config";
+import { collection, getDocs, setDoc, doc } from "firebase/firestore";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import UsersTable from "./UsersTable.jsx";
+import { ToastContainer, toast } from "react-toastify";
 import "../styles/ManageUsers.css";
 
 const ManageUsers = () => {
   const [users, setUsers] = useState([]);
   const [newSupervisorName, setNewSupervisorName] = useState("");
   const [newSupervisorEmail, setNewSupervisorEmail] = useState("");
+  const [newSupervisorPassword, setNewSupervisorPassword] = useState("");
   const [loading, setLoading] = useState(true);
+  const [showAddForm, setShowAddForm] = useState(false);
 
-  const usersCollectionRef = collection(db, "users"); // Connect to users collection
+  const usersCollectionRef = collection(db, "users");
 
-  // Fetch users from Firestore
   const fetchUsers = async () => {
     setLoading(true);
     try {
@@ -31,96 +35,86 @@ const ManageUsers = () => {
     fetchUsers();
   }, []);
 
-  // Add Supervisor to Firestore
   const handleAddSupervisor = async () => {
-    if (newSupervisorName.trim() === "" || newSupervisorEmail.trim() === "") {
-      alert("Please fill in both Name and Email!");
+    if (
+      newSupervisorName.trim() === "" ||
+      newSupervisorEmail.trim() === "" ||
+      newSupervisorPassword.trim() === ""
+    ) {
+      toast.error("Please fill in Name, Email, and Password!");
       return;
     }
 
     try {
-      const newSupervisorId = Date.now().toString(); // TEMP id - ideally you use auth signup
-      await setDoc(doc(db, "users", newSupervisorId), {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        newSupervisorEmail,
+        newSupervisorPassword
+      );
+      const user = userCredential.user;
+
+      await setDoc(doc(db, "users", user.uid), {
         name: newSupervisorName,
         email: newSupervisorEmail,
         role: "supervisor",
       });
+
       setNewSupervisorName("");
       setNewSupervisorEmail("");
-      fetchUsers(); // Refresh list
-      alert("Supervisor Added Successfully!");
+      setNewSupervisorPassword("");
+      setShowAddForm(false);
+      fetchUsers();
+      toast.success("Supervisor Added Successfully!");
     } catch (error) {
       console.error("Error adding supervisor:", error);
-      alert("Failed to add supervisor.");
+      toast.error("Failed to add supervisor: " + error.message);
     }
   };
 
-  // Delete User from Firestore
-  const handleDeleteUser = async (id) => {
-    if (window.confirm("Are you sure you want to delete this user?")) {
-      try {
-        await deleteDoc(doc(db, "users", id));
-        fetchUsers(); // Refresh list
-        alert("User Deleted Successfully!");
-      } catch (error) {
-        console.error("Error deleting user:", error);
-        alert("Failed to delete user.");
-      }
-    }
+  const handleToggleAddForm = () => {
+    setShowAddForm((prev) => !prev);
   };
 
   return (
     <div className="manage-users-container">
       <h1>Manage Users</h1>
-
-      {/* Add Supervisor Form */}
-      <div className="add-supervisor-form">
-        <input
-          type="text"
-          placeholder="Supervisor Name"
-          value={newSupervisorName}
-          onChange={(e) => setNewSupervisorName(e.target.value)}
-        />
-        <input
-          type="email"
-          placeholder="Supervisor Email"
-          value={newSupervisorEmail}
-          onChange={(e) => setNewSupervisorEmail(e.target.value)}
-        />
-        <button onClick={handleAddSupervisor}>Add Supervisor</button>
+      
+      <div className="users-table">
+      <UsersTable users={users} fetchUsers={fetchUsers} loading={loading} />
       </div>
 
-      {/* Users Table */}
-      {loading ? (
-        <p>Loading users...</p>
-      ) : (
-        <table className="users-table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Role</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map((user) => (
-              <tr key={user.id}>
-                <td>{user.name}</td>
-                <td>{user.email}</td>
-                <td>{user.role}</td>
-                <td>
-                  <button className="delete-button" onClick={() => handleDeleteUser(user.id)}>
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+      <button className="show-add-supervisor-button" onClick={handleToggleAddForm}>
+        ➕ Add Supervisor
+        </button>
+        {showAddForm && (
+          <div className="supervisor-form-container">
+            <div className="supervisor-input-container">
+              <input type="text" className="name-input"
+              placeholder="Supervisor Name" value={newSupervisorName} 
+              onChange={(e) => setNewSupervisorName(e.target.value)}
+              />
+              <input type="email" className="email-input" 
+              placeholder="Supervisor Email" value={newSupervisorEmail}
+              onChange={(e) => setNewSupervisorEmail(e.target.value)}
+              />
+              <input type="password" className="password-input"
+              placeholder="Supervisor Password" value={newSupervisorPassword}
+              onChange={(e) => setNewSupervisorPassword(e.target.value)}
+              />
+              <button className="add-supervisor-button" onClick={handleAddSupervisor}>
+                Save Supervisor
+              </button>
+              <button className="cancel-supervisor-button" onClick={handleToggleAddForm}>
+                Cancel
+                </button>
+            </div>
+          </div>
+        )}
+
+      <ToastContainer />
     </div>
   );
 };
 
 export default ManageUsers;
+
