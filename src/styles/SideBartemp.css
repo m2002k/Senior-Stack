@@ -4,7 +4,8 @@
     bottom: 0;
     width: 15%;
     height: calc(100vh - 80px);
-    background-color: #000000;
+    color: white;
+    background-color: #000101;
     padding-top: 20px;
   }
   
@@ -15,14 +16,16 @@
   }
   
   .menu-item {
-    position: center;
-    text-align: center;
+    margin-bottom: 20px;
     cursor: pointer;
-    width: 100%;
-    padding: 15px;
+    font-size: 18px;
+    transition: 0.3s;
+    text-align: center;
   }
   
   .menu-item:hover {
-    background-color: #1a1a1a;
-    border-left: solid #fff;
-  }
+    border-bottom: solid #fff;
+    background-color: #333;
+    padding: 15px;
+    border-radius: 8px;
+}

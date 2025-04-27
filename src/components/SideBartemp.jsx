@@ -6,6 +6,7 @@ const menuByRole = {
     { key: "progress", label: "Progress" },
     { key: "myTeam", label: "My Team" },
     { key: "calendar", label: "Calendar" },
+    { key: "Profile", label: "Profile" },
   ],
   supervisor: [
     { key: "teams", label: "View Teams" },
@@ -20,7 +21,7 @@ const menuByRole = {
 };
 
 const SideBar = ({ activeTab, setActiveTab, userRole }) => {
-  const menuItems = menuByRole[userRole]; // Get the menu items based on the user's role
+  const menuItems = menuByRole[userRole] || []; // Get the menu items based on the user's role
 
   return (
     <div className="side-bar">
