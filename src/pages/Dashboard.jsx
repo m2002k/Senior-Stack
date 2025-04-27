@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { auth, db } from "../services/firebase-config";
 import { doc, getDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
+import Calendar from "../components/Calendar2";
 
 function Dashboard() {
   const [userData, setUserData] = useState(null);
