@@ -14,8 +14,9 @@ const menuByRole = {
     { key: "calendar", label: "Calendar" },
   ],
   admin: [
-    { key: "manageteams", label: "Manage teams" },
-    { key: "managetusks", label: "Manage Tusks" },
+    { key: "manageusers", label: "Manage Users" },
+    { key: "manageteams", label: "Manage Teams" },
+    { key: "managetasks", label: "Manage Tasks" },
     { key: "calendar", label: "Calendar" },
   ],
 };
