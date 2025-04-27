@@ -41,9 +41,9 @@ const DashboardTemp = () => {
     switch (activeTab) {
       case "progress":
         return <div>📈 Progress Section</div>;
-      case "myTeam":
+      case "studentTeam":
         return <div>👥 My Team Section</div>;
-      case "Profile":
+      case "studentprofile":
         return <StudentProfile />;
       case "calendar":
         return <div>Coming soon</div>;
@@ -51,10 +51,10 @@ const DashboardTemp = () => {
         return <div>Supervisor: View Teams</div>;
       case "evaluation":
         return <div>Supervisor: Evaluate Projects</div>;
-      case "manageUsers":
-        return <div>Admin: Manage Users</div>;
-      case "siteSettings":
-        return <div>Admin: Site Settings</div>;
+      case "manageteams":
+        return <div>Admin: Manage teams</div>;
+      case "managetusks":
+        return <div>Admin: Manage Tusks</div>;
       default:
         return <div>Select a section</div>;
     }
