@@ -1,5 +1,8 @@
 import TopBar from "../components/TopBar";
 import SideBar from "../components/SideBar";
+import StudentTools from "../components/StudentTools";
+import SupervisorTools from "../components/SupervisorTools";
+import StudentProfile from "../components/StudentProfile";
 import "../styles/Dashboard.css";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -66,7 +69,7 @@ function Dashboard() {
       case 'team':
         return <h2>Team Content Coming Soon</h2>;
       case 'calendar':
-        return <h2>Calendar Content Coming Soon</h2>;
+        return <Calendar userData={userData} />;
       default:
         return <h2>Select a tab</h2>;
     }

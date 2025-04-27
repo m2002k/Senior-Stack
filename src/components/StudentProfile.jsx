@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Typography, Button } from '@mui/material';
+import { Typography, Button, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
@@ -13,6 +13,7 @@ const StudentProfile = () => {
     email: '',
     phone: '',
     expertise: '',
+    major: '',
   });
 
   const handleEdit = () => {
@@ -30,6 +31,12 @@ const StudentProfile = () => {
     // Phone number validation
     if (!/^\d{10}$/.test(profile.phone)) {
       toast.error("Invalid phone number: Phone number must be exactly 10 digits.");
+      return;
+    }
+
+    // Major validation
+    if (!profile.major) {
+      toast.error("Please select your major.");
       return;
     }
 
@@ -128,6 +135,28 @@ const StudentProfile = () => {
             disabled={!isEditing}
             className="field-input"
           />
+        </div>
+
+        <div>
+          <Typography variant="subtitle1" className="field-label">
+            Major
+          </Typography>
+          <FormControl fullWidth disabled={!isEditing}>
+            <Select
+              name="major"
+              value={profile.major}
+              onChange={handleChange}
+              className="field-input"
+              displayEmpty
+            >
+              <MenuItem value="" disabled>
+                Select your major
+              </MenuItem>
+              <MenuItem value="CS">Computer Science (CS)</MenuItem>
+              <MenuItem value="IT">Information Technology (IT)</MenuItem>
+              <MenuItem value="IS">Information Systems (IS)</MenuItem>
+            </Select>
+          </FormControl>
         </div>
 
         <div>
