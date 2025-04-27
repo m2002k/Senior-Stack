@@ -4,9 +4,9 @@ import "../styles/SideBartemp.css";
 const menuByRole = {
   student: [
     { key: "progress", label: "Progress" },
-    { key: "myTeam", label: "My Team" },
+    { key: "studentTeam", label: "My Team" },
     { key: "calendar", label: "Calendar" },
-    { key: "Profile", label: "Profile" },
+    { key: "studentprofile", label: "Profile" },
   ],
   supervisor: [
     { key: "teams", label: "View Teams" },
@@ -14,8 +14,8 @@ const menuByRole = {
     { key: "calendar", label: "Calendar" },
   ],
   admin: [
-    { key: "manageUsers", label: "Manage Users" },
-    { key: "siteSettings", label: "Site Settings" },
+    { key: "manageteams", label: "Manage teams" },
+    { key: "managetusks", label: "Manage Tusks" },
     { key: "calendar", label: "Calendar" },
   ],
 };
