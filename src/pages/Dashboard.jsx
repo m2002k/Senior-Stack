@@ -66,7 +66,7 @@ function Dashboard() {
       case 'team':
         return <h2>Team Content Coming Soon</h2>;
       case 'calendar':
-        return <h2>Calendar Content Coming Soon</h2>;
+        return <Calendar userData={userData} />;
       default:
         return <h2>Select a tab</h2>;
     }
