@@ -18,7 +18,7 @@ students can form teams, supervisors can track project progress, and admins can 
 - 👤 Student, Supervisor, Admin role-based dashboards
 - 🧩 Profile completion (skills, interests, GitHub links)
 - 🏗️ Team formation and project posting
-- 📅 Calendar and deadlines (Coming soon)
+- 📅 Calendar and deadlines 
 - 📈 Supervisor project evaluations (Coming soon)
 - 🔒 Firebase Authentication (Login, Registration, Email verification)
 
