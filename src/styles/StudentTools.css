@@ -61,4 +61,17 @@
     justify-content: center;
     color: #999;
   }
+
+  .already-in-team {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #e0f7fa;
+    border-radius: 10px;
+    text-align: center;
+  }
+  
+  .already-in-team h2 {
+    margin-bottom: 10px;
+    color: #00796b;
+  }
   
