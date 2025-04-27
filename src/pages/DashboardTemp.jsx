@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import TopBar from "../components/TopBartemp";
 import SideBar from "../components/SideBartemp";
+import Calendar2 from "../components/Calendar2";
 import { auth, db } from "../services/firebase-config";
 import { doc, getDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
@@ -46,7 +47,7 @@ const DashboardTemp = () => {
       case "studentprofile":
         return <StudentProfile />;
       case "calendar":
-        return <div>Coming soon</div>;
+        return <Calendar2 />;
       case "teams":
         return <div>Supervisor: View Teams</div>;
       case "evaluation":
