@@ -6,6 +6,7 @@ import { auth, db } from "../services/firebase-config";
 import { doc, getDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import StudentProfile from "../components/StudentProfile";
+import ManageTasks from "../components/ManageTasks";
 
 const DashboardTemp = () => {
   const [activeTab, setActiveTab] = useState("progress");
@@ -52,10 +53,12 @@ const DashboardTemp = () => {
         return <div>Supervisor: View Teams</div>;
       case "evaluation":
         return <div>Supervisor: Evaluate Projects</div>;
+      case "manageusers":
+          return <div>Admin: Manage users</div>;
       case "manageteams":
         return <div>Admin: Manage teams</div>;
-      case "managetusks":
-        return <div>Admin: Manage Tusks</div>;
+      case "managetasks":
+        return <ManageTasks />;
       default:
         return <div>Select a section</div>;
     }
@@ -72,7 +75,7 @@ const DashboardTemp = () => {
   return (
     <div className="dashboard-container">
       <TopBar />
-      <SideBar setActiveTab={setActiveTab} activeTab={activeTab} userRole={userRole} />
+      <SideBar setActiveTab={setActiveTab} activeTab={activeTab} userRole={"admin"} />
       <main style={{ position: "fixed", padding: "20px", backgroundColor: "#121212", color: "white", height: "calc(100vh - 80px)", right: "0", bottom: "0", width: "85%" }}>
         {renderContent()}
       </main>
