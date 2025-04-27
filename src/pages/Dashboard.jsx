@@ -3,6 +3,7 @@ import SideBar from "../components/SideBar";
 import StudentTools from "../components/StudentTools";
 import SupervisorTools from "../components/SupervisorTools";
 import StudentProfile from "../components/StudentProfile";
+import Calendar from "../components/Calendar2";
 import "../styles/Dashboard.css";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";

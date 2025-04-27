@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import FullCalendar from "@fullcalendar/react";
 import { formatDate } from "@fullcalendar/core";
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -11,36 +11,29 @@ import {
     ListItem,
     ListItemText,
     Typography,
-    useTheme
+    useTheme,
+    Chip
 } from '@mui/material';
+import eventsData from '../json/events.json';
 
 const Calendar2 = () => {
     const theme = useTheme();
     const [currentEvents, setCurrentEvents] = useState([]);
 
-    const handleDateClick = (selected) => {
-        const title = prompt("Please enter a new title");
-        const calendarApi = selected.view.calendar;
-        calendarApi.unselect();
+    useEffect(() => {
+        setCurrentEvents(eventsData.events);
+    }, []);
 
-        if (title) {
-            calendarApi.addEvent({
-                id: `${selected.dateStr}-${title}`,
-                title,
-                start: selected.startStr,
-                end: selected.endStr,
-                allDay: selected.allDay
-            });
-        }
-    };
-
-    const handleEventClick = (selected) => {
-        if (
-            window.confirm(
-                `Delete '${selected.event.title}'`
-            )
-        ) {
-            selected.event.remove();
+    const getEventColor = (type) => {
+        switch (type) {
+            case 'deadline':
+                return theme.palette.error.main;
+            case 'meeting':
+                return theme.palette.info.main;
+            case 'presentation':
+                return theme.palette.success.main;
+            default:
+                return theme.palette.primary.main;
         }
     };
 
@@ -65,17 +58,24 @@ const Calendar2 = () => {
                             right: "dayGridMonth,timeGridWeek,timeGridDay,listMonth"
                         }}
                         initialView="dayGridMonth"
-                        editable={true}
-                        selectable={true}
-                        selectMirror={true}
+                        editable={false}
+                        selectable={false}
+                        selectMirror={false}
                         dayMaxEvents={true}
-                        select={handleDateClick}
-                        eventClick={handleEventClick}
-                        eventsSet={(events) => setCurrentEvents(events)}
-                        initialEvents={[
-                            { id: "1234", title: "All-day event", date: "2024-03-14" },
-                            { id: "4321", title: "Timed event", date: "2024-03-28" }
-                        ]}
+                        events={eventsData.events}
+                        eventContent={(eventInfo) => {
+                            return (
+                                <div style={{ 
+                                    backgroundColor: getEventColor(eventInfo.event.extendedProps.type),
+                                    color: 'white',
+                                    padding: '2px 5px',
+                                    borderRadius: '3px',
+                                    margin: '1px 0'
+                                }}>
+                                    {eventInfo.event.title}
+                                </div>
+                            );
+                        }}
                     />
                 </Box>
 
@@ -86,28 +86,39 @@ const Calendar2 = () => {
                     p="15px"
                     borderRadius="4px"
                 >
-                    <Typography variant="h5">Events</Typography>
+                    <Typography variant="h5">Upcoming Events</Typography>
                     <List>
                         {currentEvents.map((event) => (
                             <ListItem
                                 key={event.id}
                                 sx={{
-                                    backgroundColor: theme.palette.primary.main,
+                                    backgroundColor: getEventColor(event.type),
                                     margin: "10px 0",
                                     borderRadius: "2px",
+                                    color: 'white'
                                 }}
                             >
                                 <ListItemText
                                     primary={event.title}
                                     secondary={
-                                        <Typography>
+                                        <Typography sx={{ color: 'white' }}>
                                             {formatDate(event.start, {
                                                 year: "numeric",
                                                 month: "short",
                                                 day: "numeric",
+                                                ...(!event.allDay && { hour: "numeric", minute: "numeric" })
                                             })}
                                         </Typography>
                                     }
+                                />
+                                <Chip 
+                                    label={event.type} 
+                                    size="small" 
+                                    sx={{ 
+                                        backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                                        color: 'white',
+                                        marginLeft: '8px'
+                                    }}
                                 />
                             </ListItem>
                         ))}

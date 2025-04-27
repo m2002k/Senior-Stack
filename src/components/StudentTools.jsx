@@ -23,7 +23,6 @@ function StudentTools({ userData }) {
         <h2>Calendar</h2>
         <div className="calendar-box">
 
-        <Calendar userData={userData} />
         </div>
       </div>
     </div>
