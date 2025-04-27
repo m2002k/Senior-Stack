@@ -1,0 +1,52 @@
+.create-team-view {
+    background-color: #ffffff;
+    margin: 30px auto;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+  }
+  
+  .create-team-view h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .create-team-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+  }
+  
+  .create-team-form input,
+  .create-team-form textarea {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    width: 100%;
+  }
+  
+  .create-team-form textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+  
+  .create-team-form button {
+    padding: 12px;
+    font-size: 16px;
+    background-color: #22c55e;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .create-team-form button:hover {
+    background-color: #16a34a;
+  }
