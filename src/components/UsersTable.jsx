@@ -2,7 +2,7 @@ import React from "react";
 import { db } from "../services/firebase-config";
 import { deleteDoc, doc } from "firebase/firestore";
 import { toast } from "react-toastify";
-import "../styles/UsersTable.css"; 
+import "../styles/UsersTable.css";
 
 const UsersTable = ({ users, fetchUsers, loading }) => {
   const handleDeleteUser = async (id) => {
@@ -21,7 +21,7 @@ const UsersTable = ({ users, fetchUsers, loading }) => {
   if (loading) {
     return (
       <div className="loading-container">
-        <div className="spinner"></div> {/* small spinner */}
+        <div className="spinner"></div>
         <p>Loading users...</p>
       </div>
     );
@@ -47,16 +47,25 @@ const UsersTable = ({ users, fetchUsers, loading }) => {
                 <span className={`role-badge ${user.role}`}>{user.role}</span>
               </td>
               <td>
-                <button className="delete-button" onClick={() => handleDeleteUser(user.id)}>
-                  Delete
-                </button>
+                {user.role !== "admin" ? (
+                  <button
+                    className="delete-button"
+                    onClick={() => handleDeleteUser(user.id)}
+                  >
+                    Delete
+                  </button>
+                ) : (
+                  <span style={{ color: "gray", fontSize: "0.9rem" }}>
+                    Cannot Delete
+                  </span>
+                )}
               </td>
             </tr>
           ))}
         </tbody>
       </table>
     </div>
-  );  
+  );
 };
 
 export default UsersTable;
