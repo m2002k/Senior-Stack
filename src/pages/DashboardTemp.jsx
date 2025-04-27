@@ -7,6 +7,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import StudentProfile from "../components/StudentProfile";
 import ManageTasks from "../components/ManageTasks";
+import ManageUsers from "../components/ManageUsers";
 
 const DashboardTemp = () => {
   const [activeTab, setActiveTab] = useState("progress");
@@ -54,7 +55,7 @@ const DashboardTemp = () => {
       case "evaluation":
         return <div>Supervisor: Evaluate Projects</div>;
       case "manageusers":
-          return <div>Admin: Manage users</div>;
+          return <ManageUsers />;
       case "manageteams":
         return <div>Admin: Manage teams</div>;
       case "managetasks":
