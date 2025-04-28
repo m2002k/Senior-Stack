@@ -77,7 +77,7 @@ const DashboardTemp = () => {
   return (
     <div className="dashboard-container">
       <TopBar />
-      <SideBar setActiveTab={setActiveTab} activeTab={activeTab} userRole={"admin"} />
+      <SideBar setActiveTab={setActiveTab} activeTab={activeTab} userRole={userRole} />
       <main style={{ position: "fixed", padding: "20px", backgroundColor: "#121212", color: "white", height: "calc(100vh - 80px)", right: "0", bottom: "0", width: "85%" }}>
         {renderContent()}
       </main>
