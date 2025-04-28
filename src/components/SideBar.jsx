@@ -66,6 +66,35 @@ const SideBar = ({ activeTab, setActiveTab, type }) => {
             </li>
           </>
         )}
+
+        {type === "admin" && (
+          <>
+            <li
+              className={`sidebar-item ${activeTab === 'manageUsers' ? 'active' : ''}`}
+              onClick={() => handleTabClick('manageUsers')}
+            >
+              Manage Users
+            </li>
+            <li
+              className={`sidebar-item ${activeTab === 'manageTeams' ? 'active' : ''}`}
+              onClick={() => handleTabClick('manageTeams')}
+            >
+              Manage Teams
+            </li>
+            <li
+              className={`sidebar-item ${activeTab === 'manageTasks' ? 'active' : ''}`}
+              onClick={() => handleTabClick('manageTasks')}
+            >
+              Manage Tasks
+            </li>
+            <li
+              className={`sidebar-item ${activeTab === 'calendar' ? 'active' : ''}`}
+              onClick={() => handleTabClick('calendar')}
+            >
+              Calendar
+            </li>
+          </>
+        )}
       </ul>
     </div>
   );

@@ -10,7 +10,7 @@ const menuByRole = {
   ],
   supervisor: [
     { key: "teams", label: "View Teams" },
-    { key: "evaluation", label: "Evaluate Projects" },
+    { key: "evaluation", label: "Evaluate Work" },
     { key: "calendar", label: "Calendar" },
   ],
   admin: [

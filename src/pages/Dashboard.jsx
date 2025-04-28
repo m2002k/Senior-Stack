@@ -13,6 +13,10 @@ import { doc, getDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import Calendar from "../components/Calendar2"
 import TeamPageView from "../components/TeamPageView";
+import ManageTasks from "../components/ManageTasks";
+import ManageUsers from "../components/ManageUsers";
+import ManageTeams from "../components/ManageTeams";
+
 
 
 function Dashboard() {
@@ -76,6 +80,12 @@ function Dashboard() {
         return <JoinTeamView fetchUserData={fetchUserData} userData={userData} />;
       case 'team':
         return <TeamPageView userData={userData} />;
+      case 'manageUsers':
+        return <ManageUsers userData={userData} />;
+      case 'manageTeams':
+        return <ManageTeams userData={userData} />;
+      case 'manageTasks':
+        return <ManageTasks userData={userData} />;
       default:
         return <h2>Select a tab</h2>;
     }
