@@ -13,6 +13,31 @@ const TeamPageView = ({ userData }) => {
   const [showConfirm, setShowConfirm] = useState(false);
   const navigate = useNavigate();
 
+  const handleLeaveTeam = async () => {
+    try {
+      if (!userData?.teamId) return;
+  
+      const userDocRef = doc(db, "users", auth.currentUser.uid);
+      const teamDocRef = doc(db, "teams", userData.teamId);
+  
+      await updateDoc(teamDocRef, {
+        teamMembers: arrayRemove(auth.currentUser.uid),
+      });
+  
+      await updateDoc(userDocRef, {
+        teamId: null,
+      });
+  
+      toast.success("You have left the team!");
+  
+      navigate("/dashboard"); 
+    } catch (error) {
+      console.error("Error leaving team:", error);
+      toast.error("Failed to leave the team. Try again.");
+    }
+  };
+  
+
   useEffect(() => {
     const fetchTeamData = async () => {
       if (!userData?.teamId) {
@@ -95,8 +120,52 @@ const TeamPageView = ({ userData }) => {
 
   return (
     <div className="team-page">
+      <h2>{teamData.teamName}</h2>
+      <p><strong>Project Title:</strong> {teamData.projectTitle}</p>
+      <p><strong>Description:</strong> {teamData.projectDescription}</p>
+  
+      {supervisorInfo && (
+        <p><strong>Supervisor:</strong> {supervisorInfo.name}</p>
+      )}
+  
+      <p><strong>Members:</strong> {teamData.teamMembers.length} / {teamData.maxTeamSize}</p>
+  
+      <div className="members-list">
+        {memberInfos.map((member, index) => (
+          <div key={index} className="member-item">
+            <span className="number-badge">{index + 1}.</span> {member.name}
+            {member.id === teamData.createdBy && (
+              <span className="leader-badge">👑 Leader</span>
+            )}
+            {supervisorInfo && member.id === supervisorInfo.id && (
+              <span className="supervisor-badge">🧑‍🏫 Supervisor</span>
+            )}
+          </div>
+        ))}
+      </div>
+  
+      <p className={`spaces-left ${spacesLeft === 0 ? "full" : ""}`}>
+        {spacesLeft === 0 ? "Team is full!" : `${spacesLeft} spaces left`}
+      </p>
+  
+      <button className="leave-team-btn" onClick={() => setShowConfirm(true)}>
+        Leave Team
+      </button>
+  
+      {showConfirm && (
+        <div className="confirm-modal">
+          <div className="modal-content">
+            <h3>Are you sure you want to leave the team?</h3>
+            <div className="modal-buttons">
+              <button className="confirm-btn" onClick={handleLeaveTeam}>Yes, Leave</button>
+              <button className="cancel-btn" onClick={() => setShowConfirm(false)}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
+  
 };
 
 export default TeamPageView;

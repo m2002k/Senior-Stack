@@ -9,83 +9,172 @@
   display: flex;
   gap: 2rem;
   margin-bottom: 2rem;
-  flex-wrap: wrap;
 }
 
 .action-box {
-  background-color: #1a1a1a;
+  background-color: rgb(21, 21, 21);
   padding: 2rem;
   border-radius: 12px;
   flex: 1;
-  min-width: 250px;
-  box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.05);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   transition: 0.3s;
-  margin-top: 15px;
 }
 
 .action-box:hover {
-  transform: scale(1.03);
-  box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.08);
+  transform: scale(1.02);
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
 }
 
 .action-box h2 {
   margin-bottom: 1rem;
-  color: #f9fafb;
 }
 
 .action-box button {
   padding: 10px 20px;
-  background-color: #7c3aed; 
+  background-color: #0077ff;
   color: white;
   border: none;
-  border-radius: 10px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 16px;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s;
 }
 
 .action-box button:hover {
-  background-color: #6d28d9;
+  background-color: #005dc1;
 }
-
-.dashboard-calendar {
-  margin-top: 2rem;
-}
-
-.calendar-box {
-  background-color: #1a1a1a; 
-  padding: 2rem;
-  height: 300px;
-  border-radius: 12px;
-  box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.05);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #999;
-  font-size: 1.2rem;
-}
-
 
 .already-in-team {
   margin-top: 20px;
   padding: 20px;
-  background-color: #222; 
-  border-radius: 12px;
+  background-color: #e0f7fa;
+  border-radius: 10px;
   text-align: center;
-  box-shadow: 0px 0px 8px rgba(255, 255, 255, 0.05);
 }
 
 .already-in-team h2 {
   margin-bottom: 10px;
-  color: #22c55e;
-  font-size: 22px;
+  color: #00796b;
 }
 
-.already-in-team p {
-  color: #ccc;
-  font-size: 16px;
+/* Progress Tracker Section */
+.progress-container {
+  margin-top: 20px;
+  width: 100%;
+  max-width: 600px;
+}
+
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #666;
+}
+
+.progress-bar {
+  height: 10px;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: #4CAF50;
+  transition: width 0.3s ease-in-out;
+}
+
+.task-info h4 {
+  color: black;
+  margin: 0;
+  padding: 0;
+}
+
+.task-info p {
+  color: black;
+  margin: 0;
+  padding: 0;
+}
+
+.deadline-tasks h3 {
+  color: black;
+  margin: 0;
+  padding: 0;
+}
+
+.deadline-tasks {
+  margin-top: 2rem;
+  width: 100%;
+}
+
+.tasks-list {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.task-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #e0e0e0;
+  width: 100%;
+}
+
+.task-info {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  flex: 1;
+}
+
+.task-info h4 {
+  color: black;
+  margin: 0;
+  padding: 0;
+  min-width: 200px;
+}
+
+.task-info p {
+  color: black;
+  margin: 0;
+  padding: 0;
+  min-width: 150px;
+}
+
+.task-actions {
+  display: flex;
+  gap: 1rem;
+  margin-left: auto;
+}
+
+.task-actions button {
+  padding: 8px 16px;
+  background-color: #0077ff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.task-actions button:hover:not(:disabled) {
+  background-color: #005dc1;
+}
+
+.task-actions button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.task-grade {
+  color: #4CAF50;
+  font-weight: bold;
+  margin: 5px 0;
 }

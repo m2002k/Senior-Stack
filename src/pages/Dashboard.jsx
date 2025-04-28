@@ -5,6 +5,8 @@ import SupervisorTools from "../components/SupervisorTools";
 import StudentProfile from "../components/StudentProfile";
 import CreateTeamView from "../components/CreateTeamView";
 import JoinTeamView from "../components/JoinTeamView";
+import TeamPageView from "../components/TeamPageView";
+import Calendar from "../components/Calendar2";
 import "../styles/Dashboard.css";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -16,8 +18,6 @@ import TeamPageView from "../components/TeamPageView";
 import ManageTasks from "../components/ManageTasks";
 import ManageUsers from "../components/ManageUsers";
 import ManageTeams from "../components/ManageTeams";
-
-
 
 function Dashboard() {
   const [userData, setUserData] = useState(null);
@@ -75,7 +75,7 @@ function Dashboard() {
       case 'calendar':
         return <Calendar userData={userData} />;
       case 'createTeam':
-        return <CreateTeamView fetchUserData={fetchUserData} userData={userData} />; 
+        return <CreateTeamView fetchUserData={fetchUserData} userData={userData} />;
       case 'joinTeam':
         return <JoinTeamView fetchUserData={fetchUserData} userData={userData} />;
       case 'team':
