@@ -14,14 +14,34 @@ import {
     useTheme,
     Chip
 } from '@mui/material';
-import eventsData from '../json/events.json';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../services/firebase-config';
 
 const Calendar2 = () => {
     const theme = useTheme();
     const [currentEvents, setCurrentEvents] = useState([]);
 
     useEffect(() => {
-        setCurrentEvents(eventsData.events);
+        const fetchTasks = async () => {
+            try {
+                const querySnapshot = await getDocs(collection(db, 'tasks'));
+                const tasks = querySnapshot.docs.map(doc => {
+                    const data = doc.data();
+                    return {
+                        id: doc.id,
+                        title: data.title,
+                        start: data.deadline.toDate(),
+                        type: data.type,
+                        allDay: false
+                    };
+                });
+                setCurrentEvents(tasks);
+            } catch (error) {
+                console.error('Error fetching tasks:', error);
+            }
+        };
+
+        fetchTasks();
     }, []);
 
     const getEventColor = (type) => {
@@ -62,7 +82,7 @@ const Calendar2 = () => {
                         selectable={false}
                         selectMirror={false}
                         dayMaxEvents={true}
-                        events={eventsData.events}
+                        events={currentEvents}
                         eventContent={(eventInfo) => {
                             return (
                                 <div style={{ 

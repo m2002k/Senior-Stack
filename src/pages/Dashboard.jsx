@@ -5,7 +5,6 @@ import SupervisorTools from "../components/SupervisorTools";
 import StudentProfile from "../components/StudentProfile";
 import CreateTeamView from "../components/CreateTeamView";
 import JoinTeamView from "../components/JoinTeamView";
-import Calendar from "../components/Calendar2";
 import "../styles/Dashboard.css";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
