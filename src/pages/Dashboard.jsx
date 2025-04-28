@@ -3,13 +3,14 @@ import SideBar from "../components/SideBar";
 import StudentTools from "../components/StudentTools";
 import SupervisorTools from "../components/SupervisorTools";
 import StudentProfile from "../components/StudentProfile";
+import CreateTeamView from "../components/CreateTeamView";
+import JoinTeamView from "../components/JoinTeamView";
 import "../styles/Dashboard.css";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../services/firebase-config";
 import { doc, getDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
-import Calendar from "../components/Calendar2";
 
 function Dashboard() {
   const [userData, setUserData] = useState(null);
@@ -17,26 +18,26 @@ function Dashboard() {
   const [activeTab, setActiveTab] = useState('progress');
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const uid = auth.currentUser.uid;
-        const docRef = doc(db, "users", uid);
-        const docSnap = await getDoc(docRef);
+  const fetchUserData = async () => {
+    try {
+      const uid = auth.currentUser.uid;
+      const docRef = doc(db, "users", uid);
+      const docSnap = await getDoc(docRef);
 
-        if (docSnap.exists()) {
-          setUserData(docSnap.data());
-        } else {
-          toast.error("No user data found.");
-        }
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-        toast.error("Failed to fetch user data.");
-      } finally {
-        setLoading(false);
+      if (docSnap.exists()) {
+        setUserData(docSnap.data());
+      } else {
+        toast.error("No user data found.");
       }
-    };
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+      toast.error("Failed to fetch user data.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchUserData();
   }, []);
 
@@ -60,7 +61,7 @@ function Dashboard() {
       case 'progress':
         return (
           <>
-            {userData.role === "student" && <StudentTools userData={userData} />}
+            {userData.role === "student" && <StudentTools userData={userData} setActiveTab={setActiveTab} />}
             {userData.role === "supervisor" && <SupervisorTools userData={userData} />}
           </>
         );
@@ -68,6 +69,10 @@ function Dashboard() {
         return <h2>Team Content Coming Soon</h2>;
       case 'calendar':
         return <Calendar userData={userData} />;
+      case 'createTeam':
+        return <CreateTeamView fetchUserData={fetchUserData} />; 
+      case 'joinTeam':
+        return <JoinTeamView />;
       default:
         return <h2>Select a tab</h2>;
     }

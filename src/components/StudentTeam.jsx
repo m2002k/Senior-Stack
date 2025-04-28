@@ -1,32 +1,28 @@
 import "../styles/StudentTools.css";
 
-function StudentTools({ userData, setActiveTab }) {
+import Calendar from "./Calendar";
+function StudentTools({ userData }) {
   return (
-    <div className="student-tools">
+    <div>
       <h1>Welcome, {userData.fullName} 🎓</h1>
-
-
-      {!userData.teamId ? (
+      {!userData.teamId && (
         <div className="dashboard-actions">
           <div className="action-box create-team">
             <h2>Create a Team</h2>
-            <button onClick={() => setActiveTab('createTeam')}>Create</button>
+            <button>Create</button>
           </div>
 
           <div className="action-box join-team">
             <h2>Join a Team</h2>
-            <button onClick={() => setActiveTab('joinTeam')}>Join</button>
+            <button>Join</button>
           </div>
-        </div>
-      ) : (
-        <div className="already-in-team">
-          <h2>You are already part of a team! 🎉</h2>
         </div>
       )}
 
       <div className="dashboard-calendar">
         <h2>Calendar</h2>
         <div className="calendar-box">
+
         </div>
       </div>
     </div>
