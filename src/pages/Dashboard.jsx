@@ -73,7 +73,7 @@ function Dashboard() {
       case 'createTeam':
         return <CreateTeamView fetchUserData={fetchUserData} userData={userData} />; 
       case 'joinTeam':
-        return <JoinTeamView />;
+        return <JoinTeamView fetchUserData={fetchUserData} userData={userData} />;
       default:
         return <h2>Select a tab</h2>;
     }

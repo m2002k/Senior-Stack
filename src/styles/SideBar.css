@@ -1,30 +1,50 @@
 .sidebar {
-  width: 200px;
-  background-color: #111;
-  color: white;
+  width: 220px;
+  background-color: #1a1a1a; /* Dark card background */
+  color: #f1f1f1;
   padding: 20px;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 2px 0 10px rgba(255, 255, 255, 0.05);
 }
 
+/* Sidebar Title */
 .sidebar-title {
-  margin-bottom: 20px;
-  font-size: 24px;
+  margin-bottom: 30px;
+  font-size: 26px;
+  font-weight: bold;
+  color: #7c3aed; /* SeniorStack purple */
+  text-align: center;
 }
 
+/* Sidebar List */
 .sidebar-options {
   list-style: none;
   padding: 0;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
+/* Sidebar Item */
 .sidebar-item {
-  margin-bottom: 20px;
+  padding: 12px 16px;
+  border-radius: 10px;
   cursor: pointer;
   font-size: 18px;
-  transition: 0.3s;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .sidebar-item:hover {
-  background-color: #333;
-  padding: 10px;
-  border-radius: 8px;
+  background-color: #333333;
+  transform: translateX(5px);
+}
+
+/* Active Sidebar Item (Optional if you implement active state) */
+.sidebar-item.active {
+  background-color: #22c55e; /* Green for active item */
+  color: #ffffff;
+  font-weight: bold;
 }

@@ -1,0 +1,139 @@
+body, .dashboard-layout, .join-team-view {
+    background-color: #0f0f0f; 
+    color: #f1f1f1; 
+  }
+  
+  .teams-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 20px;
+  }
+  
+  .team-card {
+    border: 1px solid #2c2c2c;
+    border-radius: 12px;
+    padding: 20px;
+    width: 260px;
+    background-color: #1a1a1a;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .team-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.1);
+  }
+  
+  .team-card h3 {
+    margin-bottom: 15px;
+    font-size: 22px;
+    color: #e0e0e0;
+  }
+  
+  .team-card button {
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: #7c3aed;
+    border: none;
+    color: white;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  
+  .team-card button:hover {
+    background-color: #6d28d9;
+  }
+  
+  .team-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal-content {
+    background: #1a1a1a;
+    padding: 30px 40px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 550px;
+    box-shadow: 0 10px 30px rgba(255, 255, 255, 0.15);
+    position: relative;
+    animation: fadeIn 0.3s ease;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  
+  .close-button {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: transparent;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+    color: #aaa;
+  }
+  
+  .close-button:hover {
+    color: #fff;
+  }
+  
+  .modal-content h2 {
+    margin-top: 10px;
+    margin-bottom: 15px;
+    font-size: 26px;
+    color: #f1f1f1;
+  }
+  
+  .modal-content p {
+    margin: 8px 0;
+    font-size: 18px;
+    color: #ccc;
+  }
+  
+  .modal-content ul {
+    margin-top: 10px;
+    padding-left: 20px;
+  }
+  
+  .modal-content ul li {
+    font-size: 16px;
+    color: #bbb;
+    margin-bottom: 6px;
+  }
+  
+  .join-button {
+    display: block;
+    margin-top: 30px;
+    margin-left: auto;
+    background-color: #10b981; 
+    border: none;
+    color: white;
+    padding: 14px 24px;
+    border-radius: 8px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+  
+  .join-button:hover {
+    background-color: #059669;
+  }
+  
+  .join-button:disabled {
+    background-color: #555;
+    cursor: not-allowed;
+  }
+  
