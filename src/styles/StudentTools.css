@@ -4,88 +4,42 @@
   font-weight: bold;
   color: #f1f1f1;
 }
-
-.dashboard-actions {
-  display: flex;
-  gap: 2rem;
-  margin-bottom: 2rem;
-  flex-wrap: wrap;
-}
-
-.action-box {
-  background-color: #1a1a1a;
-  padding: 2rem;
-  border-radius: 12px;
-  flex: 1;
-  min-width: 250px;
-  box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.05);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  transition: 0.3s;
-  margin-top: 15px;
-}
-
-.action-box:hover {
-  transform: scale(1.03);
-  box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.08);
-}
-
-.action-box h2 {
-  margin-bottom: 1rem;
-  color: #f9fafb;
-}
-
-.action-box button {
-  padding: 10px 20px;
-  background-color: #7c3aed; 
-  color: white;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
-}
-
-.action-box button:hover {
-  background-color: #6d28d9;
-}
-
-.dashboard-calendar {
-  margin-top: 2rem;
-}
-
-.calendar-box {
-  background-color: #1a1a1a; 
-  padding: 2rem;
-  height: 300px;
-  border-radius: 12px;
-  box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.05);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #999;
-  font-size: 1.2rem;
-}
-
-
-.already-in-team {
-  margin-top: 20px;
-  padding: 20px;
-  background-color: #222; 
-  border-radius: 12px;
-  text-align: center;
-  box-shadow: 0px 0px 8px rgba(255, 255, 255, 0.05);
-}
-
-.already-in-team h2 {
-  margin-bottom: 10px;
-  color: #22c55e;
-  font-size: 22px;
-}
-
-.already-in-team p {
-  color: #ccc;
-  font-size: 16px;
-}
+  .already-in-team {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #e0f7fa;
+    border-radius: 10px;
+    text-align: center;
+  }
+  
+  .already-in-team h2 {
+    margin-bottom: 10px;
+    color: #00796b;
+  }
+  
+  .progress-container {
+    margin-top: 20px;
+    width: 100%;
+    max-width: 600px;
+  }
+  
+  .progress-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .progress-bar {
+    height: 10px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  
+  .progress-fill {
+    height: 100%;
+    background-color: #4CAF50;
+    transition: width 0.3s ease-in-out;
+  }
