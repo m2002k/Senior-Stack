@@ -13,6 +13,31 @@ const TeamPageView = ({ userData }) => {
   const [showConfirm, setShowConfirm] = useState(false);
   const navigate = useNavigate();
 
+  const handleLeaveTeam = async () => {
+    try {
+      if (!userData?.teamId) return;
+  
+      const userDocRef = doc(db, "users", auth.currentUser.uid);
+      const teamDocRef = doc(db, "teams", userData.teamId);
+  
+      await updateDoc(teamDocRef, {
+        teamMembers: arrayRemove(auth.currentUser.uid),
+      });
+  
+      await updateDoc(userDocRef, {
+        teamId: null,
+      });
+  
+      toast.success("You have left the team!");
+  
+      navigate("/dashboard"); 
+    } catch (error) {
+      console.error("Error leaving team:", error);
+      toast.error("Failed to leave the team. Try again.");
+    }
+  };
+  
+
   useEffect(() => {
     const fetchTeamData = async () => {
       if (!userData?.teamId) {
