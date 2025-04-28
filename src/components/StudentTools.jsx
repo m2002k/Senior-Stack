@@ -12,7 +12,6 @@ function StudentTools({ userData, setActiveTab }) {
     const fetchTeamData = async () => {
       if (userData?.teamId) {
         try {
-          // Fetch team name
           const teamDocRef = doc(db, "teams", userData.teamId);
           const teamDoc = await getDoc(teamDocRef);
           if (teamDoc.exists()) {
@@ -20,7 +19,6 @@ function StudentTools({ userData, setActiveTab }) {
             setCompletedTasks(teamDoc.data().completedTasks || 0);
           }
 
-          // Fetch tasks
           const tasksSnapshot = await getDocs(collection(db, 'tasks'));
           const tasks = tasksSnapshot.docs.map(doc => ({
             id: doc.id,
