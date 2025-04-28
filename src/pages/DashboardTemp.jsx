@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import StudentProfile from "../components/StudentProfile";
 import ManageTasks from "../components/ManageTasks";
 import ManageUsers from "../components/ManageUsers";
+import ManageTeams from "../components/Manageteams";
 
 const DashboardTemp = () => {
   const [activeTab, setActiveTab] = useState("progress");
@@ -57,7 +58,7 @@ const DashboardTemp = () => {
       case "manageusers":
           return <ManageUsers />;
       case "manageteams":
-        return <div>Admin: Manage teams</div>;
+        return <ManageTeams />;
       case "managetasks":
         return <ManageTasks />;
       default:

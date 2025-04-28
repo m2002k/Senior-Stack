@@ -5,13 +5,14 @@ import SupervisorTools from "../components/SupervisorTools";
 import StudentProfile from "../components/StudentProfile";
 import CreateTeamView from "../components/CreateTeamView";
 import JoinTeamView from "../components/JoinTeamView";
+import TeamPageView from "../components/TeamPageView";
+import Calendar from "../components/Calendar2";
 import "../styles/Dashboard.css";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../services/firebase-config";
 import { doc, getDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
-import Calendar from "../components/Calendar2"
 
 function Dashboard() {
   const [userData, setUserData] = useState(null);
@@ -66,14 +67,14 @@ function Dashboard() {
             {userData.role === "supervisor" && <SupervisorTools userData={userData} />}
           </>
         );
-      case 'team':
-        return <h2>Team Content Coming Soon</h2>;
       case 'calendar':
         return <Calendar userData={userData} />;
       case 'createTeam':
-        return <CreateTeamView fetchUserData={fetchUserData} userData={userData} />; 
+        return <CreateTeamView fetchUserData={fetchUserData} userData={userData} />;
       case 'joinTeam':
-        return <JoinTeamView />;
+        return <JoinTeamView fetchUserData={fetchUserData} userData={userData} />;
+      case 'team':
+        return <TeamPageView userData={userData} />;
       default:
         return <h2>Select a tab</h2>;
     }
