@@ -7,14 +7,14 @@ function RegisterForm({
   email,
   password,
   confPassword,
-  role,
+  major,
   setFullName,
   setStudentId,
   setPhone,
   setEmail,
   setPassword,
   setConfPassword,
-  setRole,
+  setMajor,
   onSubmit,
   loading,
 }) {
@@ -42,11 +42,12 @@ function RegisterForm({
   return (
     <Box
       sx={{
-        height: "100vh",
+        minHeight: "100vh",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         backgroundColor: "#121212",
+        padding: "20px 0",
       }}
     >
       <Box
@@ -57,6 +58,21 @@ function RegisterForm({
           boxShadow: 3,
           borderRadius: 2,
           bgcolor: "#1e1e1e",
+          maxHeight: "90vh",
+          overflowY: "auto",
+          "&::-webkit-scrollbar": {
+            width: "8px",
+          },
+          "&::-webkit-scrollbar-track": {
+            background: "#1e1e1e",
+          },
+          "&::-webkit-scrollbar-thumb": {
+            background: "#666",
+            borderRadius: "4px",
+          },
+          "&::-webkit-scrollbar-thumb:hover": {
+            background: "#888",
+          },
         }}
       >
         <Typography variant="h4" align="center" gutterBottom>
@@ -116,13 +132,14 @@ function RegisterForm({
         <TextField sx={textFieldStyle}
           select
           fullWidth
-          label="Role"
-          value={role}
-          onChange={(e) => setRole(e.target.value)}
+          label="Major"
+          value={major}
+          onChange={(e) => setMajor(e.target.value)}
           margin="normal"
         >
-          <MenuItem value="student">Student</MenuItem>
-          <MenuItem value="supervisor">Supervisor</MenuItem>
+          <MenuItem value="CS">Computer Science (CS)</MenuItem>
+          <MenuItem value="IT">Information Technology (IT)</MenuItem>
+          <MenuItem value="IS">Information Systems (IS)</MenuItem>
         </TextField>
 
         <Button

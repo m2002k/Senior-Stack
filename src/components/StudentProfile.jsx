@@ -1,26 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Typography, Button, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { toast } from 'react-toastify';
-import '../styles/StudentProfile.css'; 
+import { auth, db } from '../services/firebase-config';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import '../styles/StudentProfile.css';
 
-const StudentProfile = () => {
+const StudentProfile = ({ userData }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [profile, setProfile] = useState({
-    name: '',
+    fullName: '',
     email: '',
     phone: '',
     expertise: '',
     major: '',
   });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (userData) {
+      setProfile({
+        fullName: userData.fullName || '',
+        email: userData.email || '',
+        phone: userData.phone || '',
+        expertise: userData.expertise || '',
+        major: userData.major || '',
+      });
+      setLoading(false);
+    }
+  }, [userData]);
 
   const handleEdit = () => {
     setIsEditing(true);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     // Email validation
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailRegex.test(profile.email)) {
@@ -40,12 +56,38 @@ const StudentProfile = () => {
       return;
     }
 
-    // save functionality when backend is ready
-    setIsEditing(false);
-    toast.success("Profile updated successfully!");
+    try {
+      const user = auth.currentUser;
+      if (!user) {
+        toast.error("User not authenticated");
+        return;
+      }
+
+      const userRef = doc(db, "users", user.uid);
+      await updateDoc(userRef, {
+        fullName: profile.fullName,
+        email: profile.email,
+        phone: profile.phone,
+        expertise: profile.expertise,
+        major: profile.major,
+      });
+
+      setIsEditing(false);
+      toast.success("Profile updated successfully!");
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      toast.error("Failed to update profile. Please try again.");
+    }
   };
 
   const handleCancel = () => {
+    setProfile({
+      fullName: userData.fullName || '',
+      email: userData.email || '',
+      phone: userData.phone || '',
+      expertise: userData.expertise || '',
+      major: userData.major || '',
+    });
     setIsEditing(false);
   };
 
@@ -56,6 +98,10 @@ const StudentProfile = () => {
       [name]: value
     }));
   };
+
+  if (loading) {
+    return <div>Loading profile...</div>;
+  }
 
   return (
     <div className="profile-container">
@@ -101,8 +147,8 @@ const StudentProfile = () => {
           </Typography>
           <input
             type="text"
-            name="name"
-            value={profile.name}
+            name="fullName"
+            value={profile.fullName}
             onChange={handleChange}
             disabled={!isEditing}
             className="field-input"

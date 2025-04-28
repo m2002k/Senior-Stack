@@ -13,16 +13,15 @@ function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confPassword, setConfPassword] = useState("");
-  const [role, setRole] = useState("student");
+  const [major, setMajor] = useState("");
   const [loading, setLoading] = useState(false);
-
 
   const navigate = useNavigate();
 
   function handleRegister(e) {
     e.preventDefault();
 
-    if (!fullName || !email || !password || !confPassword || !phone || !studentId) {
+    if (!fullName || !email || !password || !confPassword || !phone || !studentId || !major) {
       toast.info("Please fill in all fields.");
       return;
     }
@@ -67,7 +66,8 @@ function Register() {
           studentId,
           phone,
           email,
-          role,
+          role: "student",
+          major
         });
 
         await sendEmailVerification(user);
@@ -89,14 +89,14 @@ function Register() {
       email={email}
       password={password}
       confPassword={confPassword}
-      role={role}
+      major={major}
       setFullName={setFullName}
       setStudentId={setStudentId}
       setPhone={setPhone}
       setEmail={setEmail}
       setPassword={setPassword}
       setConfPassword={setConfPassword}
-      setRole={setRole}
+      setMajor={setMajor}
       onSubmit={handleRegister}
       loading={loading}
     />
