@@ -88,3 +88,93 @@
   background-color: #4CAF50;
   transition: width 0.3s ease-in-out;
 }
+
+.task-info h4 {
+  color: black;
+  margin: 0;
+  padding: 0;
+}
+
+.task-info p {
+  color: black;
+  margin: 0;
+  padding: 0;
+}
+
+.deadline-tasks h3 {
+  color: black;
+  margin: 0;
+  padding: 0;
+}
+
+.deadline-tasks {
+  margin-top: 2rem;
+  width: 100%;
+}
+
+.tasks-list {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.task-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #e0e0e0;
+  width: 100%;
+}
+
+.task-info {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  flex: 1;
+}
+
+.task-info h4 {
+  color: black;
+  margin: 0;
+  padding: 0;
+  min-width: 200px;
+}
+
+.task-info p {
+  color: black;
+  margin: 0;
+  padding: 0;
+  min-width: 150px;
+}
+
+.task-actions {
+  display: flex;
+  gap: 1rem;
+  margin-left: auto;
+}
+
+.task-actions button {
+  padding: 8px 16px;
+  background-color: #0077ff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.task-actions button:hover:not(:disabled) {
+  background-color: #005dc1;
+}
+
+.task-actions button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.task-grade {
+  color: #4CAF50;
+  font-weight: bold;
+  margin: 5px 0;
+}
