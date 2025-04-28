@@ -34,6 +34,7 @@ html, body, #root {
   padding: 2rem;
   overflow-y: auto;
   height: calc(100vh - 60px);
+  width: 75%;
   border-top-left-radius: 12px;
   border-bottom-left-radius: 12px;
   box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.05);
