@@ -27,7 +27,7 @@ const SideBar = ({ activeTab, setActiveTab, type }) => {
               className={`sidebar-item ${activeTab === 'team' ? 'active' : ''}`}
               onClick={() => handleTabClick('team')}
             >
-              Team
+              My Team
             </li>
             <li
               className={`sidebar-item ${activeTab === 'calendar' ? 'active' : ''}`}
