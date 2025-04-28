@@ -71,7 +71,7 @@ function Dashboard() {
       case 'calendar':
         return <Calendar userData={userData} />;
       case 'createTeam':
-        return <CreateTeamView fetchUserData={fetchUserData} />; 
+        return <CreateTeamView fetchUserData={fetchUserData} userData={userData} />; 
       case 'joinTeam':
         return <JoinTeamView />;
       default:
