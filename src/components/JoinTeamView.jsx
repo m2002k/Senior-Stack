@@ -76,18 +76,17 @@ const JoinTeamView = ({ fetchUserData, userData }) => {
       </div>
 
       {selectedTeam && (
-        <div className="team-details-popup">
-          <h3>{selectedTeam.teamName}</h3>
-          <p><strong>Project Title:</strong> {selectedTeam.projectTitle}</p>
-          <p><strong>Description:</strong> {selectedTeam.projectDescription}</p>
-          <p><strong>Members:</strong> {selectedTeam.teamMembers.length} / {selectedTeam.maxTeamSize}</p>
-
-          <div className="popup-buttons">
-            <button className="join-btn" onClick={handleJoinTeam}>Join Team</button>
-            <button className="close-btn" onClick={() => setSelectedTeam(null)}>Close</button>
-          </div>
-        </div>
-      )}
+  <div className="team-modal">
+    <div className="modal-content">
+      <button className="close-button" onClick={() => setSelectedTeam(null)}>×</button>
+      <h2>{selectedTeam.teamName}</h2>
+      <p><strong>Project Title:</strong> {selectedTeam.projectTitle}</p>
+      <p><strong>Description:</strong> {selectedTeam.projectDescription}</p>
+      <p><strong>Members:</strong> {selectedTeam.teamMembers.length} / {selectedTeam.maxTeamSize}</p>
+      <button className="join-button" onClick={handleJoinTeam}>Join Team</button>
+    </div>
+  </div>
+)}
     </div>
   );
 };
