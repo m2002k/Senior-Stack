@@ -92,41 +92,40 @@ const ManageUsers = () => {
 
       <button className="show-add-supervisor-button" onClick={handleToggleAddForm}>
         ➕ Add Supervisor
-        </button>
-        {showAddForm && (
-          <div className="supervisor-form-container">
-            <div className="supervisor-input-container">
-              <input type="text" className="name-input"
-              placeholder="Supervisor Name" value={newSupervisorName} 
-              onChange={(e) => setNewSupervisorName(e.target.value)}
-              />
-              <input type="email" className="email-input" 
-              placeholder="Supervisor Email" value={newSupervisorEmail}
-              onChange={(e) => setNewSupervisorEmail(e.target.value)}
-              />
-              <input type="text" className="id-input"
-              placeholder="Supervisor ID" value={newSupervisorId}
-              onChange={(e) => setNewSupervisorId(e.target.value)}
-              />
-              <select 
-                className="department-select"
-                value={newSupervisorDepartment}
-                onChange={(e) => setNewSupervisorDepartment(e.target.value)}
-              >
-                <option value="CS">CS</option>
-                <option value="IT">IT</option>
-                <option value="IS">IS</option>
-              </select>
-              <button className="add-supervisor-button" onClick={handleAddSupervisor}>
-                Save Supervisor
-              </button>
-              <button className="cancel-supervisor-button" onClick={handleToggleAddForm}>
-                Cancel
-                </button>
-            </div>
-          </div>
-        )}
+      </button>
 
+      {showAddForm && (
+        <div className="supervisor-form-container">
+          <div className="supervisor-input-container">
+            <input type="text" className="name-input"
+            placeholder="Supervisor Name" value={newSupervisorName} 
+            onChange={(e) => setNewSupervisorName(e.target.value)}
+            />
+            <input type="email" className="email-input" 
+            placeholder="Supervisor Email" value={newSupervisorEmail}
+            onChange={(e) => setNewSupervisorEmail(e.target.value)}
+            />
+            <input type="text" className="id-input"
+            placeholder="Supervisor ID" value={newSupervisorId}
+            onChange={(e) => setNewSupervisorId(e.target.value)}
+            />
+            <select className="department-select"
+            value={newSupervisorDepartment}
+            onChange={(e) => setNewSupervisorDepartment(e.target.value)}
+            >
+              <option value="CS">CS</option>
+              <option value="IT">IT</option>
+              <option value="IS">IS</option>
+            </select>
+            <button className="add-supervisor-button" onClick={handleAddSupervisor}>
+              Save Supervisor
+            </button>
+            <button className="cancel-supervisor-button" onClick={handleToggleAddForm}>
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
       <ToastContainer />
     </div>
   );
