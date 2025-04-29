@@ -10,7 +10,8 @@ const ManageUsers = () => {
   const [users, setUsers] = useState([]);
   const [newSupervisorName, setNewSupervisorName] = useState("");
   const [newSupervisorEmail, setNewSupervisorEmail] = useState("");
-  const [newSupervisorPassword, setNewSupervisorPassword] = useState("");
+  const [newSupervisorId, setNewSupervisorId] = useState("");
+  const [newSupervisorDepartment, setNewSupervisorDepartment] = useState("");
   const [loading, setLoading] = useState(true);
   const [showAddForm, setShowAddForm] = useState(false);
 
@@ -39,17 +40,20 @@ const ManageUsers = () => {
     if (
       newSupervisorName.trim() === "" ||
       newSupervisorEmail.trim() === "" ||
-      newSupervisorPassword.trim() === ""
+      newSupervisorId.trim() === "" ||
+      newSupervisorDepartment.trim() === ""
     ) {
-      toast.error("Please fill in Name, Email, and Password!");
+      toast.error("Please fill in all fields!");
       return;
     }
+
+    const password = `Asd${newSupervisorId}`;
 
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         newSupervisorEmail,
-        newSupervisorPassword
+        password
       );
       const user = userCredential.user;
 
@@ -57,11 +61,14 @@ const ManageUsers = () => {
         name: newSupervisorName,
         email: newSupervisorEmail,
         role: "supervisor",
+        department: newSupervisorDepartment,
+        supervisorId: newSupervisorId
       });
 
       setNewSupervisorName("");
       setNewSupervisorEmail("");
-      setNewSupervisorPassword("");
+      setNewSupervisorId("");
+      setNewSupervisorDepartment("");
       setShowAddForm(false);
       fetchUsers();
       toast.success("Supervisor Added Successfully!");
@@ -97,10 +104,19 @@ const ManageUsers = () => {
               placeholder="Supervisor Email" value={newSupervisorEmail}
               onChange={(e) => setNewSupervisorEmail(e.target.value)}
               />
-              <input type="password" className="password-input"
-              placeholder="Supervisor Password" value={newSupervisorPassword}
-              onChange={(e) => setNewSupervisorPassword(e.target.value)}
+              <input type="text" className="id-input"
+              placeholder="Supervisor ID" value={newSupervisorId}
+              onChange={(e) => setNewSupervisorId(e.target.value)}
               />
+              <select 
+                className="department-select"
+                value={newSupervisorDepartment}
+                onChange={(e) => setNewSupervisorDepartment(e.target.value)}
+              >
+                <option value="CS">CS</option>
+                <option value="IT">IT</option>
+                <option value="IS">IS</option>
+              </select>
               <button className="add-supervisor-button" onClick={handleAddSupervisor}>
                 Save Supervisor
               </button>
