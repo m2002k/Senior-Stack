@@ -20,10 +20,7 @@ const UsersTable = ({ users, fetchUsers, loading }) => {
 
   if (loading) {
     return (
-      <div className="loading-container">
-        <div className="spinner"></div>
         <p>Loading users...</p>
-      </div>
     );
   }
 
