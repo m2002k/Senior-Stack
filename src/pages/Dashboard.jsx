@@ -3,10 +3,11 @@ import SideBar from "../components/SideBar";
 import StudentTools from "../components/StudentTools";
 import SupervisorTools from "../components/SupervisorTools";
 import StudentProfile from "../components/StudentProfile";
+import SupervisorProfile from "../components/SupervisorProfile";
 import CreateTeamView from "../components/CreateTeamView";
 import JoinTeamView from "../components/JoinTeamView";
 import TeamPageView from "../components/TeamPageView";
-import Calendar from "../components/Calendar2";
+import AssignedTeams from "../components/AssignedTeams";
 import "../styles/Dashboard.css";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -14,7 +15,6 @@ import { auth, db } from "../services/firebase-config";
 import { doc, getDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import Calendar from "../components/Calendar2"
-import TeamPageView from "../components/TeamPageView";
 import ManageTasks from "../components/ManageTasks";
 import ManageUsers from "../components/ManageUsers";
 import ManageTeams from "../components/ManageTeams";
@@ -64,7 +64,9 @@ function Dashboard() {
 
     switch (activeTab) {
       case 'profile':
-        return <StudentProfile userData={userData} />;
+        return userData.role === "student" ? 
+          <StudentProfile userData={userData} /> : 
+          <SupervisorProfile userData={userData} />;
       case 'progress':
         return (
           <>
@@ -80,6 +82,8 @@ function Dashboard() {
         return <JoinTeamView fetchUserData={fetchUserData} userData={userData} />;
       case 'team':
         return <TeamPageView userData={userData} />;
+      case 'assignedTeams':
+        return <AssignedTeams />;
       case 'manageUsers':
         return <ManageUsers userData={userData} />;
       case 'manageTeams':

@@ -41,10 +41,10 @@ const SideBar = ({ activeTab, setActiveTab, type }) => {
         {type === "supervisor" && (
           <>
             <li
-              className={`sidebar-item ${activeTab === 'students' ? 'active' : ''}`}
-              onClick={() => handleTabClick('students')}
+              className={`sidebar-item ${activeTab === 'assignedTeams' ? 'active' : ''}`}
+              onClick={() => handleTabClick('assignedTeams')}
             >
-              Students
+              Assigned Teams
             </li>
             <li
               className={`sidebar-item ${activeTab === 'projects' ? 'active' : ''}`}
@@ -53,10 +53,10 @@ const SideBar = ({ activeTab, setActiveTab, type }) => {
               Projects
             </li>
             <li
-              className={`sidebar-item ${activeTab === 'meetings' ? 'active' : ''}`}
-              onClick={() => handleTabClick('meetings')}
+              className={`sidebar-item ${activeTab === 'profile' ? 'active' : ''}`}
+              onClick={() => handleTabClick('profile')}
             >
-              Meetings
+              Profile
             </li>
             <li
               className={`sidebar-item ${activeTab === 'calendar' ? 'active' : ''}`}

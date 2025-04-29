@@ -1,7 +1,9 @@
 import "../styles/StudentTools.css";
 import { useState, useEffect } from "react";
 import { db } from "../services/firebase-config";
-import { doc, getDoc, collection, getDocs, addDoc, query, where, updateDoc } from "firebase/firestore";
+import { doc, getDoc, collection, getDocs, addDoc, query, where, updateDoc, arrayUnion, setDoc, serverTimestamp } from "firebase/firestore";
+import { toast } from "react-toastify";
+import { auth } from "../services/firebase-config";
 
 function StudentTools({ userData, setActiveTab }) {
   const [teamName, setTeamName] = useState("");
@@ -11,6 +13,8 @@ function StudentTools({ userData, setActiveTab }) {
   const [taskAttachments, setTaskAttachments] = useState({});
   const [submittedTasks, setSubmittedTasks] = useState({});
   const [taskGrades, setTaskGrades] = useState({});
+  const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
 
   useEffect(() => {
     const fetchTeamData = async () => {
@@ -19,8 +23,10 @@ function StudentTools({ userData, setActiveTab }) {
           const teamDocRef = doc(db, "teams", userData.teamId);
           const teamDoc = await getDoc(teamDocRef);
           if (teamDoc.exists()) {
-            setTeamName(teamDoc.data().teamName);
-            setCompletedTasks(teamDoc.data().completedTasks || 0);
+            const teamData = teamDoc.data();
+            setTeamName(teamData.teamName);
+            // Calculate completed tasks from submitted_task array length
+            setCompletedTasks(teamData.submitted_task?.length || 0);
           }
 
           // Fetch tasks
@@ -49,16 +55,16 @@ function StudentTools({ userData, setActiveTab }) {
           // Fetch submitted tasks and grades
           const submittedTasksQuery = query(
             collection(db, 'submitted_tasks'),
-            where('teamID', '==', userData.teamId)
+            where('teamId', '==', userData.teamId)
           );
           const submittedTasksSnapshot = await getDocs(submittedTasksQuery);
           const submittedTasksMap = {};
           const gradesMap = {};
           submittedTasksSnapshot.forEach(doc => {
             const data = doc.data();
-            submittedTasksMap[data.taskID] = true;
+            submittedTasksMap[data.taskId] = true;
             if (data.grade) {
-              gradesMap[data.taskID] = data.grade;
+              gradesMap[data.taskId] = data.grade;
             }
           });
           setSubmittedTasks(submittedTasksMap);
@@ -74,6 +80,23 @@ function StudentTools({ userData, setActiveTab }) {
 
   const handleFileUpload = async (taskId, file) => {
     try {
+      setUploading(true);
+      setUploadProgress(0);
+
+      // Get the current user's team ID
+      const userDoc = await getDoc(doc(db, "users", auth.currentUser.uid));
+      if (!userDoc.exists()) {
+        toast.error("User data not found");
+        return;
+      }
+
+      const userData = userDoc.data();
+      if (!userData.teamId) {
+        toast.error("You are not part of any team");
+        return;
+      }
+
+      // Create file path for S3
       const fileName = `${userData.teamId}/${file.name}`;
       const uploadUrl = `https://senior-stack.s3.eu-north-1.amazonaws.com/${fileName}`;
       
@@ -87,34 +110,49 @@ function StudentTools({ userData, setActiveTab }) {
       });
 
       if (response.ok) {
-        // Add to Firestore
-        await addDoc(collection(db, 'submitted_tasks'), {
-          taskID: taskId,
-          teamID: userData.teamId,
-          attachment: uploadUrl,
-          submittedAt: new Date().toISOString()
-        });
+        // Create submission document
+        const submissionRef = doc(collection(db, "submitted_tasks"));
+        const submissionData = {
+          taskId: taskId,
+          teamId: userData.teamId,
+          studentId: auth.currentUser.uid,
+          fileName: file.name,
+          fileUrl: uploadUrl,
+          submittedAt: serverTimestamp(),
+          status: "pending"
+        };
         
-        // Update completedTasks in teams table
-        const teamDocRef = doc(db, "teams", userData.teamId);
-        await updateDoc(teamDocRef, {
-          completedTasks: completedTasks + 1
+        await setDoc(submissionRef, submissionData);
+
+        // Update the team's submitted_task array
+        const teamRef = doc(db, "teams", userData.teamId);
+        await updateDoc(teamRef, {
+          submitted_task: arrayUnion(submissionRef.id)
         });
-        
+
         // Update local state
         setSubmittedTasks(prev => ({
           ...prev,
           [taskId]: true
         }));
-        setCompletedTasks(prev => prev + 1);
+
+        // Fetch updated team data to get new submitted_task array length
+        const updatedTeamDoc = await getDoc(teamRef);
+        if (updatedTeamDoc.exists()) {
+          const updatedTeamData = updatedTeamDoc.data();
+          setCompletedTasks(updatedTeamData.submitted_task?.length || 0);
+        }
         
-        alert('File uploaded successfully!');
+        toast.success('File uploaded successfully');
+        setUploading(false);
+        setUploadProgress(0);
       } else {
         throw new Error('Upload failed');
       }
     } catch (error) {
-      console.error('Error uploading file:', error);
-      alert('Error uploading file. Please try again.');
+      console.error('Upload error:', error);
+      toast.error('File upload failed');
+      setUploading(false);
     }
   };
 

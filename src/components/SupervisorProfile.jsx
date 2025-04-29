@@ -1,32 +1,30 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Button, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
+import { Typography, Button } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { toast } from 'react-toastify';
 import { auth, db } from '../services/firebase-config';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
-import '../styles/StudentProfile.css';
+import '../styles/SupervisorProfile.css';
 
-const StudentProfile = ({ userData, fetchUserData }) => {
+const SupervisorProfile = ({ userData, fetchUserData }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [profile, setProfile] = useState({
-    fullName: '',
+    name: '',
+    supervisorId: '',
     email: '',
-    phone: '',
-    expertise: '',
-    major: '',
+    phone: ''
   });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (userData) {
       setProfile({
-        fullName: userData.fullName || '',
+        name: userData.name || '',
+        supervisorId: userData.supervisorId || '',
         email: userData.email || '',
-        phone: userData.phone || '',
-        expertise: userData.expertise || '',
-        major: userData.major || '',
+        phone: userData.phone || ''
       });
       setLoading(false);
     }
@@ -37,49 +35,28 @@ const StudentProfile = ({ userData, fetchUserData }) => {
   };
 
   const handleSave = async () => {
-    // Email validation
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!emailRegex.test(profile.email)) {
-      toast.error("Invalid email format. Please enter a valid email address.");
-      return;
-    }
-
     // Phone number validation
     if (!/^\d{10}$/.test(profile.phone)) {
       toast.error("Invalid phone number: Phone number must be exactly 10 digits.");
       return;
     }
 
-    // Major validation
-    if (!profile.major) {
-      toast.error("Please select your major.");
-      return;
-    }
-
     try {
-      const user = auth.currentUser;
-      if (!user) {
-        toast.error("User not authenticated");
-        return;
-      }
-
-      const userRef = doc(db, "users", user.uid);
-      await updateDoc(userRef, {
-        fullName: profile.fullName,
+      const userDocRef = doc(db, "users", auth.currentUser.uid);
+      await updateDoc(userDocRef, {
+        name: profile.name,
+        supervisorId: profile.supervisorId,
         email: profile.email,
-        phone: profile.phone,
-        expertise: profile.expertise,
-        major: profile.major,
+        phone: profile.phone
       });
 
       // Update local state
       setProfile(prev => ({
         ...prev,
-        fullName: profile.fullName,
+        name: profile.name,
+        supervisorId: profile.supervisorId,
         email: profile.email,
-        phone: profile.phone,
-        expertise: profile.expertise,
-        major: profile.major,
+        phone: profile.phone
       }));
       
       setIsEditing(false);
@@ -91,20 +68,19 @@ const StudentProfile = ({ userData, fetchUserData }) => {
         console.error("Error fetching updated data:", fetchError);
       }
       
-      toast.success("Profile updated successfully! ✅");
+      toast.success('Profile updated successfully! ✅');
     } catch (error) {
       console.error("Error updating profile:", error);
-      toast.error("Failed to update profile. Please try again.");
+      toast.error('Failed to update profile. Please try again.');
     }
   };
 
   const handleCancel = () => {
     setProfile({
-      fullName: userData.fullName || '',
+      name: userData.name || '',
+      supervisorId: userData.supervisorId || '',
       email: userData.email || '',
-      phone: userData.phone || '',
-      expertise: userData.expertise || '',
-      major: userData.major || '',
+      phone: userData.phone || ''
     });
     setIsEditing(false);
   };
@@ -125,7 +101,7 @@ const StudentProfile = ({ userData, fetchUserData }) => {
     <div className="profile-container">
       <div className="profile-header">
         <Typography variant="h4" component="h1" className="profile-title">
-          Student Profile
+          Supervisor Profile
         </Typography>
         {!isEditing ? (
           <Button
@@ -161,12 +137,26 @@ const StudentProfile = ({ userData, fetchUserData }) => {
       <div className="form-container">
         <div>
           <Typography variant="subtitle1" className="field-label">
-            Full Name
+            Name
           </Typography>
           <input
             type="text"
-            name="fullName"
-            value={profile.fullName}
+            name="name"
+            value={profile.name}
+            onChange={handleChange}
+            disabled={!isEditing}
+            className="field-input"
+          />
+        </div>
+
+        <div>
+          <Typography variant="subtitle1" className="field-label">
+            Supervisor ID
+          </Typography>
+          <input
+            type="text"
+            name="supervisorId"
+            value={profile.supervisorId}
             onChange={handleChange}
             disabled={!isEditing}
             className="field-input"
@@ -200,48 +190,9 @@ const StudentProfile = ({ userData, fetchUserData }) => {
             className="field-input"
           />
         </div>
-
-        <div>
-          <Typography variant="subtitle1" className="field-label">
-            Major
-          </Typography>
-          <FormControl fullWidth disabled={!isEditing}>
-            <Select
-              name="major"
-              value={profile.major}
-              onChange={handleChange}
-              className="field-input"
-              displayEmpty
-            >
-              <MenuItem value="" disabled>
-                Select your major
-              </MenuItem>
-              <MenuItem value="CS">Computer Science (CS)</MenuItem>
-              <MenuItem value="IT">Information Technology (IT)</MenuItem>
-              <MenuItem value="IS">Information Systems (IS)</MenuItem>
-            </Select>
-          </FormControl>
-        </div>
-
-        <div>
-          <Typography variant="subtitle1" className="field-label">
-            Areas of Expertise
-          </Typography>
-          <textarea
-            name="expertise"
-            value={profile.expertise}
-            onChange={handleChange}
-            disabled={!isEditing}
-            className="field-input"
-            rows={3}
-          />
-          <Typography variant="caption" className="helper-text">
-            List your skills, technologies, or areas you excel in
-          </Typography>
-        </div>
       </div>
     </div>
   );
 };
 
-export default StudentProfile; 
+export default SupervisorProfile; 

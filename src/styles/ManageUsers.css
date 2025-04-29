@@ -58,6 +58,38 @@
   height: 50px;
 }
 
+.id-input {
+  flex: 1;
+  padding: 1rem;
+  border-radius: 5px;
+  border: none;
+  font-size: 1rem;
+  background-color: #2a2a2a;
+  color: white;
+  height: 50px;
+}
+
+.department-select {
+  flex: 0.5;
+  max-width: 200px;
+  padding: 1rem;
+  border-radius: 5px;
+  border: none;
+  font-size: 1rem;
+  background-color: #2a2a2a;
+  color: white;
+  height: 50px;
+  cursor: pointer;
+}
+
+.department-select option:disabled {
+  color: #666;
+}
+
+.department-select option:not(:disabled) {
+  color: white;
+}
+
 .password-input {
   flex: 1;
   padding: 1rem;

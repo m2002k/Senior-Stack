@@ -6,6 +6,7 @@ import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, S
 import { Add as AddIcon, Edit as EditIcon, Delete as DeleteIcon, AttachFile as AttachFileIcon } from '@mui/icons-material';
 import { collection, addDoc, getDocs, deleteDoc, doc, updateDoc, Timestamp, getDoc } from 'firebase/firestore';
 import { db } from '../services/firebase-config';
+import { toast } from 'react-toastify';
 
 // S3 Upload function
 const uploadFileToS3 = async (file, folder = "") => {
@@ -141,20 +142,35 @@ const ManageTasks = () => {
     if (file) {
       try {
         console.log('Starting file upload for:', file.name);
-        const fileUrl = await uploadFileToS3(file, "tasks");
-        if (fileUrl) {
-          console.log('File upload successful, URL:', fileUrl);
+        
+        // Create file path for S3
+        const fileName = `tasks/${file.name}`;
+        const uploadUrl = `https://senior-stack.s3.eu-north-1.amazonaws.com/${fileName}`;
+        
+        // Upload to S3
+        const formData = new FormData();
+        formData.append('file', file);
+        
+        const response = await fetch(uploadUrl, {
+          method: 'PUT',
+          body: formData
+        });
+
+        if (response.ok) {
+          console.log('File upload successful, URL:', uploadUrl);
           setTaskForm({
             ...taskForm,
-            attachment: fileUrl,
+            attachment: uploadUrl,
             attachmentFile: file
           });
+          toast.success('File uploaded successfully! 📎');
         } else {
-          console.error('File upload returned null URL');
+          console.error('File upload failed');
+          toast.error('Failed to upload file. Please try again.');
         }
       } catch (error) {
         console.error('Error in handleFileUpload:', error);
-        
+        toast.error('Error uploading file. Please try again.');
       }
     }
   };
@@ -172,8 +188,10 @@ const ManageTasks = () => {
 
       if (editingTask) {
         await updateDoc(doc(db, 'tasks', editingTask.id), taskData);
+        toast.success('Task updated successfully! ✅');
       } else {
         await addDoc(collection(db, 'tasks'), taskData);
+        toast.success('New task added successfully! ✅');
       }
 
       setOpen(false);
@@ -189,6 +207,7 @@ const ManageTasks = () => {
       fetchTasks();
     } catch (error) {
       console.error('Error saving task:', error);
+      toast.error('Failed to save task. Please try again.');
     }
   };
 

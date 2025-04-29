@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { db, auth } from "../services/firebase-config"; 
-import { collection, addDoc, doc, updateDoc } from "firebase/firestore";
+import { collection, addDoc, doc, updateDoc, getDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import "../styles/CreateTeamView.css";
 
-const CreateTeamView = ({ fetchUserData }) => {
+const CreateTeamView = ({ fetchUserData, userData }) => {
   const [teamName, setTeamName] = useState("");
   const [projectTitle, setProjectTitle] = useState("");
   const [projectDescription, setProjectDescription] = useState("");
@@ -26,7 +26,8 @@ const CreateTeamView = ({ fetchUserData }) => {
         createdBy: auth.currentUser.uid,
         teamMembers: [auth.currentUser.uid],
         maxTeamSize: 3,
-        createdAt: new Date()
+        createdAt: new Date(),
+        department: userData.major
       });
 
       const userDocRef = doc(db, "users", auth.currentUser.uid);
