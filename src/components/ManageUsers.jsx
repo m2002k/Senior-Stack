@@ -58,7 +58,7 @@ const ManageUsers = () => {
       const user = userCredential.user;
 
       await setDoc(doc(db, "users", user.uid), {
-        name: newSupervisorName,
+        fullName: newSupervisorName,
         email: newSupervisorEmail,
         role: "supervisor",
         department: newSupervisorDepartment,
