@@ -7,6 +7,8 @@ import { toast } from 'react-toastify';
 import { auth, db } from '../services/firebase-config';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import '../styles/StudentProfile.css';
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
 
 const allSkills = [
   "React", "Firebase", "Node.js", "UI/UX", "Python",
@@ -69,13 +71,37 @@ const StudentProfile = ({ userData, fetchUserData }) => {
   const handleEdit = () => setIsEditing(true);
 
   const handleSave = async () => {
+
+    if (!profile.fullName || !profile.email || !profile.phone || !profile.expertise || !profile.major) {
+      toast.error("Please fill in all fields");
+      return;
+    }
+
+    // Name validation
+    const nameRegex = /^[a-zA-Z\s]+$/;
+    if (!nameRegex.test(profile.fullName)) {
+      toast.error("Invalid name: Name can only contain letters and spaces.");
+      return;
+    }
+
+    // Email validation
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailRegex.test(profile.email)) {
       toast.error("Invalid email format.");
       return;
     }
-    if (!/^\d{10}$/.test(profile.phone)) {
-      toast.error("Phone number must be exactly 10 digits.");
+
+    // Phone number validation
+    if (!profile.phone) {
+      toast.error("Phone number is required");
+      return;
+    }
+    
+    // Remove any non-digit characters and check length
+    const cleanPhone = profile.phone.replace(/\D/g, '');
+    if (cleanPhone.length < 10) {
+      toast.error("Invalid phone number: Please enter a valid phone number");
+
       return;
     }
     if (!profile.major) {
@@ -159,9 +185,36 @@ const StudentProfile = ({ userData, fetchUserData }) => {
           <input type="email" name="email" value={profile.email} onChange={handleChange} disabled={!isEditing} className="field-input" />
         </div>
 
-        <div>
-          <Typography variant="subtitle1" className="field-label">Phone Number</Typography>
-          <input type="tel" name="phone" value={profile.phone} onChange={handleChange} disabled={!isEditing} className="field-input" />
+        <div className="form-group">
+          <label htmlFor="phone">Phone Number</label>
+          <PhoneInput
+            country={'sa'}
+            value={profile.phone}
+            onChange={phone => setProfile({ ...profile, phone })}
+            disabled={!isEditing}
+            inputStyle={{
+              width: '100%',
+              height: '40px',
+              paddingLeft: '48px',
+              backgroundColor: 'transparent',
+              color: 'white',
+              border: '1px solid gray',
+              opacity: !isEditing ? 0.7 : 1
+            }}
+            containerStyle={{
+              marginBottom: '20px'
+            }}
+            buttonStyle={{
+              backgroundColor: 'transparent',
+              border: '1px solid gray',
+              opacity: !isEditing ? 0.7 : 1
+            }}
+            dropdownStyle={{
+              backgroundColor: '#1e1e1e',
+              color: 'white'
+            }}
+          />
+
         </div>
 
         <div>

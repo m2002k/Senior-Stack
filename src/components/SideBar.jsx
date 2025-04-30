@@ -47,12 +47,6 @@ const SideBar = ({ activeTab, setActiveTab, type }) => {
               Assigned Teams
             </li>
             <li
-              className={`sidebar-item ${activeTab === 'projects' ? 'active' : ''}`}
-              onClick={() => handleTabClick('projects')}
-            >
-              Projects
-            </li>
-            <li
               className={`sidebar-item ${activeTab === 'profile' ? 'active' : ''}`}
               onClick={() => handleTabClick('profile')}
             >

@@ -546,69 +546,7 @@ const AssignedTeams = () => {
       )}
 
       {showPopup && selectedTeam && (
-        <div className="popup-overlay">
-          <div className="popup-content">
-            <div className="popup-header">
-              <h2>Submitted Tasks - {selectedTeam.teamName}</h2>
-              <button className="close-button" onClick={() => setShowPopup(false)}>×</button>
-            </div>
-            
-            <div className="submitted-tasks-list">
-              {submittedTasks.length === 0 ? (
-                <p>No tasks submitted yet.</p>
-              ) : (
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Task Title</th>
-                      <th>Grade</th>
-                      <th>Task Criteria</th>
-                      <th>Student Submission</th>
-                      <th>Submitted At</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {submittedTasks.map((task) => (
-                      <tr key={task.id}>
-                        <td>{task.title}</td>
-                        <td>
-                          <input
-                            type="number"
-                            min="0"
-                            max={task.maxGrade}
-                            value={task.grade}
-                            onChange={(e) => handleGradeChange(task.id, e.target.value, task.maxGrade)}
-                            className="grade-input"
-                          />
-                          <span className="max-grade">/ {task.maxGrade}</span>
-                        </td>
-                        <td>
-                          <button 
-                            className="download-button"
-                            onClick={() => handleDownloadTask(task.taskId)}
-                          >
-                            Download Criteria
-                          </button>
-                        </td>
-                        <td>
-                          {task.fileUrl && (
-                            <button 
-                              className="download-button"
-                              onClick={() => handleDownloadSubmission(task.id)}
-                            >
-                              Download Submission
-                            </button>
-                          )}
-                        </td>
-                        <td>{task.submittedAt.toLocaleString()}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              )}
-            </div>
-          </div>
-        </div>
+        <TeamPopup team={selectedTeam} />
       )}
     </div>
   );

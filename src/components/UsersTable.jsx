@@ -5,23 +5,51 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { db } from "../services/firebase-config";
-import { deleteDoc, doc } from "firebase/firestore";
+import { deleteUser, getAuth } from "firebase/auth";
+import { getDoc, updateDoc, arrayRemove, deleteDoc, doc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import "../styles/Tables.css";
 
 const UsersTable = ({ users, fetchUsers, loading }) => {
   const handleDeleteUser = async (id) => {
-    if (window.confirm("Are you sure you want to delete this user?")) {
-      try {
-        await deleteDoc(doc(db, "users", id));
-        fetchUsers();
-        toast.success("User deleted successfully!");
-      } catch (error) {
-        console.error("Error deleting user:", error);
-        toast.error("Failed to delete user.");
+    if (!window.confirm("Are you sure you want to delete this user?")) return;
+  
+    try {
+      const userRef = doc(db, "users", id);
+      const userSnap = await getDoc(userRef);
+  
+      if (!userSnap.exists()) {
+        toast.error("User not found.");
+        return;
       }
+  
+      const userData = userSnap.data();
+  
+      if (userData.teamId) {
+        const teamRef = doc(db, "teams", userData.teamId);
+        await updateDoc(teamRef, {
+          teamMembers: arrayRemove(id),
+        });
+      }
+
+      await deleteDoc(userRef);
+  
+      const auth = getAuth();
+      const currentUser = auth.currentUser;
+  
+      if (currentUser && currentUser.uid === id) {
+        await deleteUser(currentUser); 
+      } else {
+        console.warn("Can't delete Auth user — not logged in as this user. Use Admin SDK if needed.");
+      }
+  
+      toast.success("User deleted successfully!");
+      fetchUsers();
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      toast.error("Failed to delete user.");
     }
-  };
+  };  
 
   if (loading) {
     return <Typography>Loading users...</Typography>;

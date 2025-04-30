@@ -5,6 +5,8 @@ import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/
 import { doc, setDoc } from "firebase/firestore";
 import RegisterForm from "../components/RegisterForm";
 import { toast } from "react-toastify";
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
 
 function Register() {
   const [fullName, setFullName] = useState("");
@@ -26,6 +28,13 @@ function Register() {
       return;
     }
 
+    // Name validation
+    const nameRegex = /^[a-zA-Z\s]+$/;
+    if (!nameRegex.test(fullName)) {
+      toast.error("Invalid name: Name can only contain letters and spaces.");
+      return;
+    }
+
     // Email validation
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailRegex.test(email)) {
@@ -34,7 +43,7 @@ function Register() {
     }
 
     // Password validation
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
     if (!passwordRegex.test(password)) {
       toast.error("Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character (@$!%*?&).");
       return;
@@ -47,8 +56,15 @@ function Register() {
     }
 
     // Phone number validation
-    if (!/^\d{10}$/.test(phone)) {
-      toast.error("Invalid phone number: Phone number must be exactly 10 digits.");
+    if (!phone) {
+      toast.error("Phone number is required");
+      return;
+    }
+    
+    // Remove any non-digit characters and check length
+    const cleanPhone = phone.replace(/\D/g, '');
+    if (cleanPhone.length < 10) {
+      toast.error("Invalid phone number: Please enter a valid phone number");
       return;
     }
 
@@ -99,7 +115,24 @@ function Register() {
       setMajor={setMajor}
       onSubmit={handleRegister}
       loading={loading}
-    />
+    >
+      <div className="form-group">
+        <label htmlFor="phone">Phone Number</label>
+        <PhoneInput
+          country={'sa'}
+          value={phone}
+          onChange={setPhone}
+          inputStyle={{
+            width: '100%',
+            height: '40px',
+            paddingLeft: '48px'
+          }}
+          containerStyle={{
+            marginBottom: '20px'
+          }}
+        />
+      </div>
+    </RegisterForm>
   );
 }
 

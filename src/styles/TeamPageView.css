@@ -1,3 +1,4 @@
+/* ===== Team Page Container ===== */
 .team-page {
   background-color: #1a1a1a;
   padding: 30px;
@@ -7,6 +8,7 @@
   margin: 30px auto;
   color: #f1f1f1;
   text-align: center;
+  position: relative;
 }
 
 .team-page h2 {
@@ -21,10 +23,11 @@
   color: #ccc;
 }
 
-.team-page button{
+.team-page button {
   margin: 10px;
 }
 
+/* ===== Member List ===== */
 .members-list {
   margin-top: 25px;
   padding: 20px;
@@ -47,15 +50,18 @@
   margin-bottom: 0;
 }
 
-.spaces-left {
-  margin-top: 20px;
-  font-size: 16px;
-  color: #22c55e;
-  font-weight: bold;
-}
-
+/* ===== Badges ===== */
 .leader-badge {
   background-color: #22c55e;
+  color: white;
+  padding: 4px 8px;
+  font-size: 12px;
+  border-radius: 8px;
+  margin-left: 10px;
+}
+
+.supervisor-badge {
+  background-color: #3b82f6;
   color: white;
   padding: 4px 8px;
   font-size: 12px;
@@ -76,26 +82,39 @@
   text-align: center;
 }
 
-.supervisor-badge {
-  background-color: #3b82f6;
-  color: white;
-  padding: 4px 8px;
-  font-size: 12px;
-  border-radius: 8px;
-  margin-left: 10px;
-}
-
+/* ===== Team Stats ===== */
 .spaces-left {
   margin-top: 20px;
   font-size: 16px;
-  color: #22c55e;
   font-weight: bold;
+  color: #22c55e;
 }
 
 .spaces-left.full {
   color: #ef4444;
 }
 
+/* ===== Team Stats Section ===== */
+.team-stats {
+  margin: 20px 0;
+}
+
+.stat-item {
+  font-size: 18px;
+  margin-bottom: 15px;
+  color: #ccc;
+}
+
+.stat-label {
+  font-weight: 600;
+  color: #f9fafb;
+}
+
+.stat-value {
+  color: #ccc;
+}
+
+/* ===== Buttons ===== */
 .leave-team-btn {
   margin-top: 30px;
   padding: 12px 20px;
@@ -112,7 +131,7 @@
   background-color: #dc2626;
 }
 
-/* Modal Background */
+/* ===== Confirm Modal ===== */
 .confirm-modal {
   position: fixed;
   top: 0;
@@ -126,16 +145,13 @@
   z-index: 2000;
 }
 
-.modal-content {
+.modal-content,
+.request-modal-content {
   background: #1a1a1a;
   padding: 30px;
   border-radius: 15px;
   text-align: center;
   box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.1);
-}
-
-.modal-content h3 {
-  margin-bottom: 20px;
   color: #f9fafb;
 }
 
@@ -155,6 +171,10 @@
   cursor: pointer;
 }
 
+.confirm-btn:hover {
+  background-color: #dc2626;
+}
+
 .cancel-btn {
   padding: 10px 20px;
   background-color: #6b7280;
@@ -164,14 +184,11 @@
   cursor: pointer;
 }
 
-.confirm-btn:hover {
-  background-color: #dc2626;
-}
-
 .cancel-btn:hover {
   background-color: #4b5563;
 }
 
+/* ===== No Team Placeholder ===== */
 .no-team {
   background-color: #1a1a1a;
   padding: 40px;
@@ -194,25 +211,6 @@
   margin-bottom: 10px;
 }
 
-.team-stats {
-  margin: 20px 0;
-}
-
-.stat-item {
-  font-size: 18px;
-  margin-bottom: 15px;
-  color: #ccc;
-}
-
-.stat-label {
-  font-weight: 600;
-  color: #f9fafb;
-}
-
-.stat-value {
-  color: #ccc;
-}
-
 /* ===== Join Requests Modal ===== */
 .request-modal {
   position: fixed;
@@ -227,59 +225,47 @@
   z-index: 999;
 }
 
-.modal-content {
-  background-color: #222121;
-  padding: 30px;
-  border-radius: 12px;
-  width: 90%;
-  max-width: 500px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  position: relative;
-}
-
 .request-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 12px;
   padding: 10px 0;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #444;
 }
 
 .request-item span {
   font-weight: 500;
+  color: #e5e7eb;
 }
 
-.modal-content button {
+.request-item button {
   margin-left: 10px;
-}
-
-.close-button {
-  margin-top: 20px;
-  background-color: #f44336;
-  color: white;
-  padding: 8px 14px;
-  border: none;
+  padding: 6px 12px;
   border-radius: 6px;
-  cursor: pointer;
-}
-
-.view-requests-btn {
-  margin-bottom: 15px;
-  padding: 10px 16px;
-  background-color: #1976d2;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
   font-weight: 600;
+  border: none;
+  cursor: pointer;
+  color: white;
 }
 
-.view-requests-btn:hover,
-.close-button:hover {
-  opacity: 0.9;
+.request-item button:first-child {
+  background-color: #22c55e;
 }
 
+.request-item button:first-child:hover {
+  background-color: #16a34a;
+}
+
+.request-item button:last-child {
+  background-color: #ef4444;
+}
+
+.request-item button:last-child:hover {
+  background-color: #dc2626;
+}
+
+/* ===== Modal Controls ===== */
 .close-icon {
   position: absolute;
   top: 16px;
@@ -295,4 +281,22 @@
 
 .close-icon:hover {
   color: #f87171;
+}
+
+.view-requests-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 10px 16px;
+  background-color: #7c3aed;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0px 0px 10px rgba(124, 58, 237, 0.3);
+}
+
+.view-requests-btn:hover {
+  background-color: #6d28d9;
 }
