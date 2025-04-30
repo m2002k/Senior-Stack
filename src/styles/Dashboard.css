@@ -30,7 +30,7 @@ html, body, #root {
 
 .dashboard-content {
   flex-grow: 1;
-  background-color: #454561;
+  background-color: #bebdbd;
   padding: 2rem;
   overflow-y: auto;
   height: calc(100vh - 60px);
