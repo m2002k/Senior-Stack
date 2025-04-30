@@ -12,9 +12,9 @@ import "../styles/Dashboard.css";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../services/firebase-config";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
-import Calendar from "../components/Calendar2"
+import Calendar from "../components/Calendar2";
 import ManageTasks from "../components/ManageTasks";
 import ManageUsers from "../components/ManageUsers";
 import ManageTeams from "../components/ManageTeams";
@@ -29,11 +29,24 @@ function Dashboard() {
   const fetchUserData = async () => {
     try {
       const uid = auth.currentUser.uid;
-      const docRef = doc(db, "users", uid);
-      const docSnap = await getDoc(docRef);
+      const userDocRef = doc(db, "users", uid);
+      const userDocSnap = await getDoc(userDocRef);
 
-      if (docSnap.exists()) {
-        setUserData(docSnap.data());
+      if (userDocSnap.exists()) {
+        const userDataFetched = userDocSnap.data();
+
+        if (userDataFetched.teamId) {
+          const teamDocRef = doc(db, "teams", userDataFetched.teamId);
+          const teamDocSnap = await getDoc(teamDocRef);
+
+          if (!teamDocSnap.exists()) {
+            await updateDoc(userDocRef, { teamId: null });
+            userDataFetched.teamId = null;
+            toast.warn("Your team was deleted. Please join or create a new one.");
+          }
+        }
+
+        setUserData(userDataFetched);
       } else {
         toast.error("No user data found.");
       }

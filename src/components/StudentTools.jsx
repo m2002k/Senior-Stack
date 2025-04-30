@@ -25,11 +25,9 @@ function StudentTools({ userData, setActiveTab }) {
           if (teamDoc.exists()) {
             const teamData = teamDoc.data();
             setTeamName(teamData.teamName);
-            // Calculate completed tasks from submitted_task array length
             setCompletedTasks(teamData.submitted_task?.length || 0);
           }
 
-          // Fetch tasks
           const tasksSnapshot = await getDocs(collection(db, 'tasks'));
           const tasks = tasksSnapshot.docs.map(doc => ({
             id: doc.id,
@@ -43,7 +41,6 @@ function StudentTools({ userData, setActiveTab }) {
           setDeadlineTasks(deadlineTasks);
           setTotalTasks(deadlineTasks.length);
 
-          // Fetch task attachments
           const attachmentsMap = {};
           for (const task of deadlineTasks) {
             if (task.attachment) {
@@ -52,7 +49,6 @@ function StudentTools({ userData, setActiveTab }) {
           }
           setTaskAttachments(attachmentsMap);
 
-          // Fetch submitted tasks and grades
           const submittedTasksQuery = query(
             collection(db, 'submitted_tasks'),
             where('teamId', '==', userData.teamId)
@@ -83,7 +79,6 @@ function StudentTools({ userData, setActiveTab }) {
       setUploading(true);
       setUploadProgress(0);
 
-      // Get the current user's team ID
       const userDoc = await getDoc(doc(db, "users", auth.currentUser.uid));
       if (!userDoc.exists()) {
         toast.error("User data not found");
@@ -96,11 +91,9 @@ function StudentTools({ userData, setActiveTab }) {
         return;
       }
 
-      // Create file path for S3
       const fileName = `${userData.teamId}/${file.name}`;
       const uploadUrl = `https://senior-stack.s3.eu-north-1.amazonaws.com/${fileName}`;
       
-      // Upload to S3
       const formData = new FormData();
       formData.append('file', file);
       
@@ -110,7 +103,6 @@ function StudentTools({ userData, setActiveTab }) {
       });
 
       if (response.ok) {
-        // Create submission document
         const submissionRef = doc(collection(db, "submitted_tasks"));
         const submissionData = {
           taskId: taskId,
@@ -124,19 +116,16 @@ function StudentTools({ userData, setActiveTab }) {
         
         await setDoc(submissionRef, submissionData);
 
-        // Update the team's submitted_task array
         const teamRef = doc(db, "teams", userData.teamId);
         await updateDoc(teamRef, {
           submitted_task: arrayUnion(submissionRef.id)
         });
 
-        // Update local state
         setSubmittedTasks(prev => ({
           ...prev,
           [taskId]: true
         }));
 
-        // Fetch updated team data to get new submitted_task array length
         const updatedTeamDoc = await getDoc(teamRef);
         if (updatedTeamDoc.exists()) {
           const updatedTeamData = updatedTeamDoc.data();
