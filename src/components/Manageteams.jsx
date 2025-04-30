@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { Box, Typography } from "@mui/material";
 import { db } from "../services/firebase-config";
-import { collection, getDocs, doc, deleteDoc, getDoc } from "firebase/firestore";
+import {
+  collection, getDocs, doc, deleteDoc, getDoc
+} from "firebase/firestore";
 import { toast } from "react-toastify";
+import TeamTable from "./TeamTable.jsx";
 import "../styles/ManageTeams.css";
 
 const ManageTeams = () => {
@@ -17,15 +21,40 @@ const ManageTeams = () => {
         const teamData = teamDoc.data();
         const teamId = teamDoc.id;
 
-        const memberNames = await Promise.all(
+        const memberDetails = await Promise.all(
           (teamData.teamMembers || []).map(async (memberId) => {
             const userDocRef = doc(db, "users", memberId);
             const userDocSnap = await getDoc(userDocRef);
-            return userDocSnap.exists() ? (userDocSnap.data().fullName || "Unknown User") : "Unknown User";
+            if (userDocSnap.exists()) {
+              const userInfo = userDocSnap.data();
+              return {
+                id: memberId,
+                name: userInfo.fullName || "Unknown User",
+                studentId: userInfo.studentId || "N/A"
+              };
+            }
+            return { id: memberId, name: "Unknown User", studentId: "N/A" };
           })
         );
 
-        teamList.push({ id: teamId, ...teamData, memberNames });
+        let supervisorInfo = null;
+        if (teamData.supervisorId) {
+          const supervisorRef = doc(db, "users", teamData.supervisorId);
+          const supervisorSnap = await getDoc(supervisorRef);
+          if (supervisorSnap.exists()) {
+            const supervisorData = supervisorSnap.data();
+            supervisorInfo = supervisorData.fullName || "Unknown Supervisor";
+          }
+        }
+
+        teamList.push({
+          id: teamId,
+          teamName: teamData.teamName,
+          projectTitle: teamData.projectTitle,
+          projectDescription: teamData.projectDescription,
+          memberDetails,
+          supervisorName: supervisorInfo
+        });
       }
 
       setTeams(teamList);
@@ -37,56 +66,31 @@ const ManageTeams = () => {
     }
   };
 
-  useEffect(() => {
-    fetchTeams();
-  }, []);
-
   const handleDeleteTeam = async (teamId) => {
     if (!window.confirm("Are you sure you want to delete this team?")) return;
 
     try {
       await deleteDoc(doc(db, "teams", teamId));
       toast.success("Team deleted successfully!");
-      fetchTeams(); // Refresh after delete
+      fetchTeams();
     } catch (error) {
       console.error("Error deleting team:", error);
       toast.error("Failed to delete team.");
     }
   };
 
-  if (loading) {
-    return <p>Loading teams...</p>;
-  }
+  useEffect(() => {
+    fetchTeams();
+  }, []);
 
   return (
-    <div className="manage-teams-container">
-      <h1>Manage Teams</h1>
-
-      {teams.length === 0 ? (
-        <p>No teams available.</p>
-      ) : (
-        <div className="teams-grid">
-          {teams.map((team) => (
-            <div key={team.id} className="team-card">
-              <h2>{team.teamName}</h2>
-              <p><strong>Project Title:</strong> {team.projectTitle}</p>
-              <p><strong>Description:</strong> {team.projectDescription}</p>
-              <p><strong>Members ({team.teamMembers.length} / {team.maxTeamSize}):</strong></p>
-              <ul>
-                {team.memberNames.map((name, idx) => (
-                  <li key={idx}>{name}</li>
-                ))}
-              </ul>
-
-              <button className="delete-team-button" onClick={() => handleDeleteTeam(team.id)}>
-                Delete Team
-              </button>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
+    <Box className="manage-teams-container">
+      <Typography variant="h4" sx={{ mb: 2 }}>Manage Teams</Typography>
+      <TeamTable teams={teams} loading={loading} onDelete={handleDeleteTeam} />
+    </Box>
   );
 };
 
 export default ManageTeams;
+
+

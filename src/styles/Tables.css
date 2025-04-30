@@ -1,0 +1,67 @@
+.table-container {
+  margin-top: 24px;
+  border-radius: 8px;
+  overflow-x: auto;
+  background-color: #ffffff;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: "Segoe UI", sans-serif;
+  font-size: 0.95rem;
+}
+
+thead {
+  background-color: #f5f5f5;
+}
+
+th, td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+tr:hover {
+  background-color: #fafafa;
+}
+
+/* Role badges */
+.role-badge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: 500;
+  text-transform: capitalize;
+  color: #fff;
+  font-size: 0.85rem;
+}
+
+.role-badge.student {
+  background-color: #4caf50;
+}
+
+.role-badge.supervisor {
+  background-color: #2196f3;
+}
+
+.role-badge.admin {
+  background-color: #757575;
+}
+
+/* Delete icon hover */
+button.delete-button,
+.MuiIconButton-root {
+  transition: 0.2s ease;
+}
+
+button.delete-button:hover,
+.MuiIconButton-root:hover {
+  background-color: rgba(255, 0, 0, 0.1);
+}
+
+/* List inside table cells */
+td ul {
+  padding-left: 20px;
+  margin: 0;
+  list-style: disc;
+}
