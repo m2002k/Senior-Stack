@@ -12,6 +12,7 @@ const TeamPageView = ({ userData }) => {
   const [supervisorInfo, setSupervisorInfo] = useState(null);
   const [showConfirm, setShowConfirm] = useState(false);
   const navigate = useNavigate();
+  const [supervisorName, setSupervisorName] = useState('');
 
   const handleLeaveTeam = async () => {
     try {
@@ -77,7 +78,7 @@ const TeamPageView = ({ userData }) => {
               const supervisorData = supervisorDocSnap.data();
               setSupervisorInfo({
                 id: teamDataFetched.supervisorId,
-                name: supervisorData.fullName || "Unknown Supervisor",
+                name: supervisorData.name || "Unknown Supervisor",
               });
             }
           }
@@ -91,6 +92,28 @@ const TeamPageView = ({ userData }) => {
 
     fetchTeamData();
   }, [userData]);
+
+  useEffect(() => {
+    const fetchSupervisorName = async () => {
+      if (teamData?.supervisorId) {
+        try {
+          const supervisorDoc = await getDoc(doc(db, 'users', teamData.supervisorId));
+          if (supervisorDoc.exists()) {
+            setSupervisorName(supervisorDoc.data().fullName || "No supervisor assigned");
+          } else {
+            setSupervisorName('No supervisor assigned');
+          }
+        } catch (error) {
+          console.error('Error fetching supervisor:', error);
+          setSupervisorName('Error loading supervisor');
+        }
+      } else {
+        setSupervisorName('No supervisor assigned');
+      }
+    };
+
+    fetchSupervisorName();
+  }, [teamData?.supervisorId]);
 
   if (loading) return <p>Loading team data...</p>;
 
@@ -120,7 +143,17 @@ const TeamPageView = ({ userData }) => {
       <h2>{teamData.teamName}</h2>
       <p><strong>Project Title:</strong> {teamData.projectTitle}</p>
       <p><strong>Description:</strong> {teamData.projectDescription}</p>
-      <p><strong>Members:</strong> {teamData.teamMembers.length} / {teamData.maxTeamSize}</p>
+  
+      <div className="team-stats">
+        <div className="stat-item">
+          <span className="stat-label">Members:</span>
+          <span className="stat-value">{teamData.teamMembers.length} / {teamData.maxTeamSize}</span>
+        </div>
+        <div className="stat-item">
+          <span className="stat-label">Supervisor:</span>
+          <span className="stat-value">{supervisorInfo ? supervisorInfo.name : 'No supervisor assigned'}</span>
+        </div>
+      </div>
 
       <div className="members-list">
         {supervisorInfo && (
