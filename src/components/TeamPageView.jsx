@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
 import { db, auth } from "../services/firebase-config";
-import { doc, getDoc, updateDoc, arrayRemove } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  updateDoc,
+  arrayRemove,
+  deleteDoc,
+} from "firebase/firestore";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import "../styles/TeamPageView.css";
@@ -11,22 +17,94 @@ const TeamPageView = ({ userData }) => {
   const [memberInfos, setMemberInfos] = useState([]);
   const [supervisorInfo, setSupervisorInfo] = useState(null);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [showRequests, setShowRequests] = useState(false);
+  const [requestUsers, setRequestUsers] = useState([]);
   const navigate = useNavigate();
+  const [supervisorName, setSupervisorName] = useState("");
+
+  const handleAcceptRequest = async (userId) => {
+    const teamRef = doc(db, "teams", userData.teamId);
+    const userRef = doc(db, "users", userId);
+
+    if (teamData.teamMembers.length >= teamData.maxTeamSize) {
+      toast.error("Team is already full!");
+      return;
+    }
+
+    try {
+      await updateDoc(teamRef, {
+        teamMembers: [...teamData.teamMembers, userId],
+        joinRequests: teamData.joinRequests.filter((id) => id !== userId),
+      });
+
+      await updateDoc(userRef, {
+        teamId: userData.teamId,
+      });
+
+      toast.success("Request accepted!");
+      window.location.reload();
+    } catch (error) {
+      console.error("Error accepting request:", error);
+      toast.error("Failed to accept request.");
+    }
+  };
+
+  const handleRejectRequest = async (userId) => {
+    const teamRef = doc(db, "teams", userData.teamId);
+    try {
+      await updateDoc(teamRef, {
+        joinRequests: teamData.joinRequests.filter((id) => id !== userId),
+      });
+
+      toast.info("Request rejected.");
+      window.location.reload();
+    } catch (error) {
+      console.error("Error rejecting request:", error);
+      toast.error("Failed to reject request.");
+    }
+  };
 
   const handleLeaveTeam = async () => {
     try {
       if (!userData?.teamId) return;
 
-      const userDocRef = doc(db, "users", auth.currentUser.uid);
+      const userId = auth.currentUser.uid;
+      const userDocRef = doc(db, "users", userId);
       const teamDocRef = doc(db, "teams", userData.teamId);
 
-      await updateDoc(teamDocRef, {
-        teamMembers: arrayRemove(auth.currentUser.uid),
-      });
+      const teamSnap = await getDoc(teamDocRef);
+      if (!teamSnap.exists()) return;
 
-      await updateDoc(userDocRef, {
-        teamId: null,
-      });
+      const teamData = teamSnap.data();
+      const newTeamMembers = teamData.teamMembers.filter((id) => id !== userId);
+
+      const updates = {
+        teamMembers: newTeamMembers,
+      };
+
+      if (teamData.createdBy === userId) {
+        if (newTeamMembers.length > 0) {
+          updates.createdBy = newTeamMembers[0];
+          const newLeaderDoc = await getDoc(
+            doc(db, "users", newTeamMembers[0])
+          );
+          const newLeaderName = newLeaderDoc.exists()
+            ? newLeaderDoc.data().fullName || "Unnamed"
+            : "Unnamed";
+          toast.info(`${newLeaderName} is now the new leader 👑`);
+        } else {
+          updates.createdBy = null;
+        }
+      }
+
+      await updateDoc(teamDocRef, updates);
+
+      if (newTeamMembers.length === 0) {
+        await deleteDoc(teamDocRef);
+        toast.warn("Team has been deleted since all members left 🗑️");
+      }
+
+      await updateDoc(userDocRef, { teamId: null });
 
       toast.success("You have left the team!");
       navigate("/dashboard");
@@ -71,15 +149,37 @@ const TeamPageView = ({ userData }) => {
           setMemberInfos(memberInfoList);
 
           if (teamDataFetched.supervisorId) {
-            const supervisorDocRef = doc(db, "users", teamDataFetched.supervisorId);
+            const supervisorDocRef = doc(
+              db,
+              "users",
+              teamDataFetched.supervisorId
+            );
             const supervisorDocSnap = await getDoc(supervisorDocRef);
             if (supervisorDocSnap.exists()) {
               const supervisorData = supervisorDocSnap.data();
               setSupervisorInfo({
                 id: teamDataFetched.supervisorId,
-                name: supervisorData.fullName || "Unknown Supervisor",
+                name: supervisorData.name || "Unknown Supervisor",
               });
             }
+          }
+
+          if (
+            teamDataFetched.joinRequests &&
+            teamDataFetched.joinRequests.length > 0
+          ) {
+            const userRequests = await Promise.all(
+              teamDataFetched.joinRequests.map(async (uid) => {
+                const userDoc = await getDoc(doc(db, "users", uid));
+                if (userDoc.exists()) {
+                  const user = userDoc.data();
+                  return { id: uid, name: user.fullName || "Unknown User" };
+                } else {
+                  return { id: uid, name: "Unknown User" };
+                }
+              })
+            );
+            setRequestUsers(userRequests);
           }
         }
       } catch (error) {
@@ -91,6 +191,32 @@ const TeamPageView = ({ userData }) => {
 
     fetchTeamData();
   }, [userData]);
+
+  useEffect(() => {
+    const fetchSupervisorName = async () => {
+      if (teamData?.supervisorId) {
+        try {
+          const supervisorDoc = await getDoc(
+            doc(db, "users", teamData.supervisorId)
+          );
+          if (supervisorDoc.exists()) {
+            setSupervisorName(
+              supervisorDoc.data().fullName || "No supervisor assigned"
+            );
+          } else {
+            setSupervisorName("No supervisor assigned");
+          }
+        } catch (error) {
+          console.error("Error fetching supervisor:", error);
+          setSupervisorName("Error loading supervisor");
+        }
+      } else {
+        setSupervisorName("No supervisor assigned");
+      }
+    };
+
+    fetchSupervisorName();
+  }, [teamData?.supervisorId]);
 
   if (loading) return <p>Loading team data...</p>;
 
@@ -115,12 +241,41 @@ const TeamPageView = ({ userData }) => {
 
   const spacesLeft = teamData.maxTeamSize - teamData.teamMembers.length;
 
+  {
+    userData.uid === teamData.createdBy && (
+      <button
+        onClick={() => setShowRequests(true)}
+        className="view-requests-btn"
+      >
+        View Join Requests
+      </button>
+    );
+  }
+
   return (
     <div className="team-page">
       <h2>{teamData.teamName}</h2>
-      <p><strong>Project Title:</strong> {teamData.projectTitle}</p>
-      <p><strong>Description:</strong> {teamData.projectDescription}</p>
-      <p><strong>Members:</strong> {teamData.teamMembers.length} / {teamData.maxTeamSize}</p>
+      <p>
+        <strong>Project Title:</strong> {teamData.projectTitle}
+      </p>
+      <p>
+        <strong>Description:</strong> {teamData.projectDescription}
+      </p>
+
+      <div className="team-stats">
+        <div className="stat-item">
+          <span className="stat-label">Members:</span>
+          <span className="stat-value">
+            {teamData.teamMembers.length} / {teamData.maxTeamSize}
+          </span>
+        </div>
+        <div className="stat-item">
+          <span className="stat-label">Supervisor:</span>
+          <span className="stat-value">
+            {supervisorInfo ? supervisorInfo.name : "No supervisor assigned"}
+          </span>
+        </div>
+      </div>
 
       <div className="members-list">
         {supervisorInfo && (
@@ -144,18 +299,65 @@ const TeamPageView = ({ userData }) => {
         {spacesLeft === 0 ? "Team is full!" : `${spacesLeft} spaces left`}
       </p>
 
+      {auth.currentUser?.uid === teamData.createdBy && (
+        <button
+          onClick={() => setShowRequests(true)}
+          className="view-requests-btn"
+        >
+          View Join Requests📃
+        </button>
+      )}
+
       <button className="leave-team-btn" onClick={() => setShowConfirm(true)}>
         Leave Team
       </button>
 
       {showConfirm && (
         <div className="confirm-modal">
-          <div className="modal-content">
+          <div className="request-modal-content">
             <h3>Are you sure you want to leave the team?</h3>
             <div className="modal-buttons">
-              <button className="confirm-btn" onClick={handleLeaveTeam}>Yes, Leave</button>
-              <button className="cancel-btn" onClick={() => setShowConfirm(false)}>Cancel</button>
+              <button className="confirm-btn" onClick={handleLeaveTeam}>
+                Yes, Leave
+              </button>
+              <button
+                className="cancel-btn"
+                onClick={() => setShowConfirm(false)}
+              >
+                Cancel
+              </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {showRequests && (
+        <div className="request-modal">
+          <div className="request-modal-content">
+            <h3>Join Requests</h3>
+            {requestUsers.length === 0 ? (
+              <p>No pending requests.</p>
+            ) : (
+              requestUsers.map((user) => (
+                <div key={user.id} className="request-item">
+                  <span>{user.name}</span>
+                  <div>
+                    <button onClick={() => handleAcceptRequest(user.id)}>
+                      ✅ Accept
+                    </button>
+                    <button onClick={() => handleRejectRequest(user.id)}>
+                      ❌ Reject
+                    </button>
+                  </div>
+                </div>
+              ))
+            )}
+            <button
+              onClick={() => setShowRequests(false)}
+              className="close-button"
+            >
+              ✖
+            </button>
           </div>
         </div>
       )}

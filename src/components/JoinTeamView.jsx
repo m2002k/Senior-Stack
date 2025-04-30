@@ -30,34 +30,33 @@ const JoinTeamView = ({ fetchUserData, userData }) => {
     fetchTeams();
   }, []);
 
-  const handleJoinTeam = async () => {
+  const handleJoinRequest = async () => {
     if (!selectedTeam) return;
-
+  
     try {
       if (selectedTeam.teamMembers.length >= selectedTeam.maxTeamSize) {
         toast.error("Team is already full!");
         return;
       }
-
+  
+      if (selectedTeam.joinRequests?.includes(auth.currentUser.uid)) {
+        toast.info("You have already requested to join.");
+        return;
+      }
+  
       const teamRef = doc(db, "teams", selectedTeam.id);
-      const userRef = doc(db, "users", auth.currentUser.uid);
-
       await updateDoc(teamRef, {
-        teamMembers: [...selectedTeam.teamMembers, auth.currentUser.uid],
+        joinRequests: [...(selectedTeam.joinRequests || []), auth.currentUser.uid],
       });
-
-      await updateDoc(userRef, {
-        teamId: selectedTeam.id,
-      });
-
-      await fetchUserData();
-
-      toast.success("Joined the team successfully! 🎉");
+  
+      toast.success("Request sent! Waiting for approval. ✅");
+      setSelectedTeam(null);
     } catch (error) {
-      console.error("Error joining team:", error);
-      toast.error("Failed to join team. Try again.");
+      console.error("Error sending request:", error);
+      toast.error("Failed to send request. Try again.");
     }
   };
+  
 
   if (loading) return <p>Loading teams...</p>;
 
@@ -83,7 +82,7 @@ const JoinTeamView = ({ fetchUserData, userData }) => {
       <p><strong>Project Title:</strong> {selectedTeam.projectTitle}</p>
       <p><strong>Description:</strong> {selectedTeam.projectDescription}</p>
       <p><strong>Members:</strong> {selectedTeam.teamMembers.length} / {selectedTeam.maxTeamSize}</p>
-      <button className="join-button" onClick={handleJoinTeam}>Join Team</button>
+      <button className="join-button" onClick={handleJoinRequest}>Request to Join</button>
     </div>
   </div>
 )}
