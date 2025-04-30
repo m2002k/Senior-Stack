@@ -361,7 +361,7 @@ const ManageTasks = () => {
                       </IconButton>
                     </TableCell>
                   </TableRow>
-                ))}
+        ))}
             </TableBody>
           </Table>
           <TablePagination
@@ -437,7 +437,7 @@ const ManageTasks = () => {
                     onKeyDown: (e) => e.preventDefault(),
                     min: new Date().toISOString().split('T')[0]
                   }}
-                />
+          />
               </Box>
               <Box className="timepicker-container">
                 <TextField

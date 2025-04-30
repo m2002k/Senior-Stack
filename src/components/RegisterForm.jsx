@@ -1,4 +1,11 @@
+import React, { useState } from 'react';
 import { Box, TextField, Button, Typography, MenuItem } from "@mui/material";
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/lib/style.css'
+import { Link, useNavigate } from 'react-router-dom';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
+import { auth, db } from '../services/firebase-config';
 
 function RegisterForm({
   fullName,
@@ -18,6 +25,16 @@ function RegisterForm({
   onSubmit,
   loading,
 }) {
+  const [formData, setFormData] = useState({
+    fullName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    phone: '',
+    department: '',
+    role: 'student'
+  });
+
   const textFieldStyle = {
     mt: 2,
     "& .MuiInputBase-input": {
@@ -95,13 +112,33 @@ function RegisterForm({
           onChange={(e) => setStudentId(e.target.value)}
         />
 
-        <TextField sx={textFieldStyle}
-          label="Phone Number"
-          fullWidth
-          margin="normal"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-        />
+        <div className="form-group">
+          <label htmlFor="phone">Phone Number</label>
+          <PhoneInput
+            country={'sa'}
+            value={phone}
+            onChange={setPhone}
+            inputStyle={{
+              width: '100%',
+              height: '40px',
+              paddingLeft: '48px',
+              backgroundColor: 'transparent',
+              color: 'white',
+              border: '1px solid gray'
+            }}
+            containerStyle={{
+              marginBottom: '20px'
+            }}
+            buttonStyle={{
+              backgroundColor: 'transparent',
+              border: '1px solid gray'
+            }}
+            dropdownStyle={{
+              backgroundColor: '#1e1e1e',
+              color: 'white'
+            }}
+          />
+        </div>
 
         <TextField sx={textFieldStyle}
           label="Email"

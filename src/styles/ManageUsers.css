@@ -47,15 +47,25 @@
   height: 50px;
 }
 
+.email-input-container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
 .email-input {
   flex: 1;
-  padding: 1rem;
-  border-radius: 5px;
-  border: none;
-  font-size: 1rem;
-  background-color: #2a2a2a;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #1e1e1e;
   color: white;
-  height: 50px;
+}
+
+.email-domain {
+  color: #666;
+  font-size: 14px;
+  white-space: nowrap;
 }
 
 .id-input {

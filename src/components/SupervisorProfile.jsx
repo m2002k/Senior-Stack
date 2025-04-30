@@ -7,6 +7,8 @@ import { toast } from 'react-toastify';
 import { auth, db } from '../services/firebase-config';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import '../styles/SupervisorProfile.css';
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
 
 const SupervisorProfile = ({ userData, fetchUserData }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -35,9 +37,28 @@ const SupervisorProfile = ({ userData, fetchUserData }) => {
   };
 
   const handleSave = async () => {
+    if (!profile.name || !profile.email || !profile.phone) {
+      toast.error("Please fill in all fields");
+      return;
+    }
+
+    // Name validation
+    const nameRegex = /^[a-zA-Z\s]+$/;
+    if (!nameRegex.test(profile.name)) {
+      toast.error("Invalid name: Name can only contain letters and spaces.");
+      return;
+    }
+
     // Phone number validation
-    if (!/^\d{10}$/.test(profile.phone)) {
-      toast.error("Invalid phone number: Phone number must be exactly 10 digits.");
+    if (!profile.phone) {
+      toast.error("Phone number is required");
+      return;
+    }
+    
+    // Remove any non-digit characters and check length
+    const cleanPhone = profile.phone.replace(/\D/g, '');
+    if (cleanPhone.length < 10) {
+      toast.error("Invalid phone number: Please enter a valid phone number");
       return;
     }
 
@@ -177,17 +198,34 @@ const SupervisorProfile = ({ userData, fetchUserData }) => {
           />
         </div>
 
-        <div>
-          <Typography variant="subtitle1" className="field-label">
-            Phone Number
-          </Typography>
-          <input
-            type="tel"
-            name="phone"
+        <div className="form-group">
+          <label htmlFor="phone">Phone Number</label>
+          <PhoneInput
+            country={'sa'}
             value={profile.phone}
-            onChange={handleChange}
+            onChange={phone => setProfile({ ...profile, phone })}
             disabled={!isEditing}
-            className="field-input"
+            inputStyle={{
+              width: '100%',
+              height: '40px',
+              paddingLeft: '48px',
+              backgroundColor: 'transparent',
+              color: 'white',
+              border: '1px solid gray',
+              opacity: !isEditing ? 0.7 : 1
+            }}
+            containerStyle={{
+              marginBottom: '20px'
+            }}
+            buttonStyle={{
+              backgroundColor: 'transparent',
+              border: '1px solid gray',
+              opacity: !isEditing ? 0.7 : 1
+            }}
+            dropdownStyle={{
+              backgroundColor: '#1e1e1e',
+              color: 'white'
+            }}
           />
         </div>
       </div>
