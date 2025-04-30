@@ -1,31 +1,15 @@
-
-/* Override FullCalendar hover styles */
-.fc-event:hover {
-  background-color: inherit !important;
+a {
+  color: black;
 }
 
-.fc-day:hover {
-  background-color: inherit !important;
+span {
+  color: black;
 }
 
-.fc-daygrid-day:hover {
-  background-color: inherit !important;
+.fc td {
+  background-color: white !important;
 }
 
-.fc-timegrid-slot:hover {
-  background-color: inherit !important;
-}
-
-/* Ensure event colors are preserved on hover */
-.fc-event:hover .fc-event-main {
-  background-color: inherit !important;
-}
-
-/* Remove any white background on hover */
-.fc-event:hover::before {
-  background-color: transparent !important;
-}
-
-.fc-event:hover::after {
-  background-color: transparent !important;
+td{
+  color: black !important;
 }

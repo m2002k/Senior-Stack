@@ -16,7 +16,7 @@ import {
 } from '@mui/material';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../services/firebase-config';
-
+import '../styles/Calendar.css';
 
 const Calendar2 = () => {
     const theme = useTheme();
@@ -62,11 +62,11 @@ const Calendar2 = () => {
         <Box m="20px">
             <Typography variant="h4" sx={{ mb: 2 }}>Calendar</Typography>
 
-            <Box display="flex" justifyContent="space-between">
+            <Box display="flex" justifyContent="space-between" >
                 {/* Calendar */}
-                <Box flex="1 1 100%" mr="15px">
+                <Box flex="1 1 100%" mr="15px" >
                     <FullCalendar
-                        height="75vh"
+                        height="95vh"
                         plugins={[
                             dayGridPlugin,
                             timeGridPlugin,
@@ -79,10 +79,7 @@ const Calendar2 = () => {
                             right: "dayGridMonth,timeGridWeek,timeGridDay,listMonth"
                         }}
                         initialView="dayGridMonth"
-                        editable={false}
-                        selectable={false}
-                        selectMirror={false}
-                        dayMaxEvents={true}
+                        
                         events={currentEvents}
                         eventContent={(eventInfo) => {
                             return (
@@ -91,7 +88,9 @@ const Calendar2 = () => {
                                     color: 'white',
                                     padding: '2px 5px',
                                     borderRadius: '3px',
-                                    margin: '1px 0'
+                                    margin: '1px 0px',
+                                    width: '100%',
+                                    
                                 }}>
                                     {eventInfo.event.title}
                                 </div>
@@ -103,11 +102,10 @@ const Calendar2 = () => {
                 {/* Sidebar */}
                 <Box
                     flex="1 1 20%"
-                    backgroundColor={theme.palette.background.alt}
                     p="15px"
                     borderRadius="4px"
                 >
-                    <Typography variant="h5">Upcoming Events</Typography>
+                    <Typography variant="h5">Tasks</Typography>
                     <List>
                         {currentEvents.map((event) => (
                             <ListItem
@@ -122,7 +120,7 @@ const Calendar2 = () => {
                                 <ListItemText
                                     primary={event.title}
                                     secondary={
-                                        <Typography sx={{ color: 'white' }}>
+                                        <Typography sx={{ color: 'black' }}>
                                             {formatDate(event.start, {
                                                 year: "numeric",
                                                 month: "short",
@@ -137,7 +135,7 @@ const Calendar2 = () => {
                                     size="small" 
                                     sx={{ 
                                         backgroundColor: 'rgba(255, 255, 255, 0.2)',
-                                        color: 'white',
+                                        color: 'black',
                                         marginLeft: '8px'
                                     }}
                                 />
