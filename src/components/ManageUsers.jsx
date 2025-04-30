@@ -69,7 +69,7 @@ const ManageUsers = () => {
       const user = userCredential.user;
 
       await setDoc(doc(db, "users", user.uid), {
-        name: newSupervisorName,
+        fullName: newSupervisorName,
         email: newSupervisorEmail,
         role: "supervisor",
         department: newSupervisorDepartment,
@@ -130,20 +130,19 @@ const ManageUsers = () => {
                 value={newSupervisorDepartment}
                 onChange={(e) => setNewSupervisorDepartment(e.target.value)}
               >
-                <option value="CS">CS</option>
-                <option value="IT">IT</option>
-                <option value="IS">IS</option>
-              </select>
-              <button className="add-supervisor-button" onClick={handleAddSupervisor}>
-                Save Supervisor
-              </button>
-              <button className="cancel-supervisor-button" onClick={handleToggleAddForm}>
-                Cancel
-                </button>
-            </div>
+              <option value="CS">CS</option>
+              <option value="IT">IT</option>
+              <option value="IS">IS</option>
+            </select>
+            <button className="add-supervisor-button" onClick={handleAddSupervisor}>
+              Save Supervisor
+            </button>
+            <button className="cancel-supervisor-button" onClick={handleToggleAddForm}>
+              Cancel
+            </button>
           </div>
-        )}
-
+        </div>
+      )}
       <ToastContainer />
     </div>
   );

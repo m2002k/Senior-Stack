@@ -17,27 +17,25 @@ const TeamPageView = ({ userData }) => {
   const handleLeaveTeam = async () => {
     try {
       if (!userData?.teamId) return;
-  
+
       const userDocRef = doc(db, "users", auth.currentUser.uid);
       const teamDocRef = doc(db, "teams", userData.teamId);
-  
+
       await updateDoc(teamDocRef, {
         teamMembers: arrayRemove(auth.currentUser.uid),
       });
-  
+
       await updateDoc(userDocRef, {
         teamId: null,
       });
-  
+
       toast.success("You have left the team!");
-  
-      navigate("/dashboard"); 
+      navigate("/dashboard");
     } catch (error) {
       console.error("Error leaving team:", error);
       toast.error("Failed to leave the team. Try again.");
     }
   };
-  
 
   useEffect(() => {
     const fetchTeamData = async () => {
@@ -156,8 +154,15 @@ const TeamPageView = ({ userData }) => {
           <span className="stat-value">{supervisorInfo ? supervisorInfo.name : 'No supervisor assigned'}</span>
         </div>
       </div>
-  
+
       <div className="members-list">
+        {supervisorInfo && (
+          <div className="member-item">
+            <span className="number-badge">S.</span> {supervisorInfo.name}
+            <span className="supervisor-badge">🧑‍🏫 Supervisor</span>
+          </div>
+        )}
+
         {memberInfos.map((member, index) => (
           <div key={index} className="member-item">
             <span className="number-badge">{index + 1}.</span> {member.name}
@@ -167,15 +172,15 @@ const TeamPageView = ({ userData }) => {
           </div>
         ))}
       </div>
-  
+
       <p className={`spaces-left ${spacesLeft === 0 ? "full" : ""}`}>
         {spacesLeft === 0 ? "Team is full!" : `${spacesLeft} spaces left`}
       </p>
-  
+
       <button className="leave-team-btn" onClick={() => setShowConfirm(true)}>
         Leave Team
       </button>
-  
+
       {showConfirm && (
         <div className="confirm-modal">
           <div className="modal-content">
@@ -189,7 +194,6 @@ const TeamPageView = ({ userData }) => {
       )}
     </div>
   );
-  
 };
 
 export default TeamPageView;
