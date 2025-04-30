@@ -1,8 +1,13 @@
 import React from "react";
+import {
+  Table, TableBody, TableCell, TableContainer,
+  TableHead, TableRow, Paper, IconButton, Typography
+} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { db } from "../services/firebase-config";
 import { deleteDoc, doc } from "firebase/firestore";
 import { toast } from "react-toastify";
-import "../styles/UsersTable.css";
+import "../styles/Tables.css";
 
 const UsersTable = ({ users, fetchUsers, loading }) => {
   const handleDeleteUser = async (id) => {
@@ -10,7 +15,7 @@ const UsersTable = ({ users, fetchUsers, loading }) => {
       try {
         await deleteDoc(doc(db, "users", id));
         fetchUsers();
-        toast.success("User Deleted Successfully!");
+        toast.success("User deleted successfully!");
       } catch (error) {
         console.error("Error deleting user:", error);
         toast.error("Failed to delete user.");
@@ -19,50 +24,59 @@ const UsersTable = ({ users, fetchUsers, loading }) => {
   };
 
   if (loading) {
-    return (
-        <p>Loading users...</p>
-    );
+    return <Typography>Loading users...</Typography>;
+  }
+
+  if (users.length === 0) {
+    return <Typography>No users found.</Typography>;
   }
 
   return (
-    <div className="table-container">
-      <table className="users-table">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
+    <TableContainer component={Paper} className="table-container">
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>Full Name</TableCell>
+            <TableCell>Student ID</TableCell>
+            <TableCell>Email</TableCell>
+            <TableCell>Phone</TableCell>
+            <TableCell>Role</TableCell>
+            <TableCell>Actions</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
           {users.map((user) => (
-            <tr key={user.id}>
-              <td>{user.fullName}</td>
-              <td>{user.email}</td>
-              <td>
-                <span className={`role-badge ${user.role}`}>{user.role}</span>
-              </td>
-              <td>
+            <TableRow key={user.id}>
+              <TableCell>{user.fullName || "N/A"}</TableCell>
+              <TableCell>{user.studentId || "N/A"}</TableCell>
+              <TableCell>{user.email}</TableCell>
+              <TableCell>{user.phone || "N/A"}</TableCell>
+              <TableCell>
+                <span className={`role-badge ${user.role}`}>
+                  {user.role}
+                </span>
+              </TableCell>
+              <TableCell>
                 {user.role !== "admin" ? (
-                  <button
-                    className="delete-button"
+                  <IconButton
+                    color="error"
                     onClick={() => handleDeleteUser(user.id)}
                   >
-                    Delete
-                  </button>
+                    <DeleteIcon />
+                  </IconButton>
                 ) : (
-                  <span style={{ color: "gray", fontSize: "0.9rem" }}>
+                  <Typography variant="caption" color="gray">
                     Cannot Delete
-                  </span>
+                  </Typography>
                 )}
-              </td>
-            </tr>
+              </TableCell>
+            </TableRow>
           ))}
-        </tbody>
-      </table>
-    </div>
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 };
 
 export default UsersTable;
+
