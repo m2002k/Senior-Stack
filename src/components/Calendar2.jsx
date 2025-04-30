@@ -17,6 +17,7 @@ import {
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../services/firebase-config';
 
+
 const Calendar2 = () => {
     const theme = useTheme();
     const [currentEvents, setCurrentEvents] = useState([]);

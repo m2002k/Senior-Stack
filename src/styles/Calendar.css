@@ -1,100 +1,31 @@
-.calendar-container {
-  padding: 20px;
-  max-width: 800px;
-  margin: 0 auto;
-  background-color: #1a1a1a; 
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
+
+/* Override FullCalendar hover styles */
+.fc-event:hover {
+  background-color: inherit !important;
 }
 
-.calendar-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #333; 
+.fc-day:hover {
+  background-color: inherit !important;
 }
 
-.calendar-header h6 {
-  color: #7c3aed; 
-  font-weight: 700;
-  font-size: 1.25rem;
+.fc-daygrid-day:hover {
+  background-color: inherit !important;
 }
 
-.calendar-grid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 10px;
+.fc-timegrid-slot:hover {
+  background-color: inherit !important;
 }
 
-.calendar-day-name {
-  text-align: center;
-  font-weight: 600;
-  color: #ccc;
-  padding: 10px;
-  font-size: 0.95rem;
+/* Ensure event colors are preserved on hover */
+.fc-event:hover .fc-event-main {
+  background-color: inherit !important;
 }
 
-.calendar-day {
-  aspect-ratio: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-size: 0.95rem;
-  background-color: #2a2a2a;
-  color: #f1f1f1;
+/* Remove any white background on hover */
+.fc-event:hover::before {
+  background-color: transparent !important;
 }
 
-.calendar-day:hover {
-  background-color: #4c4c4c;
-  transform: scale(1.05);
-}
-
-.calendar-day.today {
-  background-color: #22c55e; 
-  color: #fff;
-  font-weight: 700;
-}
-
-.calendar-day.empty {
-  background-color: transparent;
-  cursor: default;
-}
-
-.calendar-day.empty:hover {
-  transform: none;
-  background-color: transparent;
-}
-
-@media (max-width: 600px) {
-  .calendar-container {
-    padding: 10px;
-  }
-
-  .calendar-day-name {
-    font-size: 0.8rem;
-    padding: 5px;
-  }
-
-  .calendar-day {
-    font-size: 0.8rem;
-  }
-
-  .calendar-header h6 {
-    font-size: 1.1rem;
-  }
-}
-
-@media (max-width: 400px) {
-  .calendar-day-name {
-    font-size: 0.7rem;
-  }
-
-  .calendar-day {
-    font-size: 0.7rem;
-  }
+.fc-event:hover::after {
+  background-color: transparent !important;
 }

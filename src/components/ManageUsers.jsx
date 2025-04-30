@@ -51,10 +51,15 @@ const ManageUsers = () => {
       return;
     }
 
-    // Email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(newSupervisor.email)) {
-      toast.error("Invalid email format.");
+    if (!newSupervisorEmail) {
+      toast.error("Email is required");
+      return;
+    }
+    
+    // Validate email format
+    const emailRegex = /^[a-zA-Z0-9._-]+@kau\.edu\.sa$/;
+    if (!emailRegex.test(newSupervisorEmail)) {
+      toast.error("Invalid email format. Please use a valid KAU email address");
       return;
     }
 
