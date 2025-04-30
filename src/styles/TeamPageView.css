@@ -153,6 +153,7 @@
   text-align: center;
   box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.1);
   color: #f9fafb;
+  position: relative;
 }
 
 .modal-buttons {
@@ -299,4 +300,22 @@
 
 .view-requests-btn:hover {
   background-color: #6d28d9;
+}
+
+.close-icon {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background: transparent;
+  border: none;
+  color: #ccc;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px;
+  transition: color 0.2s ease;
+  z-index: 1000;
+}
+
+.close-icon:hover {
+  color: #f87171;
 }
