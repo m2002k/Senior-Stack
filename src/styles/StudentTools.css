@@ -51,14 +51,14 @@
 .already-in-team {
   margin-top: 20px;
   padding: 20px;
-  background-color: #e0f7fa;
+  background-color: #463564;
   border-radius: 10px;
   text-align: center;
 }
 
 .already-in-team h2 {
   margin-bottom: 10px;
-  color: #00796b;
+  color: #ffffff;
 }
 
 /* Progress Tracker Section */
@@ -73,7 +73,7 @@
   justify-content: space-between;
   margin-bottom: 8px;
   font-size: 14px;
-  color: #666;
+  color: #ffffff;
 }
 
 .progress-bar {
@@ -90,19 +90,19 @@
 }
 
 .task-info h4 {
-  color: black;
+  color: rgb(255, 255, 255);
   margin: 0;
   padding: 0;
 }
 
 .task-info p {
-  color: black;
+  color: rgb(255, 255, 255);
   margin: 0;
   padding: 0;
 }
 
 .deadline-tasks h3 {
-  color: black;
+  color: rgb(255, 255, 255);
   margin: 0;
   padding: 0;
 }
@@ -134,14 +134,14 @@
 }
 
 .task-info h4 {
-  color: black;
+  color: rgb(255, 255, 255);
   margin: 0;
   padding: 0;
   min-width: 200px;
 }
 
 .task-info p {
-  color: black;
+  color: rgb(255, 255, 255);
   margin: 0;
   padding: 0;
   min-width: 150px;
