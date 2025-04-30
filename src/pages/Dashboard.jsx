@@ -66,7 +66,7 @@ function Dashboard() {
     switch (activeTab) {
       case 'profile':
         return userData.role === "student" ? 
-          <StudentProfile userData={userData} /> : 
+        <StudentProfile userData={userData} fetchUserData={fetchUserData} /> : 
           <SupervisorProfile userData={userData} />;
       case 'progress':
         return (
