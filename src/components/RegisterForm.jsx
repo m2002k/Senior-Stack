@@ -116,7 +116,7 @@ function RegisterForm({
           <label htmlFor="phone">Phone Number</label>
           <PhoneInput
             country={'sa'}
-            value={phone}
+          value={phone}
             onChange={setPhone}
             inputStyle={{
               width: '100%',
@@ -137,7 +137,7 @@ function RegisterForm({
               backgroundColor: '#1e1e1e',
               color: 'white'
             }}
-          />
+        />
         </div>
 
         <TextField sx={textFieldStyle}
