@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import { db, auth } from "../services/firebase-config";
-import { doc, getDoc, updateDoc, arrayRemove } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  updateDoc,
+  arrayRemove,
+} from "firebase/firestore";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import "../styles/TeamPageView.css";
@@ -10,9 +15,11 @@ const TeamPageView = ({ userData }) => {
   const [loading, setLoading] = useState(true);
   const [memberInfos, setMemberInfos] = useState([]);
   const [supervisorInfo, setSupervisorInfo] = useState(null);
+  const [supervisorName, setSupervisorName] = useState("");
   const [showConfirm, setShowConfirm] = useState(false);
+  const [showRequests, setShowRequests] = useState(false);
+  const [requestUsers, setRequestUsers] = useState([]);
   const navigate = useNavigate();
-  const [supervisorName, setSupervisorName] = useState('');
 
   const handleLeaveTeam = async () => {
     try {
@@ -34,6 +41,44 @@ const TeamPageView = ({ userData }) => {
     } catch (error) {
       console.error("Error leaving team:", error);
       toast.error("Failed to leave the team. Try again.");
+    }
+  };
+
+  const handleAcceptRequest = async (userId) => {
+    const teamRef = doc(db, "teams", userData.teamId);
+    const userRef = doc(db, "users", userId);
+
+    if (teamData.teamMembers.length >= teamData.maxTeamSize) {
+      toast.error("Team is already full!");
+      return;
+    }
+
+    try {
+      await updateDoc(teamRef, {
+        teamMembers: [...teamData.teamMembers, userId],
+        joinRequests: teamData.joinRequests.filter((id) => id !== userId),
+      });
+
+      await updateDoc(userRef, { teamId: userData.teamId });
+      toast.success("Request accepted!");
+      window.location.reload();
+    } catch (error) {
+      console.error("Error accepting request:", error);
+      toast.error("Failed to accept request.");
+    }
+  };
+
+  const handleRejectRequest = async (userId) => {
+    const teamRef = doc(db, "teams", userData.teamId);
+    try {
+      await updateDoc(teamRef, {
+        joinRequests: teamData.joinRequests.filter((id) => id !== userId),
+      });
+      toast.info("Request rejected.");
+      window.location.reload();
+    } catch (error) {
+      console.error("Error rejecting request:", error);
+      toast.error("Failed to reject request.");
     }
   };
 
@@ -81,6 +126,21 @@ const TeamPageView = ({ userData }) => {
                 name: supervisorData.name || "Unknown Supervisor",
               });
             }
+          }
+
+          // Fetch join requests
+          if (teamDataFetched.joinRequests?.length > 0) {
+            const userRequests = await Promise.all(
+              teamDataFetched.joinRequests.map(async (uid) => {
+                const userDoc = await getDoc(doc(db, "users", uid));
+                return userDoc.exists()
+                  ? { id: uid, name: userDoc.data().fullName || "Unknown User" }
+                  : { id: uid, name: "Unknown User" };
+              })
+            );
+            setRequestUsers(userRequests);
+          } else {
+            setRequestUsers([]);
           }
         }
       } catch (error) {
@@ -143,7 +203,7 @@ const TeamPageView = ({ userData }) => {
       <h2>{teamData.teamName}</h2>
       <p><strong>Project Title:</strong> {teamData.projectTitle}</p>
       <p><strong>Description:</strong> {teamData.projectDescription}</p>
-  
+
       <div className="team-stats">
         <div className="stat-item">
           <span className="stat-label">Members:</span>
@@ -177,6 +237,15 @@ const TeamPageView = ({ userData }) => {
         {spacesLeft === 0 ? "Team is full!" : `${spacesLeft} spaces left`}
       </p>
 
+      {auth.currentUser?.uid === teamData.createdBy && (
+        <button
+          onClick={() => setShowRequests(true)}
+          className="view-requests-btn"
+        >
+          View Join Requests 📃
+        </button>
+      )}
+
       <button className="leave-team-btn" onClick={() => setShowConfirm(true)}>
         Leave Team
       </button>
@@ -189,6 +258,28 @@ const TeamPageView = ({ userData }) => {
               <button className="confirm-btn" onClick={handleLeaveTeam}>Yes, Leave</button>
               <button className="cancel-btn" onClick={() => setShowConfirm(false)}>Cancel</button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {showRequests && (
+        <div className="request-modal">
+          <div className="request-modal-content">
+            <button onClick={() => setShowRequests(false)} className="close-icon">✖</button>
+            <h3>Join Requests</h3>
+            {requestUsers.length === 0 ? (
+              <p>No pending requests.</p>
+            ) : (
+              requestUsers.map((user) => (
+                <div key={user.id} className="request-item">
+                  <span>{user.name}</span>
+                  <div>
+                    <button onClick={() => handleAcceptRequest(user.id)}>✅ Accept</button>
+                    <button onClick={() => handleRejectRequest(user.id)}>❌ Reject</button>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </div>
       )}
