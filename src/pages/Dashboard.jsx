@@ -18,6 +18,7 @@ import Calendar from "../components/Calendar2";
 import ManageTasks from "../components/ManageTasks";
 import ManageUsers from "../components/ManageUsers";
 import ManageTeams from "../components/ManageTeams";
+import Projects from "../components/Projects";
 
 function Dashboard() {
   const [userData, setUserData] = useState(null);
@@ -103,6 +104,8 @@ function Dashboard() {
         return <ManageTeams userData={userData} />;
       case 'manageTasks':
         return <ManageTasks userData={userData} />;
+      case 'projects':
+        return <Projects userData={userData} />;
       default:
         return <h2>Select a tab</h2>;
     }

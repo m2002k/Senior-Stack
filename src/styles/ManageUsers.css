@@ -1,93 +1,106 @@
- .manage-users-container {
+.manage-users-container {
   width: 100%;
   height: 100%;
   padding: 20px;
   overflow-y: auto;
   position: relative;
-  }
-  
- .users-table {
+}
+
+.manage-users-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.manage-users-header h1 {
+  margin: 0;
+}
+
+.users-table {
   width: 100%;
   max-height: 85%;
   border-collapse: collapse;
-  }
+}
 
-  .supervisor-form-container {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
+.supervisor-form-container {
   background-color: #1e1e1e;
-  padding: 10px 5%;
-  display: flex;
-  align-items: center;
-  gap: 1%;
-  box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.5);
-  transition: transform 0.4s ease, opacity 0.4s ease;
-  height: 80px;
-  z-index: 50;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .supervisor-input-container {
   display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
   align-items: center;
-  width: 100%;
-  gap: 1%;
 }
 
-.name-input {
+.name-input,
+.id-input,
+.department-select {
   flex: 1;
-  padding: 1rem;
+  min-width: 200px;
+  padding: 10px;
   border-radius: 5px;
   border: none;
   font-size: 1rem;
   background-color: #2a2a2a;
   color: white;
-  height: 50px;
+  height: 40px;
+}
+
+.id-input {
+  flex: 0.5;
+  min-width: 120px;
+  max-width: 150px;
 }
 
 .email-input-container {
+  flex: 1;
+  min-width: 200px;
   display: flex;
   align-items: center;
   gap: 5px;
+  background-color: #2a2a2a;
+  padding: 8px 12px;
+  border-radius: 5px;
+  height: 40px;
 }
 
 .email-input {
   flex: 1;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: #1e1e1e;
+  border: none;
+  background: transparent;
   color: white;
+  font-size: 0.9rem;
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  line-height: 1;
 }
 
 .email-domain {
   color: #666;
-  font-size: 14px;
+  font-size: 0.9rem;
   white-space: nowrap;
-}
-
-.id-input {
-  flex: 1;
-  padding: 1rem;
-  border-radius: 5px;
-  border: none;
-  font-size: 1rem;
-  background-color: #2a2a2a;
-  color: white;
-  height: 50px;
+  margin-left: 2px;
+  line-height: 1;
 }
 
 .department-select {
-  flex: 0.5;
-  max-width: 200px;
-  padding: 1rem;
+  flex: 0.3;
+  min-width: 80px;
+  max-width: 100px;
+  padding: 8px;
   border-radius: 5px;
   border: none;
-  font-size: 1rem;
+  font-size: 0.9rem;
   background-color: #2a2a2a;
   color: white;
-  height: 50px;
+  height: 36px;
   cursor: pointer;
 }
 
@@ -99,28 +112,20 @@
   color: white;
 }
 
-.password-input {
-  flex: 1;
-  padding: 1rem;
-  border-radius: 5px;
-  border: none;
-  font-size: 1rem;
-  background-color: #2a2a2a;
-  color: white;
-  height: 50px;
-}
-
-.add-supervisor-button {
-  flex: 0 0 auto;
-  padding: 1rem 2rem;
-  background-color: #00bcd4;
-  color: white;
+.add-supervisor-button,
+.cancel-supervisor-button {
+  padding: 10px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   font-size: 1rem;
-  height: 50px;
+  height: 40px;
   transition: background-color 0.3s;
+}
+
+.add-supervisor-button {
+  background-color: #00bcd4;
+  color: white;
 }
 
 .add-supervisor-button:hover {
@@ -128,17 +133,8 @@
 }
 
 .cancel-supervisor-button {
-  flex: 0 0 auto;
-  padding: 1rem 2rem;
   background-color: #f44336;
   color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1rem;
-  height: 50px;
-  transition: background-color 0.3s;
-  margin-left: 10px;
 }
 
 .cancel-supervisor-button:hover {
@@ -146,19 +142,15 @@
 }
 
 .show-add-supervisor-button {
-  position: absolute;
   background-color: #4CAF50;
-  bottom: 30px;
-  right: 30px;
-  padding: 12px 20px;
+  padding: 10px 20px;
   border: none;
-  border-radius: 50px;
+  border-radius: 5px;
   color: white;
   font-size: 1rem;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   transition: background-color 0.3s;
-  z-index: 10;
 }
 
 .show-add-supervisor-button:hover {
