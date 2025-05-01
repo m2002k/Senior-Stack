@@ -65,7 +65,7 @@ const UsersTable = ({ users, fetchUsers, loading }) => {
         <TableHead>
           <TableRow>
             <TableCell>Full Name</TableCell>
-            <TableCell>Student ID</TableCell>
+            <TableCell>ID</TableCell>
             <TableCell>Email</TableCell>
             <TableCell>Phone</TableCell>
             <TableCell>Role</TableCell>
@@ -76,7 +76,9 @@ const UsersTable = ({ users, fetchUsers, loading }) => {
           {users.map((user) => (
             <TableRow key={user.id}>
               <TableCell>{user.fullName || "N/A"}</TableCell>
-              <TableCell>{user.studentId || "N/A"}</TableCell>
+              <TableCell>
+                {user.role === "student" ? user.studentId : user.supervisorId || "N/A"}
+              </TableCell>
               <TableCell>{user.email}</TableCell>
               <TableCell>{user.phone || "N/A"}</TableCell>
               <TableCell>
