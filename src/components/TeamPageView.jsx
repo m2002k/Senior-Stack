@@ -5,6 +5,7 @@ import {
   getDoc,
   updateDoc,
   arrayRemove,
+  deleteDoc,
 } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -15,34 +16,11 @@ const TeamPageView = ({ userData }) => {
   const [loading, setLoading] = useState(true);
   const [memberInfos, setMemberInfos] = useState([]);
   const [supervisorInfo, setSupervisorInfo] = useState(null);
-  const [supervisorName, setSupervisorName] = useState("");
   const [showConfirm, setShowConfirm] = useState(false);
   const [showRequests, setShowRequests] = useState(false);
   const [requestUsers, setRequestUsers] = useState([]);
+  const [supervisorName, setSupervisorName] = useState("");
   const navigate = useNavigate();
-
-  const handleLeaveTeam = async () => {
-    try {
-      if (!userData?.teamId) return;
-
-      const userDocRef = doc(db, "users", auth.currentUser.uid);
-      const teamDocRef = doc(db, "teams", userData.teamId);
-
-      await updateDoc(teamDocRef, {
-        teamMembers: arrayRemove(auth.currentUser.uid),
-      });
-
-      await updateDoc(userDocRef, {
-        teamId: null,
-      });
-
-      toast.success("You have left the team!");
-      navigate("/dashboard");
-    } catch (error) {
-      console.error("Error leaving team:", error);
-      toast.error("Failed to leave the team. Try again.");
-    }
-  };
 
   const handleAcceptRequest = async (userId) => {
     const teamRef = doc(db, "teams", userData.teamId);
@@ -82,6 +60,49 @@ const TeamPageView = ({ userData }) => {
     }
   };
 
+  const handleLeaveTeam = async () => {
+    try {
+      if (!userData?.teamId) return;
+
+      const userId = auth.currentUser.uid;
+      const userDocRef = doc(db, "users", userId);
+      const teamDocRef = doc(db, "teams", userData.teamId);
+      const teamSnap = await getDoc(teamDocRef);
+      if (!teamSnap.exists()) return;
+
+      const teamData = teamSnap.data();
+      const newTeamMembers = teamData.teamMembers.filter((id) => id !== userId);
+      const updates = { teamMembers: newTeamMembers };
+
+      if (teamData.createdBy === userId) {
+        if (newTeamMembers.length > 0) {
+          updates.createdBy = newTeamMembers[0];
+          const newLeaderDoc = await getDoc(doc(db, "users", newTeamMembers[0]));
+          const newLeaderName = newLeaderDoc.exists()
+            ? newLeaderDoc.data().fullName || "Unnamed"
+            : "Unnamed";
+          toast.info(`${newLeaderName} is now the new leader 👑`);
+        } else {
+          updates.createdBy = null;
+        }
+      }
+
+      await updateDoc(teamDocRef, updates);
+
+      if (newTeamMembers.length === 0) {
+        await deleteDoc(teamDocRef);
+        toast.warn("Team has been deleted since all members left 🗑️");
+      }
+
+      await updateDoc(userDocRef, { teamId: null });
+      toast.success("You have left the team!");
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Error leaving team:", error);
+      toast.error("Failed to leave the team. Try again.");
+    }
+  };
+
   useEffect(() => {
     const fetchTeamData = async () => {
       if (!userData?.teamId) {
@@ -101,34 +122,24 @@ const TeamPageView = ({ userData }) => {
             teamDataFetched.teamMembers.map(async (memberId) => {
               const userDocRef = doc(db, "users", memberId);
               const userDocSnap = await getDoc(userDocRef);
-
-              if (userDocSnap.exists()) {
-                const userInfo = userDocSnap.data();
-                return {
-                  id: memberId,
-                  name: userInfo.fullName || "Unknown User",
-                };
-              } else {
-                return { id: memberId, name: "Unknown User" };
-              }
+              return userDocSnap.exists()
+                ? { id: memberId, name: userDocSnap.data().fullName || "Unknown User" }
+                : { id: memberId, name: "Unknown User" };
             })
           );
-
           setMemberInfos(memberInfoList);
 
           if (teamDataFetched.supervisorId) {
             const supervisorDocRef = doc(db, "users", teamDataFetched.supervisorId);
             const supervisorDocSnap = await getDoc(supervisorDocRef);
             if (supervisorDocSnap.exists()) {
-              const supervisorData = supervisorDocSnap.data();
               setSupervisorInfo({
                 id: teamDataFetched.supervisorId,
-                name: supervisorData.name || "Unknown Supervisor",
+                name: supervisorDocSnap.data().name || "Unknown Supervisor",
               });
             }
           }
 
-          // Fetch join requests
           if (teamDataFetched.joinRequests?.length > 0) {
             const userRequests = await Promise.all(
               teamDataFetched.joinRequests.map(async (uid) => {
@@ -139,8 +150,6 @@ const TeamPageView = ({ userData }) => {
               })
             );
             setRequestUsers(userRequests);
-          } else {
-            setRequestUsers([]);
           }
         }
       } catch (error) {
@@ -157,18 +166,14 @@ const TeamPageView = ({ userData }) => {
     const fetchSupervisorName = async () => {
       if (teamData?.supervisorId) {
         try {
-          const supervisorDoc = await getDoc(doc(db, 'users', teamData.supervisorId));
-          if (supervisorDoc.exists()) {
-            setSupervisorName(supervisorDoc.data().fullName || "No supervisor assigned");
-          } else {
-            setSupervisorName('No supervisor assigned');
-          }
+          const supervisorDoc = await getDoc(doc(db, "users", teamData.supervisorId));
+          setSupervisorName(supervisorDoc.exists() ? supervisorDoc.data().fullName || "No supervisor assigned" : "No supervisor assigned");
         } catch (error) {
-          console.error('Error fetching supervisor:', error);
-          setSupervisorName('Error loading supervisor');
+          console.error("Error fetching supervisor:", error);
+          setSupervisorName("Error loading supervisor");
         }
       } else {
-        setSupervisorName('No supervisor assigned');
+        setSupervisorName("No supervisor assigned");
       }
     };
 
@@ -211,7 +216,7 @@ const TeamPageView = ({ userData }) => {
         </div>
         <div className="stat-item">
           <span className="stat-label">Supervisor:</span>
-          <span className="stat-value">{supervisorInfo ? supervisorInfo.name : 'No supervisor assigned'}</span>
+          <span className="stat-value">{supervisorInfo ? supervisorInfo.name : "No supervisor assigned"}</span>
         </div>
       </div>
 
@@ -238,10 +243,7 @@ const TeamPageView = ({ userData }) => {
       </p>
 
       {auth.currentUser?.uid === teamData.createdBy && (
-        <button
-          onClick={() => setShowRequests(true)}
-          className="view-requests-btn"
-        >
+        <button onClick={() => setShowRequests(true)} className="view-requests-btn">
           View Join Requests 📃
         </button>
       )}
