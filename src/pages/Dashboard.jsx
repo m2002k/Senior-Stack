@@ -104,8 +104,6 @@ function Dashboard() {
         return <ManageTeams userData={userData} />;
       case 'manageTasks':
         return <ManageTasks userData={userData} />;
-      case 'projects':
-        return <Projects userData={userData} />;
       default:
         return <h2>Select a tab</h2>;
     }
