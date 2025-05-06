@@ -18,7 +18,6 @@ import Calendar from "../components/Calendar2";
 import ManageTasks from "../components/ManageTasks";
 import ManageUsers from "../components/ManageUsers";
 import ManageTeams from "../components/ManageTeams";
-import Projects from "../components/Projects";
 
 function Dashboard() {
   const [userData, setUserData] = useState(null);
