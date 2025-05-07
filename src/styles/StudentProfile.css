@@ -2,9 +2,9 @@
   padding: 24px;
   width: 95%;
   margin: 0 auto;
-  background-color: #111827;
+  background-color: #ffffff;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
 }
 
@@ -16,7 +16,7 @@
   align-items: flex-start;
   margin-bottom: 24px;
   padding-bottom: 16px;
-  border-bottom: 1px solid #1f2937;
+  border-bottom: 1px solid #e2e8f0;
   width: 100%;
 }
 
@@ -47,7 +47,7 @@
 }
 
 .field-label {
-  color: #f1f1f1;
+  color: #1e293b;
   margin-bottom: 8px;
   text-align: left;
   font-size: 1rem;
@@ -58,10 +58,10 @@
   width: 100%;
   padding: 12px 16px;
   font-size: 1rem;
-  background-color: #1e1e2f;
-  border: 1px solid #374151;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
   border-radius: 8px;
-  color: #f1f1f1;
+  color: #1e293b;
   transition: border 0.3s ease;
 }
 
@@ -72,8 +72,8 @@
 }
 
 .field-input:disabled {
-  background-color: #1f2937;
-  color: #666;
+  background-color: #f1f5f9;
+  color: #94a3b8;
   cursor: not-allowed;
 }
 
@@ -89,17 +89,17 @@ textarea.field-input {
 }
 
 .MuiSelect-select {
-  background-color: #1e1e2f !important;
-  color: #f1f1f1 !important;
+  background-color: #f8fafc !important;
+  color: #1e293b !important;
   padding: 12px 16px !important;
 }
 
 .MuiOutlinedInput-notchedOutline {
-  border-color: #374151 !important;
+  border-color: #e2e8f0 !important;
 }
 
 .MuiSelect-select:focus {
-  background-color: #1e1e2f !important;
+  background-color: #f8fafc !important;
 }
 
 .MuiButton-contained {
@@ -145,9 +145,9 @@ textarea.field-input {
 }
 
 .skill-tag {
-  background-color: #1e293b;
-  color: #f1f1f1;
-  border: 1px solid #334155;
+  background-color: #f1f5f9;
+  color: #1e293b;
+  border: 1px solid #e2e8f0;
   border-radius: 20px;
   padding: 6px 12px;
   font-size: 14px;
@@ -156,8 +156,8 @@ textarea.field-input {
 }
 
 .skill-tag.selected {
-  background-color: #0ea5e9;
-  border-color: #0ea5e9;
+  background-color: #3b82f6;
+  border-color: #3b82f6;
   color: white;
 }
 
@@ -169,8 +169,8 @@ textarea.field-input {
 }
 
 .skill-tag.readonly {
-  background-color: #374151;
-  color: white;
+  background-color: #f1f5f9;
+  color: #1e293b;
   padding: 6px 12px;
   border-radius: 20px;
   font-size: 14px;

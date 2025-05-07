@@ -2,7 +2,7 @@
   padding: 24px;
   width: 95%;
   margin: 0 auto;
-  background-color: rgb(21, 21, 21);
+  background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
@@ -16,7 +16,7 @@
   align-items: flex-start;
   margin-bottom: 24px;
   padding-bottom: 16px;
-  border-bottom: 1px solid #333;
+  border-bottom: 1px solid #e2e8f0;
   width: 100%;
 }
 
@@ -47,7 +47,7 @@
 }
 
 .field-label {
-  color: #f1f1f1;
+  color: #1e293b;
   margin-bottom: 8px;
   text-align: left;
   font-size: 1rem;
@@ -65,10 +65,10 @@
   width: 100%;
   padding: 12px 16px;
   font-size: 1rem;
-  background-color: rgb(40, 40, 40);
-  border: 1px solid #333;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
   border-radius: 4px;
-  color: #f1f1f1;
+  color: #1e293b;
   transition: all 0.2s ease;
   box-sizing: border-box;
 }
@@ -88,8 +88,8 @@
 }
 
 .field-input:disabled {
-  background-color: rgb(30, 30, 30);
-  color: #666;
+  background-color: #f1f5f9;
+  color: #94a3b8;
   cursor: not-allowed;
 }
 
@@ -143,5 +143,18 @@
   background-color: rgba(0, 119, 255, 0.1) !important;
   border-color: #005dc1 !important;
   color: #005dc1 !important;
-} 
+}
+
+.MuiSelect-select {
+  background-color: #f8fafc !important;
+  color: #1e293b !important;
+  padding: 12px 16px !important;
+}
+
+.MuiOutlinedInput-notchedOutline {
+  border-color: #e2e8f0 !important;
+}
+
+.MuiSelect-select:focus {
+  background-color: #f8fafc !important;
 } 

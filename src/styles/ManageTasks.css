@@ -9,6 +9,7 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  color: #0f172a;
 }
 
 .add-button {
@@ -65,7 +66,7 @@
   }
 }
 
-/* Dialog styles */
+
 .MuiDialog-paper {
   border-radius: 8px;
 }
@@ -84,7 +85,7 @@
   border-top: 1px solid #e0e0e0;
 }
 
-/* Table styles */
+
 .MuiTable-root {
   min-width: 650px;
 }
@@ -102,12 +103,12 @@
   background-color: rgba(0, 0, 0, 0.04);
 }
 
-/* Pagination styles */
+
 .MuiTablePagination-root {
   border-top: 1px solid #e0e0e0;
 }
 
-/* Responsive adjustments */
+
 @media (max-width: 768px) {
   .date-time-container {
     flex-direction: column;

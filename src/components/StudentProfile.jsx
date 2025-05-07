@@ -77,27 +77,27 @@ const StudentProfile = ({ userData, fetchUserData }) => {
       return;
     }
 
-    // Name validation
+    
     const nameRegex = /^[a-zA-Z\s]+$/;
     if (!nameRegex.test(profile.fullName)) {
       toast.error("Invalid name: Name can only contain letters and spaces.");
       return;
     }
 
-    // Email validation
+   
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailRegex.test(profile.email)) {
       toast.error("Invalid email format.");
       return;
     }
 
-    // Phone number validation
+    
     if (!profile.phone) {
       toast.error("Phone number is required");
       return;
     }
     
-    // Remove any non-digit characters and check length
+    
     const cleanPhone = profile.phone.replace(/\D/g, '');
     if (cleanPhone.length < 10) {
       toast.error("Invalid phone number: Please enter a valid phone number");
@@ -186,7 +186,7 @@ const StudentProfile = ({ userData, fetchUserData }) => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="phone">Phone Number</label>
+          <label htmlFor="phone" style={{ color: "#1e293b" }}>Phone Number</label>
           <PhoneInput
             country={'sa'}
             value={profile.phone}
@@ -197,7 +197,7 @@ const StudentProfile = ({ userData, fetchUserData }) => {
               height: '40px',
               paddingLeft: '48px',
               backgroundColor: 'transparent',
-              color: 'white',
+              color: 'black',
               border: '1px solid gray',
               opacity: !isEditing ? 0.7 : 1
             }}

@@ -1,5 +1,5 @@
 .create-team-view {
-  background-color: #1a1a1a; 
+  background-color: #334155; 
   margin: 30px auto;
   padding: 30px;
   border-radius: 15px;
@@ -27,19 +27,19 @@
 .create-team-form input,
 .create-team-form textarea {
   padding: 14px;
-  background-color: #2a2a2a; 
+  background-color: #fffffff5; 
   border: 1px solid #444;
   border-radius: 10px;
   font-size: 16px;
-  color: #f1f1f1;
+  color: #000000;
   width: 100%;
   transition: border-color 0.2s ease, background-color 0.2s ease;
 }
 
 .create-team-form input:focus,
 .create-team-form textarea:focus {
-  border-color: #7c3aed; 
-  background-color: #333;
+  border-color: #f16764; 
+  background-color: #eaeaea;
   outline: none;
 }
 
