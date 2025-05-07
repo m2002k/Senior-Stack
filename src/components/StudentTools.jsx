@@ -153,7 +153,7 @@ function StudentTools({ userData, setActiveTab }) {
 
   return (
     <div className="student-tools">
-      <h1>Welcome, {userData.fullName} 🎓</h1>
+      <h1 className="dashboard-welcome">Welcome, {userData.fullName} 🎓</h1>
 
       {!userData.teamId ? (
         <div className="dashboard-actions">

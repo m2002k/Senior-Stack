@@ -1,6 +1,6 @@
 body, .dashboard-layout, .join-team-view {
     
-    color: #f1f1f1; 
+    color: #0f172a; 
   }
   
   .teams-list {
@@ -15,7 +15,7 @@ body, .dashboard-layout, .join-team-view {
     border-radius: 12px;
     padding: 20px;
     width: 260px;
-    background-color: #1a1a1a;
+    background-color: #334155 !important;
     transition: transform 0.2s, box-shadow 0.2s;
   }
   
@@ -33,7 +33,7 @@ body, .dashboard-layout, .join-team-view {
   .team-card button {
     margin-top: 10px;
     padding: 10px 15px;
-    background-color: #7c3aed;
+    background-color: #f16764;
     border: none;
     color: white;
     border-radius: 8px;
@@ -43,7 +43,7 @@ body, .dashboard-layout, .join-team-view {
   }
   
   .team-card button:hover {
-    background-color: #6d28d9;
+    background-color: #be514e;
   }
   
   .team-modal {
@@ -83,18 +83,18 @@ body, .dashboard-layout, .join-team-view {
     border: none;
     font-size: 28px;
     cursor: pointer;
-    color: #aaa;
+    color: #c4c4c4 !important;
   }
   
   .close-button:hover {
-    color: #fff;
+    color: black !important;
   }
   
   .modal-content h2 {
     margin-top: 10px;
     margin-bottom: 15px;
     font-size: 26px;
-    color: #f1f1f1;
+    color: black;
   }
   
   .modal-content p {

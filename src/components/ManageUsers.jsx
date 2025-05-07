@@ -44,7 +44,7 @@ const ManageUsers = () => {
       return;
     }
 
-    // Name validation
+    
     const nameRegex = /^[a-zA-Z\s]+$/;
     if (!nameRegex.test(newSupervisorName)) {
       toast.error("Invalid name: Name can only contain letters and spaces.");
@@ -56,7 +56,7 @@ const ManageUsers = () => {
       return;
     }
     
-    // Validate email format
+   
     const emailRegex = /^[a-zA-Z0-9._-]+@kau\.edu\.sa$/;
     if (!emailRegex.test(newSupervisorEmail)) {
       toast.error("Invalid email format. Please use a valid KAU email address");
@@ -139,7 +139,7 @@ const ManageUsers = () => {
               value={newSupervisorDepartment}
               onChange={(e) => setNewSupervisorDepartment(e.target.value)}
             >
-              <option value="">Dep</option>
+              <option value="" disabled>Dep</option>
               <option value="CS">CS</option>
               <option value="IT">IT</option>
               <option value="IS">IS</option>

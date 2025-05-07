@@ -14,20 +14,20 @@ function LoginForm({ email, password, setEmail, setPassword, onSubmit }) {
   const textFieldStyle = {
     mt: 2,
     "& .MuiInputBase-input": {
-      color: "white", // input text
+      color: "#2c3e50",
     },
     "& .MuiInputLabel-root": {
-      color: "gray", // label
+      color: "#546e7a",
     },
     "& .MuiOutlinedInput-root": {
       "& fieldset": {
-        borderColor: "gray", // border
+        borderColor: "#e0e0e0",
       },
       "&:hover fieldset": {
-        borderColor: "white",
+        borderColor: "#1976d2",
       },
       "&.Mui-focused fieldset": {
-        borderColor: "#ffffff", 
+        borderColor: "#1976d2",
       },
     }
   };
@@ -89,11 +89,11 @@ function LoginForm({ email, password, setEmail, setPassword, onSubmit }) {
   return (
     <Box
       sx={{
-        height: "100vh",              
+        height: "100vh",
         display: "flex",
-        alignItems: "center",          
-        justifyContent: "center",      
-        backgroundColor: "#121212",   
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#f5f5f5",
       }}
     >
       <Box
@@ -101,21 +101,22 @@ function LoginForm({ email, password, setEmail, setPassword, onSubmit }) {
           maxWidth: 400,
           width: "90%",
           p: 3,
-          boxShadow: 3,
+          boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
           borderRadius: 2,
-          bgcolor: "#1e1e1e",
+          bgcolor: "#ffffff",
           textAlign: "center",
         }}
       >
         <img src={seniorStackLogo} alt="SeniorStack Logo" width="150" />
-        <Typography variant="h5" sx={{ mt: 2, mb: 1 }}>
+        <Typography variant="h5" sx={{ mt: 2, mb: 1, color: "#2c3e50" }}>
           Welcome to SeniorStack
         </Typography>
-        <Typography variant="subtitle1" gutterBottom>
+        <Typography variant="subtitle1" gutterBottom sx={{ color: "#546e7a" }}>
           Please log in
         </Typography>
 
-        <TextField   sx={textFieldStyle}
+        <TextField
+          sx={textFieldStyle}
           label="Email"
           type="email"
           fullWidth
@@ -123,7 +124,8 @@ function LoginForm({ email, password, setEmail, setPassword, onSubmit }) {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <TextField sx={textFieldStyle}
+        <TextField
+          sx={textFieldStyle}
           label="Password"
           type="password"
           fullWidth
@@ -132,26 +134,26 @@ function LoginForm({ email, password, setEmail, setPassword, onSubmit }) {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <Typography variant="body2" sx={{ mt: 2, mb: 1 }}>
+        <Typography variant="body2" sx={{ mt: 2, mb: 1, color: "#546e7a" }}>
           Don't have an account?{" "}
-          <MuiLink component={Link} to="/register">
+          <MuiLink component={Link} to="/register" sx={{ color: "#1976d2" }}>
             Register here
           </MuiLink>
         </Typography>
 
-        <Typography variant="body2" sx={{ mb: 2 }}>
+        <Typography variant="body2" sx={{ mb: 2, color: "#546e7a" }}>
           Forgot your password?{" "}
-          <MuiLink 
-            component="button" 
+          <MuiLink
+            component="button"
             onClick={handleOpenResetDialog}
-            sx={{ 
-              cursor: 'pointer',
-              border: 'none',
-              background: 'none',
-              color: '#1976d2',
-              '&:hover': {
-                textDecoration: 'underline'
-              }
+            sx={{
+              cursor: "pointer",
+              border: "none",
+              background: "none",
+              color: "#1976d2",
+              "&:hover": {
+                textDecoration: "underline",
+              },
             }}
           >
             Reset it here
@@ -168,14 +170,14 @@ function LoginForm({ email, password, setEmail, setPassword, onSubmit }) {
           Login
         </Button>
 
-        <Dialog 
-          open={openResetDialog} 
+        <Dialog
+          open={openResetDialog}
           onClose={handleCloseResetDialog}
           PaperProps={{
             sx: {
-              bgcolor: '#1e1e1e',
-              color: 'black'
-            }
+              bgcolor: "#ffffff",
+              color: "#2c3e50",
+            },
           }}
         >
           <DialogTitle>Reset Password</DialogTitle>

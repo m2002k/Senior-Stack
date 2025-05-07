@@ -42,20 +42,20 @@ const SupervisorProfile = ({ userData, fetchUserData }) => {
       return;
     }
 
-    // Name validation
+    
     const nameRegex = /^[a-zA-Z\s]+$/;
     if (!nameRegex.test(profile.name)) {
       toast.error("Invalid name: Name can only contain letters and spaces.");
       return;
     }
 
-    // Phone number validation
+   
     if (!profile.phone) {
       toast.error("Phone number is required");
       return;
     }
     
-    // Remove any non-digit characters and check length
+    
     const cleanPhone = profile.phone.replace(/\D/g, '');
     if (cleanPhone.length < 10) {
       toast.error("Invalid phone number: Please enter a valid phone number");
@@ -71,7 +71,7 @@ const SupervisorProfile = ({ userData, fetchUserData }) => {
         phone: profile.phone
       });
 
-      // Update local state
+      
       setProfile(prev => ({
         ...prev,
         name: profile.name,
@@ -82,7 +82,7 @@ const SupervisorProfile = ({ userData, fetchUserData }) => {
       
       setIsEditing(false);
       
-      // Try to fetch updated data, but don't show error if it fails
+      
       try {
         await fetchUserData();
       } catch (fetchError) {
@@ -199,7 +199,7 @@ const SupervisorProfile = ({ userData, fetchUserData }) => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="phone">Phone Number</label>
+          <label htmlFor="phone" style={{ color: "#1e293b" }}>Phone Number</label>
           <PhoneInput
             country={'sa'}
             value={profile.phone}
@@ -210,7 +210,7 @@ const SupervisorProfile = ({ userData, fetchUserData }) => {
               height: '40px',
               paddingLeft: '48px',
               backgroundColor: 'transparent',
-              color: 'white',
+              color: 'black',
               border: '1px solid gray',
               opacity: !isEditing ? 0.7 : 1
             }}

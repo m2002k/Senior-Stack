@@ -38,20 +38,20 @@ function RegisterForm({
   const textFieldStyle = {
     mt: 2,
     "& .MuiInputBase-input": {
-      color: "white", // input text
+      color: "#2c3e50", 
     },
     "& .MuiInputLabel-root": {
-      color: "gray", // label
+      color: "#546e7a", 
     },
     "& .MuiOutlinedInput-root": {
       "& fieldset": {
-        borderColor: "gray", // border
+        borderColor: "#e0e0e0", 
       },
       "&:hover fieldset": {
-        borderColor: "white", // border on hover
+        borderColor: "#1976d2", 
       },
       "&.Mui-focused fieldset": {
-        borderColor: "#ffffff", // border on focus
+        borderColor: "#1976d2", 
       },
     }
   };
@@ -63,7 +63,7 @@ function RegisterForm({
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "#121212",
+        backgroundColor: "#f5f5f5",
         padding: "20px 0",
       }}
     >
@@ -72,31 +72,32 @@ function RegisterForm({
           maxWidth: 450,
           width: "90%",
           p: 4,
-          boxShadow: 3,
+          boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
           borderRadius: 2,
-          bgcolor: "#1e1e1e",
+          bgcolor: "#ffffff",
           maxHeight: "90vh",
           overflowY: "auto",
           "&::-webkit-scrollbar": {
             width: "8px",
           },
           "&::-webkit-scrollbar-track": {
-            background: "#1e1e1e",
+            background: "#f5f5f5",
           },
           "&::-webkit-scrollbar-thumb": {
-            background: "#666",
+            background: "#e0e0e0",
             borderRadius: "4px",
           },
           "&::-webkit-scrollbar-thumb:hover": {
-            background: "#888",
+            background: "#bdbdbd",
           },
         }}
       >
-        <Typography variant="h4" align="center" gutterBottom>
+        <Typography variant="h4" align="center" gutterBottom sx={{ color: "#2c3e50" }}>
           Register
         </Typography>
 
-        <TextField sx={textFieldStyle}
+        <TextField
+          sx={textFieldStyle}
           label="Full Name"
           fullWidth
           margin="normal"
@@ -104,7 +105,8 @@ function RegisterForm({
           onChange={(e) => setFullName(e.target.value)}
         />
 
-        <TextField sx={textFieldStyle}
+        <TextField
+          sx={textFieldStyle}
           label="Student ID"
           fullWidth
           margin="normal"
@@ -113,34 +115,35 @@ function RegisterForm({
         />
 
         <div className="form-group">
-          <label htmlFor="phone">Phone Number</label>
+          <label htmlFor="phone" style={{ color: "#546e7a" }}>Phone Number</label>
           <PhoneInput
-            country={'sa'}
-          value={phone}
+            country={"sa"}
+            value={phone}
             onChange={setPhone}
             inputStyle={{
-              width: '100%',
-              height: '40px',
-              paddingLeft: '48px',
-              backgroundColor: 'transparent',
-              color: 'white',
-              border: '1px solid gray'
+              width: "100%",
+              height: "40px",
+              paddingLeft: "48px",
+              backgroundColor: "transparent",
+              color: "#2c3e50",
+              border: "1px solid #e0e0e0",
             }}
             containerStyle={{
-              marginBottom: '20px'
+              marginBottom: "20px",
             }}
             buttonStyle={{
-              backgroundColor: 'transparent',
-              border: '1px solid gray'
+              backgroundColor: "transparent",
+              border: "1px solid #e0e0e0",
             }}
             dropdownStyle={{
-              backgroundColor: '#1e1e1e',
-              color: 'white'
+              backgroundColor: "#ffffff",
+              color: "#2c3e50",
             }}
-        />
+          />
         </div>
 
-        <TextField sx={textFieldStyle}
+        <TextField
+          sx={textFieldStyle}
           label="Email"
           fullWidth
           margin="normal"
@@ -148,7 +151,8 @@ function RegisterForm({
           onChange={(e) => setEmail(e.target.value)}
         />
 
-        <TextField sx={textFieldStyle}
+        <TextField
+          sx={textFieldStyle}
           label="Password"
           type="password"
           fullWidth
@@ -157,7 +161,8 @@ function RegisterForm({
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <TextField sx={textFieldStyle}
+        <TextField
+          sx={textFieldStyle}
           label="Confirm Password"
           type="password"
           fullWidth
@@ -166,7 +171,8 @@ function RegisterForm({
           onChange={(e) => setConfPassword(e.target.value)}
         />
 
-        <TextField sx={textFieldStyle}
+        <TextField
+          sx={textFieldStyle}
           select
           fullWidth
           label="Major"
@@ -180,15 +186,14 @@ function RegisterForm({
         </TextField>
 
         <Button
-            variant="contained"
-            fullWidth
-            sx={{ mt: 2 }}
-            onClick={onSubmit}
-            disabled={loading}
+          variant="contained"
+          fullWidth
+          sx={{ mt: 2 }}
+          onClick={onSubmit}
+          disabled={loading}
         >
-            {loading ? "Registering..." : "Register"}
+          {loading ? "Registering..." : "Register"}
         </Button>
-
       </Box>
     </Box>
   );

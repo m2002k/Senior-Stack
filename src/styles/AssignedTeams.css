@@ -5,7 +5,7 @@
 }
 
 .assigned-teams-container h2 {
-  color: #fff;
+  color: #0f172a;
   margin-bottom: 20px;
 }
 
@@ -246,11 +246,11 @@
   font-weight: 500;
 }
 
-.submitted-tasks-list th:nth-child(1) { width: 25%; } /* Task Title */
-.submitted-tasks-list th:nth-child(2) { width: 15%; } /* Grade */
-.submitted-tasks-list th:nth-child(3) { width: 20%; } /* Task Criteria */
-.submitted-tasks-list th:nth-child(4) { width: 20%; } /* Student Submission */
-.submitted-tasks-list th:nth-child(5) { width: 20%; } /* Submitted At */
+.submitted-tasks-list th:nth-child(1) { width: 25%; }
+.submitted-tasks-list th:nth-child(2) { width: 15%; } 
+.submitted-tasks-list th:nth-child(3) { width: 20%; }
+.submitted-tasks-list th:nth-child(4) { width: 20%; } 
+.submitted-tasks-list th:nth-child(5) { width: 20%; }
 
 .grade-input {
   width: 60px;

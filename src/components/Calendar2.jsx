@@ -60,7 +60,7 @@ const Calendar2 = () => {
 
     return (
         <Box m="20px">
-            <Typography variant="h4" sx={{ mb: 2 }}>Calendar</Typography>
+            <Typography variant="h4" sx={{ mb: 2 , color: "#0f172a" }}>Calendar</Typography>
 
             <Box display="flex" justifyContent="space-between" >
                 {/* Calendar */}
