@@ -14,6 +14,9 @@ const AssignedTeams = () => {
   const [assignedTeam, setAssignedTeam] = useState(null);
   const [submittedTasks, setSubmittedTasks] = useState([]);
   const [showTasksPopup, setShowTasksPopup] = useState(false);
+  const [showCommentPopup, setShowCommentPopup] = useState(false);
+  const [selectedTask, setSelectedTask] = useState(null);
+  const [comment, setComment] = useState('');
 
   useEffect(() => {
     const fetchSupervisorData = async () => {
@@ -35,13 +38,13 @@ const AssignedTeams = () => {
           const normalizedDepartment = data.department?.trim().toUpperCase();
           setSupervisorDepartment(normalizedDepartment);
           
-          // Check if supervisor has an assigned team
+          
           if (data.assignedTeam) {
-            // Fetch the assigned team's data
+            
             const teamDoc = await getDoc(doc(db, 'teams', data.assignedTeam));
             if (teamDoc.exists()) {
               const teamData = teamDoc.data();
-              // Fetch member data for the team
+             
               if (teamData.teamMembers && teamData.teamMembers.length > 0) {
                 const membersData = await fetchMemberData(teamData.teamMembers);
                 setAssignedTeam({
@@ -108,7 +111,7 @@ const AssignedTeams = () => {
         })
       );
       
-      // Convert the array to an object with member IDs as keys
+      
       const membersData = memberInfoList.reduce((acc, member) => {
         acc[member.id] = member;
         return acc;
@@ -144,7 +147,7 @@ const AssignedTeams = () => {
         return teamDept === supervisorDepartment && !team.supervisorId;
       });
 
-      // Fetch member data for each team
+      
       const teamsWithMembers = await Promise.all(matchingTeams.map(async (team) => {
         if (team.teamMembers && Array.isArray(team.teamMembers) && team.teamMembers.length > 0) {
           const membersData = await fetchMemberData(team.teamMembers);
@@ -185,7 +188,7 @@ const AssignedTeams = () => {
         assignedTeam: teamId
       });
 
-      // Fetch the updated team data
+     
       const teamDoc = await getDoc(teamRef);
       if (teamDoc.exists()) {
         const teamData = teamDoc.data();
@@ -223,7 +226,7 @@ const AssignedTeams = () => {
         return;
       }
 
-      // First get the team document to access submitted_task array
+      
       const teamDoc = await getDoc(doc(db, 'teams', team.id));
       if (!teamDoc.exists()) {
         console.error('Team document not found for ID:', team.id);
@@ -245,7 +248,7 @@ const AssignedTeams = () => {
         return;
       }
 
-      // Fetch all submitted tasks that match the IDs
+     
       const tasks = [];
       
       for (const taskId of submittedTaskIds) {
@@ -256,7 +259,7 @@ const AssignedTeams = () => {
           const submittedTaskData = submittedTaskDoc.data();
           console.log('Submitted task data:', submittedTaskData);
 
-          // Get the original task details
+          
           const originalTaskDoc = await getDoc(doc(db, 'tasks', submittedTaskData.taskId));
           const originalTaskData = originalTaskDoc.exists() ? originalTaskDoc.data() : {};
           
@@ -287,19 +290,19 @@ const AssignedTeams = () => {
 
   const handleGradeChange = async (submissionId, newGrade, maxGrade) => {
     try {
-      // Validate grade
+     
       const grade = parseInt(newGrade);
       if (isNaN(grade) || grade < 0 || grade > maxGrade) {
         toast.error(`Grade must be between 0 and ${maxGrade}`);
         return;
       }
 
-      // Update grade in submitted_tasks
+      
       await updateDoc(doc(db, 'submitted_tasks', submissionId), {
         grade: grade
       });
 
-      // Update local state
+      
       setSubmittedTasks(prevTasks => 
         prevTasks.map(task => 
           task.id === submissionId ? { ...task, grade } : task
@@ -315,7 +318,7 @@ const AssignedTeams = () => {
 
   const handleDownloadTask = async (taskId) => {
     try {
-      // Get the task document
+      
       const taskDoc = await getDoc(doc(db, 'tasks', taskId));
       if (!taskDoc.exists()) {
         toast.error('Task not found');
@@ -339,7 +342,7 @@ const AssignedTeams = () => {
     try {
       console.log('Opening submission:', submissionId);
       
-      // Get the submitted task document
+      
       const submittedTaskDoc = await getDoc(doc(db, 'submitted_tasks', submissionId));
       if (!submittedTaskDoc.exists()) {
         console.error('Submitted task not found');
@@ -358,6 +361,33 @@ const AssignedTeams = () => {
     } catch (error) {
       console.error('Error opening submission:', error);
       toast.error('Failed to open submission');
+    }
+  };
+
+  const handleAddComment = async (taskId) => {
+    try {
+      if (!comment.trim()) {
+        toast.error('Comment cannot be empty');
+        return;
+      }
+
+      await updateDoc(doc(db, 'submitted_tasks', taskId), {
+        supervisorComment: comment,
+        commentDate: new Date()
+      });
+
+      setSubmittedTasks(prevTasks => 
+        prevTasks.map(task => 
+          task.id === taskId ? { ...task, supervisorComment: comment } : task
+        )
+      );
+
+      toast.success('Comment added successfully');
+      setShowCommentPopup(false);
+      setComment('');
+    } catch (error) {
+      console.error('Error adding comment:', error);
+      toast.error('Failed to add comment');
     }
   };
 
@@ -465,6 +495,7 @@ const AssignedTeams = () => {
                         <th>Task Criteria</th>
                         <th>Student Submission</th>
                         <th>Submitted At</th>
+                        <th>Actions</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -472,15 +503,9 @@ const AssignedTeams = () => {
                         <tr key={task.id}>
                           <td>{task.title}</td>
                           <td>
-                            <input
-                              type="number"
-                              min="0"
-                              max={task.maxGrade}
-                              value={task.grade}
-                              onChange={(e) => handleGradeChange(task.id, e.target.value, task.maxGrade)}
-                              className="grade-input"
-                            />
-                            <span className="max-grade">/ {task.maxGrade}</span>
+                            <span className="grade-display">
+                              {task.grade || 'Not graded'} / {task.maxGrade}
+                            </span>
                           </td>
                           <td>
                             <button 
@@ -501,11 +526,63 @@ const AssignedTeams = () => {
                             )}
                           </td>
                           <td>{task.submittedAt.toLocaleString()}</td>
+                          <td>
+                            <button 
+                              className="comment-button"
+                              onClick={() => {
+                                setSelectedTask(task);
+                                setComment(task.supervisorComment || '');
+                                setShowCommentPopup(true);
+                              }}
+                            >
+                              {task.supervisorComment ? 'Edit Comment' : 'Add Comment'}
+                            </button>
+                          </td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
                 )}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {showCommentPopup && selectedTask && (
+          <div className="popup-overlay">
+            <div className="popup-content comment-popup">
+              <div className="popup-header">
+                <h2>Add Comment - {selectedTask.title}</h2>
+                <button className="close-button" onClick={() => {
+                  setShowCommentPopup(false);
+                  setComment('');
+                }}>×</button>
+              </div>
+              <div className="comment-form">
+                <textarea
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                  placeholder="Enter your comment here..."
+                  rows="6"
+                  className="comment-textarea"
+                />
+                <div className="comment-actions">
+                  <button 
+                    className="save-comment-button"
+                    onClick={() => handleAddComment(selectedTask.id)}
+                  >
+                    Save Comment
+                  </button>
+                  <button 
+                    className="cancel-button"
+                    onClick={() => {
+                      setShowCommentPopup(false);
+                      setComment('');
+                    }}
+                  >
+                    Cancel
+                  </button>
+                </div>
               </div>
             </div>
           </div>

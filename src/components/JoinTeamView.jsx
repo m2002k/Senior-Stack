@@ -18,7 +18,19 @@ const JoinTeamView = ({ fetchUserData, userData }) => {
           id: doc.id,
           ...doc.data()
         }));
-        setTeams(teamsList);
+
+        
+        const filteredTeams = teamsList.filter(team => {
+          const teamDepartment = team.department?.trim().toUpperCase();
+          const studentDepartment = userData.major?.trim().toUpperCase();
+          return teamDepartment === studentDepartment;
+        });
+
+        setTeams(filteredTeams);
+
+        if (filteredTeams.length === 0) {
+          toast.info("No teams available in your department.");
+        }
       } catch (error) {
         console.error("Error fetching teams:", error);
         toast.error("Failed to load teams.");
@@ -28,7 +40,7 @@ const JoinTeamView = ({ fetchUserData, userData }) => {
     };
 
     fetchTeams();
-  }, []);
+  }, [userData.department]);
 
   const handleJoinRequest = async () => {
     if (!selectedTeam) return;
@@ -68,6 +80,7 @@ const JoinTeamView = ({ fetchUserData, userData }) => {
           <div key={team.id} className="team-card">
             <h3>{team.teamName}</h3>
             <p><strong>Project:</strong> {team.projectTitle}</p>
+            <p><strong>Department:</strong> {team.department}</p>
             <p><strong>Members:</strong> {team.teamMembers.length} / {team.maxTeamSize}</p>
             <button onClick={() => setSelectedTeam(team)}>More Details</button>
           </div>
@@ -75,17 +88,18 @@ const JoinTeamView = ({ fetchUserData, userData }) => {
       </div>
 
       {selectedTeam && (
-  <div className="team-modal">
-    <div className="modal-content">
-      <button className="close-button" onClick={() => setSelectedTeam(null)}>×</button>
-      <h2>{selectedTeam.teamName}</h2>
-      <p><strong>Project Title:</strong> {selectedTeam.projectTitle}</p>
-      <p><strong>Description:</strong> {selectedTeam.projectDescription}</p>
-      <p><strong>Members:</strong> {selectedTeam.teamMembers.length} / {selectedTeam.maxTeamSize}</p>
-      <button className="join-button" onClick={handleJoinRequest}>Request to Join</button>
-    </div>
-  </div>
-)}
+        <div className="team-modal">
+          <div className="modal-content">
+            <button className="close-button" onClick={() => setSelectedTeam(null)}>×</button>
+            <h2>{selectedTeam.teamName}</h2>
+            <p><strong>Project Title:</strong> {selectedTeam.projectTitle}</p>
+            <p><strong>Description:</strong> {selectedTeam.projectDescription}</p>
+            <p><strong>Department:</strong> {selectedTeam.department}</p>
+            <p><strong>Members:</strong> {selectedTeam.teamMembers.length} / {selectedTeam.maxTeamSize}</p>
+            <button className="join-button" onClick={handleJoinRequest}>Request to Join</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
