@@ -280,4 +280,93 @@
 
 .download-button:hover {
   background: #45a049;
+}
+
+.grade-display {
+  font-weight: 500;
+  color: #fff;
+}
+
+.comment-button {
+  background-color: #2196F3;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.comment-button:hover {
+  background-color: #1976D2;
+}
+
+.comment-popup {
+  max-width: 600px;
+  width: 90%;
+  background: #1e1e1e;
+}
+
+.comment-form {
+  padding: 20px;
+}
+
+.comment-textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #333;
+  border-radius: 6px;
+  resize: vertical;
+  font-family: inherit;
+  font-size: 14px;
+  margin-bottom: 16px;
+  background: #2a2a2a;
+  color: #fff;
+}
+
+.comment-textarea:focus {
+  outline: none;
+  border-color: #2196F3;
+  box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.1);
+}
+
+.comment-textarea::placeholder {
+  color: #888;
+}
+
+.comment-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.save-comment-button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+
+.save-comment-button:hover {
+  background-color: #45a049;
+}
+
+.cancel-button {
+  background-color: #2a2a2a;
+  color: #fff;
+  padding: 8px 16px;
+  border: 1px solid #333;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+
+.cancel-button:hover {
+  background-color: #333;
 } 
