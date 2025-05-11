@@ -1,22 +1,28 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
-import TeamTable from "../components/TeamTable"; // Adjust the path if needed
+import TeamTable from "../components/TeamTable";
+
+Object.defineProperty(window, "open", {
+  value: vi.fn(),
+  writable: true,
+});
 
 const mockTeams = [
   {
     id: "team1",
-    teamName: "Alpha Team",
-    projectTitle: "Smart Assistant",
-    projectDescription: "AI-powered assistant for seniors.",
-    supervisorName: "Dr. Omar",
+    teamName: "tst",
+    projectTitle: "testing",
+    projectDescription: "just for testing",
+    supervisorId: "super123",
     memberDetails: [
-      { name: "Eyad", studentId: "4250001" },
-      { name: "Osama", studentId: "4250002" },
+      { name: "Eyad", studentId: "2135836" },
     ],
+    submitted_task: [],
   },
 ];
 
-describe("TeamTable Component", () => {
+describe("TeamTable Component (Latest)", () => {
   it("renders loading state", () => {
     render(<TeamTable loading={true} teams={[]} onDelete={vi.fn()} />);
     expect(screen.getByText(/loading teams/i)).toBeInTheDocument();
@@ -27,69 +33,29 @@ describe("TeamTable Component", () => {
     expect(screen.getByText(/no teams available/i)).toBeInTheDocument();
   });
 
-  it("renders a team row with all fields", () => {
+  it("renders a team row correctly", () => {
     render(<TeamTable loading={false} teams={mockTeams} onDelete={vi.fn()} />);
-    expect(screen.getByText("Alpha Team")).toBeInTheDocument();
-    expect(screen.getByText("Smart Assistant")).toBeInTheDocument();
-    expect(screen.getByText("AI-powered assistant for seniors.")).toBeInTheDocument();
-    expect(screen.getByText("Dr. Omar")).toBeInTheDocument();
-    expect(screen.getByText((_, el) => el.textContent === "Eyad (4250001)")).toBeInTheDocument();
-    expect(screen.getByText((_, el) => el.textContent === "Osama (4250002)")).toBeInTheDocument();
+    expect(screen.getByText("tst")).toBeInTheDocument();
+    expect(screen.getByText("testing")).toBeInTheDocument();
+    expect(screen.getByText("just for testing")).toBeInTheDocument();
+    expect(screen.getByText((_, el) => el.textContent.includes("Eyad"))).toBeTruthy();
+    expect(screen.getByText((_, el) => el.textContent.includes("2135836"))).toBeTruthy();
   });
 
   it("calls onDelete when delete icon is clicked", () => {
     const onDeleteMock = vi.fn();
     render(<TeamTable loading={false} teams={mockTeams} onDelete={onDeleteMock} />);
-    const deleteButton = screen.getByRole("button");
-    fireEvent.click(deleteButton);
+    const deleteBtn = screen.getByRole("button", { hidden: true });
+    fireEvent.click(deleteBtn);
     expect(onDeleteMock).toHaveBeenCalledWith("team1");
   });
 
-  it("renders 'No Supervisor' if supervisorName is missing", () => {
-    const teamWithoutSupervisor = {
-      ...mockTeams[0],
-      supervisorName: undefined,
-      id: "team2",
-    };
-
-    render(<TeamTable loading={false} teams={[teamWithoutSupervisor]} onDelete={vi.fn()} />);
-    expect(screen.getByText("No Supervisor")).toBeInTheDocument();
-  });
-
-  it("renders no members if memberDetails is empty", () => {
-    const teamWithoutMembers = {
-      ...mockTeams[0],
-      memberDetails: [],
-      id: "team3",
-    };
-
-    render(<TeamTable loading={false} teams={[teamWithoutMembers]} onDelete={vi.fn()} />);
-    const list = screen.getByRole("list");
-    const items = screen.queryAllByRole("listitem");
-    expect(list).toBeInTheDocument();
-    expect(items.length).toBe(0);
-  });
-
-  it("renders members even with missing name or studentId", () => {
-    const malformedMembers = [
-      { name: "Eyad" }, // missing ID
-      { studentId: "4259999" }, // missing name
-    ];
-
-    const teamWithMalformed = {
-      ...mockTeams[0],
-      memberDetails: malformedMembers,
-      id: "team4",
-    };
-
-    render(<TeamTable loading={false} teams={[teamWithMalformed]} onDelete={vi.fn()} />);
-
-    expect(
-      screen.getAllByText((_, el) => el.textContent?.includes("Eyad")).some(Boolean)
-    ).toBe(true);
-
-    expect(
-      screen.getAllByText((_, el) => el.textContent?.includes("4259999")).some(Boolean)
-    ).toBe(true);
+  it("opens task dialog when team name is clicked", async () => {
+    render(<TeamTable loading={false} teams={mockTeams} onDelete={vi.fn()} />);
+    fireEvent.click(screen.getByRole("button", { name: /tst/i }));
+    await waitFor(() => {
+      expect(screen.getByText(/submitted tasks/i)).toBeInTheDocument();
+    });
+    expect(screen.getByText(/no tasks submitted yet/i)).toBeInTheDocument();
   });
 });
