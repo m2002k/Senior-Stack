@@ -40,7 +40,7 @@ function VerifyPending() {
       try {
         await sendEmailVerification(user);
         toast.success("Verification email resent!");
-        setCooldown(60); // Reset the cooldown to 60 seconds
+        setCooldown(60);
       } catch (error) {
         toast.error("Failed to resend email: " + error.message);
       }
@@ -66,7 +66,7 @@ function VerifyPending() {
       </Typography>
       <Typography align="center" maxWidth={500} sx={{ mb: 2 }}>
         We’ve sent a verification email. Check your inbox or spam/junk folder.
-        After verifying, refresh or re-login.
+        After verifying, <b>refresh or re-login.</b>
       </Typography>
 
       <Button

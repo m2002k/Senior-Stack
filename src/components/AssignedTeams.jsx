@@ -210,6 +210,7 @@ const AssignedTeams = () => {
 
       toast.success('Successfully assigned to team');
       setShowPopup(false);
+      window.location.reload();
     } catch (error) {
       console.error('Error assigning team:', error);
       toast.error('Failed to assign team');
