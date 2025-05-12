@@ -28,40 +28,34 @@ function Register() {
       return;
     }
 
-    // Name validation
     const nameRegex = /^[a-zA-Z\s]+$/;
     if (!nameRegex.test(fullName)) {
       toast.error("Invalid name: Name can only contain letters and spaces.");
       return;
     }
 
-    // Email validation
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailRegex.test(email)) {
       toast.error("Invalid email format. Please enter a valid email address.");
       return;
     }
 
-    // Password validation
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
     if (!passwordRegex.test(password)) {
       toast.error("Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character (@$!%*?&).");
       return;
     }
 
-    // Student ID validation
     if (!/^\d{7}$/.test(studentId)) {
       toast.error("Invalid ID: Student ID must be exactly 7 digits.");
       return;
     }
 
-    // Phone number validation
     if (!phone) {
       toast.error("Phone number is required");
       return;
     }
     
-    // Remove any non-digit characters and check length
     const cleanPhone = phone.replace(/\D/g, '');
     if (cleanPhone.length < 10) {
       toast.error("Invalid phone number: Please enter a valid phone number");

@@ -36,7 +36,7 @@ const CreateTeamView = ({ fetchUserData, userData }) => {
       });
 
       await fetchUserData();
-
+      window.location.reload();
       toast.success("Team created successfully! 🎉");
     } catch (error) {
       console.error("Error creating team:", error);

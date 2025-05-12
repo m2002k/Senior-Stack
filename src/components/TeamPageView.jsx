@@ -91,10 +91,12 @@ const TeamPageView = ({ userData }) => {
 
       if (newTeamMembers.length === 0) {
         await deleteDoc(teamDocRef);
+        window.location.reload();
         toast.warn("Team has been deleted since all members left 🗑️");
       }
 
       await updateDoc(userDocRef, { teamId: null });
+      window.location.reload();
       toast.success("You have left the team!");
       navigate("/dashboard");
     } catch (error) {
