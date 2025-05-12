@@ -49,13 +49,12 @@ describe("UsersTable Component", () => {
   });
 
   it("calls delete handler when delete icon is clicked", () => {
-    window.confirm = vi.fn(() => true); // mock confirmation
+    window.confirm = vi.fn(() => true); 
     const mockFetch = vi.fn();
     render(<UsersTable users={[mockUsers[0]]} loading={false} fetchUsers={mockFetch} />);
 
     const deleteBtn = screen.getByRole("button");
     fireEvent.click(deleteBtn);
-    // This won't actually delete because the logic depends on Firestore, but ensures button works
     expect(deleteBtn).toBeDefined();
   });
 });
