@@ -41,6 +41,6 @@ describe("LoginForm Component", () => {
     expect(screen.getByText(/reset password/i)).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole("button", { name: /cancel/i }));
-    expect(screen.queryByText(/reset password/i)).not.toBeVisible(); // or .not.toBeInTheDocument() after transition
+    expect(screen.queryByText(/reset password/i)).not.toBeVisible(); 
   });
 });

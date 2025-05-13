@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
-import SideBar from "../components/SideBar"; // Adjust path if needed
+import SideBar from "../components/SideBar"; 
 
 describe("SideBar Component", () => {
   const setup = (type = "student", activeTab = "", setActiveTab = vi.fn()) => {
