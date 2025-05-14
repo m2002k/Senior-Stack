@@ -208,14 +208,14 @@ function StudentTools({ userData, setActiveTab }) {
                       disabled={new Date(task.deadline.seconds * 1000) < new Date()}
                       className={(new Date(task.deadline.seconds * 1000) < new Date()) ? 'disabled' : ''}
                     >
-                      Submit
+                      Submit Task
                     </button>
                     <button
                       onClick={() => handleDownload(taskAttachments[task.id])}
                       disabled={!taskAttachments[task.id]}
                       className={!taskAttachments[task.id] ? 'disabled' : ''}
                     >
-                      Download File
+                      Download Rubric line
                     </button>
                   </div>
                 </div>
