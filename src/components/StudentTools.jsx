@@ -205,8 +205,8 @@ function StudentTools({ userData, setActiveTab }) {
                     />
                     <button
                       onClick={() => document.getElementById(`file-upload-${task.id}`).click()}
-                      disabled={submittedTasks[task.id] || new Date(task.deadline.seconds * 1000) < new Date()}
-                      className={(submittedTasks[task.id] || new Date(task.deadline.seconds * 1000) < new Date()) ? 'disabled' : ''}
+                      disabled={new Date(task.deadline.seconds * 1000) < new Date()}
+                      className={(new Date(task.deadline.seconds * 1000) < new Date()) ? 'disabled' : ''}
                     >
                       Submit
                     </button>
